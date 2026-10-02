@@ -1,7 +1,7 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 import json
-
+import os
 
 # Location of this Python file
 BASE_DIR = Path(__file__).resolve().parent
@@ -217,7 +217,7 @@ print("Keep Pydroid running.")
 
 print()
 
-
+port = int(os.environ.get("PORT",8000))
 server = HTTPServer(
     ("0.0.0.0", port),
     SpaceMedHandler
