@@ -1,737 +1,582 @@
-
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>SpaceMed</title>
-
+    <title>SpaceMed | Astronaut Health Monitor</title>
 
     <style>
-
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-
 
         body {
-
-            margin: 0;
-
             font-family: Arial, sans-serif;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #06121f,
-                    #102b43,
-                    #06121f
-                );
-
-            color: white;
-
             min-height: 100vh;
-
-            padding: 20px;
+            color: #e8f7ff;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 150, 255, 0.18), transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(120, 0, 255, 0.18), transparent 25%),
+                linear-gradient(135deg, #020617, #071329 50%, #030712);
+            overflow-x: hidden;
         }
 
+        /* Stars */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, white, transparent),
+                radial-gradient(1px 1px at 30% 70%, white, transparent),
+                radial-gradient(2px 2px at 50% 30%, white, transparent),
+                radial-gradient(1px 1px at 70% 80%, white, transparent),
+                radial-gradient(2px 2px at 90% 15%, white, transparent),
+                radial-gradient(1px 1px at 15% 90%, white, transparent),
+                radial-gradient(1px 1px at 80% 40%, white, transparent);
+            opacity: 0.7;
+            z-index: 0;
+        }
 
         .container {
-
-            max-width: 600px;
-
+            width: 92%;
+            max-width: 900px;
             margin: auto;
-
-            background: rgba(20, 47, 64, 0.95);
-
-            padding: 25px;
-
-            border-radius: 20px;
-
-            box-shadow:
-                0 10px 30px rgba(0, 0, 0, 0.4);
+            padding: 30px 0 50px;
+            position: relative;
+            z-index: 1;
         }
 
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
         .logo {
-
-            text-align: center;
-
-            font-size: 50px;
-
+            font-size: 48px;
             margin-bottom: 5px;
+            filter: drop-shadow(0 0 15px #00c8ff);
         }
-
 
         h1 {
-
-            text-align: center;
-
-            margin: 5px 0;
-
-            font-size: 32px;
+            font-size: 42px;
+            letter-spacing: 5px;
+            color: #ffffff;
+            text-shadow:
+                0 0 8px #00c8ff,
+                0 0 25px rgba(0, 200, 255, 0.7);
         }
-
 
         .subtitle {
-
-            text-align: center;
-
-            color: #b9d8e8;
-
-            margin-bottom: 25px;
+            color: #7ddcff;
+            letter-spacing: 2px;
+            margin-top: 8px;
+            font-size: 14px;
         }
 
-
-        .section {
-
-            background: #1a3b50;
-
-            padding: 18px;
-
-            border-radius: 15px;
-
-            margin-bottom: 18px;
+        .status-line {
+            margin: 18px auto 0;
+            width: 220px;
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                #00d9ff,
+                transparent
+            );
+            box-shadow: 0 0 12px #00d9ff;
         }
 
-
-        .section-title {
-
-            font-size: 18px;
-
-            font-weight: bold;
-
-            margin-bottom: 15px;
+        /* Panels */
+        .panel {
+            background: rgba(4, 17, 35, 0.78);
+            border: 1px solid rgba(0, 210, 255, 0.35);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(12px);
+            box-shadow:
+                0 0 25px rgba(0, 160, 255, 0.08),
+                inset 0 0 20px rgba(0, 150, 255, 0.03);
         }
 
+        .panel-title {
+            color: #4edcff;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Input grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .input-box {
+            position: relative;
+        }
 
         label {
-
             display: block;
-
-            margin-top: 12px;
-
-            margin-bottom: 6px;
-
-            color: #d7edf7;
+            color: #9bc8dc;
+            font-size: 13px;
+            margin-bottom: 7px;
         }
-
 
         input {
-
             width: 100%;
-
-            padding: 13px;
-
-            border: none;
-
-            border-radius: 9px;
-
-            background: #f4f8fa;
-
-            color: #111;
-
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #164d69;
+            background: rgba(0, 10, 25, 0.8);
+            color: #ffffff;
             font-size: 16px;
-
             outline: none;
+            transition: 0.25s;
         }
-
 
         input:focus {
-
+            border-color: #00d9ff;
             box-shadow:
-                0 0 0 3px #4da3d9;
+                0 0 8px rgba(0, 217, 255, 0.4),
+                inset 0 0 10px rgba(0, 217, 255, 0.05);
         }
 
+        .full {
+            grid-column: span 2;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 22px;
+        }
 
         button {
-
-            width: 100%;
-
-            padding: 14px;
-
-            margin-top: 10px;
-
             border: none;
-
+            padding: 15px 10px;
             border-radius: 10px;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            background: #2389c9;
-
             color: white;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-
-        button:hover {
-
-            opacity: 0.9;
+        .check {
+            background: linear-gradient(135deg, #008cff, #00d9ff);
+            box-shadow: 0 0 18px rgba(0, 190, 255, 0.3);
         }
-
 
         .emergency {
-
-            background: #b83232;
+            background: linear-gradient(135deg, #b91c1c, #ef4444);
+            box-shadow: 0 0 15px rgba(255, 40, 40, 0.25);
         }
-
 
         .clear {
-
-            background: #526875;
+            background: #14263b;
+            border: 1px solid #28506b;
         }
 
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.15);
+        }
 
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* Result */
         #result {
+            display: none;
+        }
 
-            margin-top: 20px;
-
-            padding: 20px;
-
-            border-radius: 15px;
-
-            background: #102735;
-
+        .result-card {
             text-align: center;
+            padding: 25px;
+            border-radius: 14px;
+            background: rgba(0, 20, 40, 0.8);
+            border: 1px solid #164d69;
         }
 
-
-        .normal {
-
-            border-left: 6px solid #35c76f;
-        }
-
-
-        .monitor {
-
-            border-left: 6px solid #f0b429;
-        }
-
-
-        .alert {
-
-            border-left: 6px solid #e84a4a;
-        }
-
-
-        .status {
-
-            font-size: 25px;
-
-            font-weight: bold;
-
-            margin-bottom: 12px;
-        }
-
-
-        .problem {
-
-            background: #253e4d;
-
-            padding: 10px;
-
-            border-radius: 8px;
-
-            margin: 7px 0;
-
-            text-align: left;
-        }
-
-
-        .footer {
-
-            text-align: center;
-
-            color: #9eb6c4;
-
+        .result-label {
+            color: #7ca8bd;
             font-size: 12px;
-
-            margin-top: 20px;
-
-            line-height: 1.5;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
         }
 
+        #status {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0 15px;
+            text-shadow: 0 0 15px currentColor;
+        }
 
-        @media (max-width: 500px) {
+        #astronaut {
+            color: #bdefff;
+        }
 
-            body {
+        #problems {
+            margin-top: 15px;
+            color: #ffb4b4;
+            line-height: 1.7;
+        }
 
-                padding: 10px;
-            }
+        /* Footer */
+        footer {
+            text-align: center;
+            color: #52758a;
+            font-size: 11px;
+            line-height: 1.6;
+            margin-top: 25px;
+        }
 
+        .system {
+            color: #39d8ff;
+            letter-spacing: 2px;
+        }
+
+        /* Mobile */
+        @media (max-width: 650px) {
             .container {
-
-                padding: 18px;
+                width: 94%;
+                padding-top: 20px;
             }
 
             h1 {
+                font-size: 30px;
+                letter-spacing: 3px;
+            }
 
-                font-size: 27px;
+            .logo {
+                font-size: 38px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: span 1;
+            }
+
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .panel {
+                padding: 20px;
             }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
 <div class="container">
 
+    <header>
+        <div class="logo">🚀</div>
 
-    <div class="logo">
-        🚀
-    </div>
+        <h1>SPACEMED</h1>
 
-
-    <h1>
-        SpaceMed
-    </h1>
-
-
-    <div class="subtitle">
-        Astronaut Health Monitoring System
-    </div>
-
-
-
-    <!-- Astronaut Information -->
-
-    <div class="section">
-
-        <div class="section-title">
-            👨‍🚀 Astronaut Information
+        <div class="subtitle">
+            ASTRONAUT HEALTH MONITORING SYSTEM
         </div>
 
-        <label>
-            Astronaut Name
-        </label>
+        <div class="status-line"></div>
+    </header>
 
-        <input
-            id="name"
-            type="text"
-            placeholder="Enter astronaut name"
-        >
+    <div class="panel">
+
+        <div class="panel-title">
+            ◈ Crew Member Identification
+        </div>
+
+        <div class="grid">
+
+            <div class="input-box full">
+                <label>Astronaut Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter astronaut name"
+                >
+            </div>
+
+        </div>
 
     </div>
 
 
+    <div class="panel">
 
-    <!-- Vital Signs -->
+        <div class="panel-title">
+            ◈ Biomedical Telemetry
+        </div>
 
-    <div class="section">
+        <div class="grid">
 
-        <div class="section-title">
-            ❤️ Vital Signs
+            <div class="input-box">
+                <label>Heart Rate (BPM)</label>
+                <input
+                    type="number"
+                    id="heart_rate"
+                    placeholder="e.g. 75"
+                >
+            </div>
+
+            <div class="input-box">
+                <label>Oxygen Saturation (SpO₂ %)</label>
+                <input
+                    type="number"
+                    id="spo2"
+                    placeholder="e.g. 98"
+                >
+            </div>
+
+            <div class="input-box">
+                <label>Body Temperature (°C)</label>
+                <input
+                    type="number"
+                    step="0.1"
+                    id="temperature"
+                    placeholder="e.g. 36.7"
+                >
+            </div>
+
+            <div class="input-box">
+                <label>Systolic BP (mmHg)</label>
+                <input
+                    type="number"
+                    id="systolic"
+                    placeholder="e.g. 120"
+                >
+            </div>
+
+            <div class="input-box">
+                <label>Diastolic BP (mmHg)</label>
+                <input
+                    type="number"
+                    id="diastolic"
+                    placeholder="e.g. 80"
+                >
+            </div>
+
         </div>
 
 
-        <label>
-            Heart Rate (BPM)
-        </label>
+        <div class="buttons">
 
-        <input
-            id="heart_rate"
-            type="number"
-            placeholder="Example: 75"
-        >
+            <button class="check" onclick="checkHealth()">
+                SCAN HEALTH
+            </button>
 
+            <button class="emergency" onclick="simulateEmergency()">
+                🚨 SIMULATE
+            </button>
 
-        <label>
-            SpO₂ (%)
-        </label>
+            <button class="clear" onclick="clearForm()">
+                CLEAR
+            </button>
 
-        <input
-            id="spo2"
-            type="number"
-            placeholder="Example: 98"
-        >
-
-
-        <label>
-            Body Temperature (°C)
-        </label>
-
-        <input
-            id="temperature"
-            type="number"
-            step="0.1"
-            placeholder="Example: 36.8"
-        >
-
-
-        <label>
-            Systolic Blood Pressure
-        </label>
-
-        <input
-            id="systolic"
-            type="number"
-            placeholder="Example: 120"
-        >
-
-
-        <label>
-            Diastolic Blood Pressure
-        </label>
-
-        <input
-            id="diastolic"
-            type="number"
-            placeholder="Example: 80"
-        >
+        </div>
 
     </div>
 
 
+    <div class="panel" id="result">
 
-    <!-- Buttons -->
+        <div class="panel-title">
+            ◈ Mission Health Status
+        </div>
 
-    <button onclick="checkHealth()">
-        🔍 CHECK HEALTH
-    </button>
+        <div class="result-card">
 
+            <div class="result-label">
+                CREW MEMBER
+            </div>
 
-    <button
-        class="emergency"
-        onclick="simulateEmergency()">
+            <div id="astronaut"></div>
 
-        🚨 SIMULATE EMERGENCY
+            <div class="result-label" style="margin-top:20px;">
+                SYSTEM ASSESSMENT
+            </div>
 
-    </button>
+            <div id="status"></div>
 
+            <div id="problems"></div>
 
-    <button
-        class="clear"
-        onclick="clearForm()">
-
-        CLEAR
-
-    </button>
-
-
-
-    <!-- Result -->
-
-    <div id="result">
-
-        Enter the astronaut's health information
-        and press CHECK HEALTH.
+        </div>
 
     </div>
 
 
+    <footer>
 
-    <div class="footer">
-
-        SpaceMed is a hackathon prototype
-        designed for health-status screening.
+        <div class="system">
+            SPACEMED // MISSION CONTROL LINK
+        </div>
 
         <br>
 
-        It does not replace professional
-        medical assessment or clinical protocols.
+        Prototype health-screening system for educational/hackathon use.
+        This system is not intended to provide medical diagnosis.
 
-    </div>
-
+    </footer>
 
 </div>
 
 
-
 <script>
-
 
 async function checkHealth() {
 
+    const data = {
+        name: document.getElementById("name").value,
 
-    const name =
-        document.getElementById("name").value;
+        heart_rate:
+            Number(document.getElementById("heart_rate").value),
 
+        spo2:
+            Number(document.getElementById("spo2").value),
 
-    const heartRate =
-        Number(
-            document.getElementById("heart_rate").value
-        );
+        temperature:
+            Number(document.getElementById("temperature").value),
 
+        systolic:
+            Number(document.getElementById("systolic").value),
 
-    const spo2 =
-        Number(
-            document.getElementById("spo2").value
-        );
-
-
-    const temperature =
-        Number(
-            document.getElementById("temperature").value
-        );
-
-
-    const systolic =
-        Number(
-            document.getElementById("systolic").value
-        );
-
-
-    const diastolic =
-        Number(
-            document.getElementById("diastolic").value
-        );
-
-
-    // Check for missing information
-
-    if (
-        name === "" ||
-        !heartRate ||
-        !spo2 ||
-        !temperature ||
-        !systolic ||
-        !diastolic
-    ) {
-
-        document.getElementById("result").innerHTML =
-
-            "<h3>⚠️ Missing Information</h3>" +
-
-            "<p>Please enter all health values.</p>";
-
-        return;
-    }
-
-
-
-    const healthData = {
-
-        name: name,
-
-        heart_rate: heartRate,
-
-        spo2: spo2,
-
-        temperature: temperature,
-
-        systolic: systolic,
-
-        diastolic: diastolic
-
+        diastolic:
+            Number(document.getElementById("diastolic").value)
     };
-
-
 
     try {
 
+        const response = await fetch("/check-health", {
+            method: "POST",
 
-        const response = await fetch(
-            "/check-health",
-            {
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-                method: "POST",
+            body: JSON.stringify(data)
+        });
 
-                headers: {
+        const result = await response.json();
 
-                    "Content-Type":
-                        "application/json"
+        showResult(result);
 
-                },
+    } catch (error) {
 
-                body:
-                    JSON.stringify(healthData)
-
-            }
-        );
-
-
-        const result =
-            await response.json();
-
-
-        let resultBox =
-            document.getElementById("result");
-
-
-        let output = "";
-
-
-        if (result.status === "NORMAL") {
-
-            resultBox.className = "normal";
-
-            output +=
-                "<div class='status'>🟢 NORMAL</div>";
-
-            output +=
-                "<p>All monitored values are within the demo screening ranges.</p>";
-
-        }
-
-
-        else if (
-            result.status === "NEEDS MONITORING"
-        ) {
-
-            resultBox.className = "monitor";
-
-            output +=
-                "<div class='status'>🟡 NEEDS MONITORING</div>";
-
-            output +=
-                "<p>Some values require closer observation.</p>";
-
-        }
-
-
-        else {
-
-            resultBox.className = "alert";
-
-            output +=
-                "<div class='status'>🔴 MEDICAL ALERT</div>";
-
-            output +=
-                "<p>Multiple abnormal values detected.</p>";
-
-        }
-
-
-
-        if (result.problems.length > 0) {
-
-            output +=
-                "<h3>Detected Issues</h3>";
-
-
-            result.problems.forEach(
-                function(problem) {
-
-                    output +=
-                        "<div class='problem'>⚠️ "
-                        + problem +
-                        "</div>";
-
-                }
-            );
-
-        }
-
-
-        output +=
-            "<p><small>Screening result for "
-            + result.astronaut +
-            "</small></p>";
-
-
-        resultBox.innerHTML = output;
-
+        alert("Unable to connect to the SpaceMed system.");
 
     }
-
-
-    catch (error) {
-
-
-        document.getElementById("result").innerHTML =
-
-            "<h3>❌ Connection Error</h3>" +
-
-            "<p>Make sure the Python server is running.</p>";
-
-    }
-
 }
 
+
+function showResult(result) {
+
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("astronaut").textContent =
+        result.astronaut || "Unknown";
+
+    const status =
+        document.getElementById("status");
+
+    status.textContent = result.status;
+
+
+    if (result.status === "NORMAL") {
+
+        status.style.color = "#38ff9c";
+
+    } else if (result.status === "NEEDS MONITORING") {
+
+        status.style.color = "#ffd166";
+
+    } else {
+
+        status.style.color = "#ff4d6d";
+
+    }
+
+
+    const problems =
+        document.getElementById("problems");
+
+    if (result.problems.length === 0) {
+
+        problems.innerHTML =
+            "✓ No abnormal readings detected.";
+
+    } else {
+
+        problems.innerHTML =
+            result.problems
+            .map(problem => "⚠ " + problem)
+            .join("<br>");
+
+    }
+}
 
 
 function simulateEmergency() {
 
-
     document.getElementById("name").value =
-        "Test Astronaut";
-
+        "Demo Astronaut";
 
     document.getElementById("heart_rate").value =
         125;
 
-
     document.getElementById("spo2").value =
         89;
-
 
     document.getElementById("temperature").value =
         38.2;
 
-
     document.getElementById("systolic").value =
         155;
-
 
     document.getElementById("diastolic").value =
         95;
 
-
     checkHealth();
-
 }
-
 
 
 function clearForm() {
 
+    document.getElementById("name").value = "";
 
-    document.getElementById("name").value =
-        "";
+    document.getElementById("heart_rate").value = "";
 
+    document.getElementById("spo2").value = "";
 
-    document.getElementById("heart_rate").value =
-        "";
+    document.getElementById("temperature").value = "";
 
+    document.getElementById("systolic").value = "";
 
-    document.getElementById("spo2").value =
-        "";
+    document.getElementById("diastolic").value = "";
 
-
-    document.getElementById("temperature").value =
-        "";
-
-
-    document.getElementById("systolic").value =
-        "";
-
-
-    document.getElementById("diastolic").value =
-        "";
-
-
-    const result =
-        document.getElementById("result");
-
-
-    result.className = "";
-
-
-    result.innerHTML =
-
-        "Enter the astronaut's health information " +
-        "and press CHECK HEALTH.";
-
+    document.getElementById("result").style.display = "none";
 }
-
 
 </script>
 
-
 </body>
-
 </html>
