@@ -8,7 +8,241 @@
 content="width=device-width, initial-scale=1.0">
 
 <title>SpaceMed // Mission Control</title>
+/* ===== SPACEMED WELLNESS MONITOR ===== */
 
+.wellness-panel {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 18px;
+    background: rgba(7, 20, 38, 0.92);
+    color: #e6f4ff;
+}
+
+.wellness-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.wellness-heading h2 {
+    margin: 0;
+    color: #67e8f9;
+    font-size: 22px;
+}
+
+.wellness-subtitle {
+    margin-top: 8px;
+    color: #9bb3ca;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wellness-tag {
+    color: #67e8f9;
+    border: 1px solid rgba(103, 232, 249, 0.4);
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.wellness-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.wellness-card {
+    padding: 18px;
+    background: rgba(17, 39, 63, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    min-width: 0;
+}
+
+.wellness-card h3 {
+    margin: 0 0 8px;
+    color: #d9f5ff;
+    font-size: 16px;
+}
+
+.wellness-card p {
+    color: #9bb3ca;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wellness-question {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.wellness-question label {
+    display: block;
+    margin-bottom: 10px;
+    color: #e2edf8;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.wellness-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.wellness-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 9px;
+    background: rgba(4, 16, 31, 0.65);
+    color: #c9d9e8;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.wellness-option:has(input:checked) {
+    border-color: #38bdf8;
+    background: rgba(14, 116, 144, 0.22);
+    color: #a5f3fc;
+}
+
+.wellness-option input {
+    accent-color: #38bdf8;
+    flex-shrink: 0;
+}
+
+.wellness-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.wellness-button {
+    border: 1px solid #38bdf8;
+    background: #075985;
+    color: white;
+    border-radius: 9px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.wellness-button:hover {
+    background: #0369a1;
+}
+
+.wellness-button.secondary {
+    background: transparent;
+    border-color: #526b85;
+    color: #cbd5e1;
+}
+
+.wellness-results {
+    display: none;
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.wellness-results h3 {
+    color: #67e8f9;
+}
+
+.wellness-result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.wellness-score-card {
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(17, 39, 63, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.wellness-score {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.wellness-meter {
+    height: 8px;
+    background: #26394e;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.wellness-meter-fill {
+    width: 0%;
+    height: 100%;
+    background: #38bdf8;
+    transition: width 0.3s ease;
+}
+
+.wellness-report-text {
+    color: #c5d5e5;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.wellness-recommendations {
+    margin-top: 16px;
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(8, 47, 73, 0.4);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.wellness-recommendations li {
+    margin: 10px 0;
+    color: #d1e5f5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wellness-disclaimer {
+    margin-top: 18px;
+    color: #91a8bd;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.wellness-error {
+    display: none;
+    color: #fda4af;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+@media (max-width: 650px) {
+    .wellness-grid,
+    .wellness-result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wellness-panel {
+        padding: 15px;
+    }
+
+    .wellness-options {
+        grid-template-columns: 1fr;
+    }
+}
 <style>
 
 * {
@@ -1120,7 +1354,290 @@ footer {
     </footer>
 
 </main>
+<!-- ===== PSYCHOLOGICAL WELLNESS MONITOR ===== -->
 
+<section class="wellness-panel" id="wellness">
+
+    <div class="wellness-heading">
+        <div>
+            <h2>◈ PSYCHOLOGICAL WELLNESS</h2>
+            <div class="wellness-subtitle">
+                CREW WELLBEING // PERSONAL CHECK-IN
+                <br>
+                Complete the questions based on how you have
+                felt recently.
+            </div>
+        </div>
+
+        <div class="wellness-tag">
+            WELLNESS MODULE
+        </div>
+    </div>
+
+
+    <div class="wellness-grid">
+
+        <!-- STRESS ASSESSMENT -->
+
+        <div class="wellness-card">
+
+            <h3>01 / STRESS ASSESSMENT</h3>
+
+            <p>
+                For each question, select how often you have
+                experienced the feeling recently.
+            </p>
+
+
+            <div class="wellness-question">
+                <label>1. How often have you felt overwhelmed by your responsibilities?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="stress1" value="0"> Never</label>
+                    <label class="wellness-option"><input type="radio" name="stress1" value="1"> Sometimes</label>
+                    <label class="wellness-option"><input type="radio" name="stress1" value="2"> Often</label>
+                    <label class="wellness-option"><input type="radio" name="stress1" value="3"> Very often</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>2. How often have you struggled to relax after work?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="stress2" value="0"> Never</label>
+                    <label class="wellness-option"><input type="radio" name="stress2" value="1"> Sometimes</label>
+                    <label class="wellness-option"><input type="radio" name="stress2" value="2"> Often</label>
+                    <label class="wellness-option"><input type="radio" name="stress2" value="3"> Very often</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>3. How often have you felt under pressure to perform?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="stress3" value="0"> Never</label>
+                    <label class="wellness-option"><input type="radio" name="stress3" value="1"> Sometimes</label>
+                    <label class="wellness-option"><input type="radio" name="stress3" value="2"> Often</label>
+                    <label class="wellness-option"><input type="radio" name="stress3" value="3"> Very often</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>4. How often have small problems felt difficult to manage?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="stress4" value="0"> Never</label>
+                    <label class="wellness-option"><input type="radio" name="stress4" value="1"> Sometimes</label>
+                    <label class="wellness-option"><input type="radio" name="stress4" value="2"> Often</label>
+                    <label class="wellness-option"><input type="radio" name="stress4" value="3"> Very often</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>5. How often have you felt irritable or mentally tense?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="stress5" value="0"> Never</label>
+                    <label class="wellness-option"><input type="radio" name="stress5" value="1"> Sometimes</label>
+                    <label class="wellness-option"><input type="radio" name="stress5" value="2"> Often</label>
+                    <label class="wellness-option"><input type="radio" name="stress5" value="3"> Very often</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>6. How often have you felt you had too little time to recover?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="stress6" value="0"> Never</label>
+                    <label class="wellness-option"><input type="radio" name="stress6" value="1"> Sometimes</label>
+                    <label class="wellness-option"><input type="radio" name="stress6" value="2"> Often</label>
+                    <label class="wellness-option"><input type="radio" name="stress6" value="3"> Very often</label>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- MOOD ASSESSMENT -->
+
+        <div class="wellness-card">
+
+            <h3>02 / MOOD & WELLBEING</h3>
+
+            <p>
+                Rate each area from 1 (very low) to 5
+                (very good). There are no right or wrong answers.
+            </p>
+
+
+            <div class="wellness-question">
+                <label>1. How would you describe your mood recently?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="mood1" value="1"> Very low</label>
+                    <label class="wellness-option"><input type="radio" name="mood1" value="2"> Low</label>
+                    <label class="wellness-option"><input type="radio" name="mood1" value="3"> Mixed</label>
+                    <label class="wellness-option"><input type="radio" name="mood1" value="4"> Good</label>
+                    <label class="wellness-option"><input type="radio" name="mood1" value="5"> Very good</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>2. How has your energy level been?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="mood2" value="1"> Very low</label>
+                    <label class="wellness-option"><input type="radio" name="mood2" value="2"> Low</label>
+                    <label class="wellness-option"><input type="radio" name="mood2" value="3"> Moderate</label>
+                    <label class="wellness-option"><input type="radio" name="mood2" value="4"> Good</label>
+                    <label class="wellness-option"><input type="radio" name="mood2" value="5"> Very good</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>3. How would you rate your sleep and rest?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="mood3" value="1"> Very poor</label>
+                    <label class="wellness-option"><input type="radio" name="mood3" value="2"> Poor</label>
+                    <label class="wellness-option"><input type="radio" name="mood3" value="3"> Fair</label>
+                    <label class="wellness-option"><input type="radio" name="mood3" value="4"> Good</label>
+                    <label class="wellness-option"><input type="radio" name="mood3" value="5"> Very good</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>4. How connected have you felt to other people?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="mood4" value="1"> Not at all</label>
+                    <label class="wellness-option"><input type="radio" name="mood4" value="2"> A little</label>
+                    <label class="wellness-option"><input type="radio" name="mood4" value="3"> Somewhat</label>
+                    <label class="wellness-option"><input type="radio" name="mood4" value="4"> Quite a lot</label>
+                    <label class="wellness-option"><input type="radio" name="mood4" value="5"> Very connected</label>
+                </div>
+            </div>
+
+
+            <div class="wellness-question">
+                <label>5. How confident have you felt about handling everyday challenges?</label>
+
+                <div class="wellness-options">
+                    <label class="wellness-option"><input type="radio" name="mood5" value="1"> Not confident</label>
+                    <label class="wellness-option"><input type="radio" name="mood5" value="2"> Slightly</label>
+                    <label class="wellness-option"><input type="radio" name="mood5" value="3"> Moderately</label>
+                    <label class="wellness-option"><input type="radio" name="mood5" value="4"> Confident</label>
+                    <label class="wellness-option"><input type="radio" name="mood5" value="5"> Very confident</label>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="wellness-actions">
+
+        <button
+            type="button"
+            class="wellness-button"
+            onclick="assessWellness()">
+            ANALYSE WELLNESS
+        </button>
+
+        <button
+            type="button"
+            class="wellness-button secondary"
+            onclick="resetWellness()">
+            RESET ASSESSMENT
+        </button>
+
+    </div>
+
+
+    <div class="wellness-error" id="wellnessError">
+        Please answer all 11 questions before analysing your results.
+    </div>
+
+
+    <!-- RESULTS APPEAR HERE -->
+
+    <div class="wellness-results" id="wellnessResults">
+
+        <h3>03 / WELLNESS REPORT</h3>
+
+        <p class="wellness-subtitle" id="wellnessSummary"></p>
+
+        <div class="wellness-result-grid">
+
+            <div class="wellness-score-card">
+
+                <div class="wellness-tag">STRESS INDICATOR</div>
+
+                <div class="wellness-score" id="stressScore">--</div>
+
+                <strong id="stressLevel">--</strong>
+
+                <div class="wellness-meter">
+                    <div class="wellness-meter-fill" id="stressMeter"></div>
+                </div>
+
+                <p class="wellness-report-text" id="stressDescription"></p>
+
+            </div>
+
+
+            <div class="wellness-score-card">
+
+                <div class="wellness-tag">MOOD INDICATOR</div>
+
+                <div class="wellness-score" id="moodScore">--</div>
+
+                <strong id="moodLevel">--</strong>
+
+                <div class="wellness-meter">
+                    <div class="wellness-meter-fill" id="moodMeter"></div>
+                </div>
+
+                <p class="wellness-report-text" id="moodDescription"></p>
+
+            </div>
+
+        </div>
+
+
+        <div class="wellness-recommendations">
+
+            <h3>◈ RECOMMENDED WELLNESS ACTIONS</h3>
+
+            <ul id="wellnessRecommendations"></ul>
+
+        </div>
+
+
+        <div class="wellness-disclaimer">
+            EDUCATIONAL SCREENING ONLY. These custom scores are not
+            validated clinical scales and cannot diagnose a mental
+            health condition. They reflect only the answers provided
+            at this check-in. If distress persists or affects daily
+            functioning, seek support from a qualified healthcare
+            professional. In a real space mission, follow the mission's
+            established medical and psychological support procedures.
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ===== END WELLNESS MONITOR ===== -->
 </div>
 
 
@@ -1398,7 +1915,372 @@ function clearForm() {
     document.getElementById("result").style.display =
         "none";
 }
+/* ===== SPACEMED WELLNESS ASSESSMENT ===== */
 
+function assessWellness() {
+
+    const stressAnswers = [];
+    const moodAnswers = [];
+
+    for (let i = 1; i <= 6; i++) {
+
+        const answer = document.querySelector(
+            'input[name="stress' + i + '"]:checked'
+        );
+
+        if (!answer) {
+            showWellnessError();
+            return;
+        }
+
+        stressAnswers.push(Number(answer.value));
+    }
+
+
+    for (let i = 1; i <= 5; i++) {
+
+        const answer = document.querySelector(
+            'input[name="mood' + i + '"]:checked'
+        );
+
+        if (!answer) {
+            showWellnessError();
+            return;
+        }
+
+        moodAnswers.push(Number(answer.value));
+    }
+
+
+    document.getElementById("wellnessError").style.display =
+        "none";
+
+
+    // Calculate separate scores.
+
+    const stressTotal = stressAnswers.reduce(
+        (total, value) => total + value, 0
+    );
+
+    const moodTotal = moodAnswers.reduce(
+        (total, value) => total + value, 0
+    );
+
+
+    // Interpret the stress indicator.
+
+    let stressLevel;
+    let stressDescription;
+    let stressColor;
+
+    if (stressTotal <= 5) {
+
+        stressLevel = "LOW REPORTED STRESS";
+
+        stressDescription =
+            "Your answers indicate relatively few reported " +
+            "stress experiences. Continue making time for rest " +
+            "and healthy routines.";
+
+        stressColor = "#27f59a";
+
+    } else if (stressTotal <= 11) {
+
+        stressLevel = "MODERATE REPORTED STRESS";
+
+        stressDescription =
+            "Your answers suggest some stress may be affecting " +
+            "your experience. Consider taking breaks and " +
+            "reviewing your workload and recovery time.";
+
+        stressColor = "#ffd166";
+
+    } else {
+
+        stressLevel = "HIGH REPORTED STRESS";
+
+        stressDescription =
+            "Your answers indicate frequent stress experiences. " +
+            "Consider reaching out to a trusted person or " +
+            "qualified professional for support.";
+
+        stressColor = "#ff7185";
+    }
+
+
+    // Interpret the mood and wellbeing indicator.
+
+    let moodLevel;
+    let moodDescription;
+    let moodColor;
+
+    if (moodTotal <= 11) {
+
+        moodLevel = "LOW WELLBEING INDICATOR";
+
+        moodDescription =
+            "Your responses suggest that some areas of wellbeing " +
+            "may need attention. Consider what support would help " +
+            "you feel better.";
+
+        moodColor = "#ff7185";
+
+    } else if (moodTotal <= 18) {
+
+        moodLevel = "MIXED WELLBEING INDICATOR";
+
+        moodDescription =
+            "Your responses show a mixture of experiences. " +
+            "Notice which areas feel difficult and which " +
+            "routines help you feel supported.";
+
+        moodColor = "#ffd166";
+
+    } else {
+
+        moodLevel = "POSITIVE WELLBEING INDICATOR";
+
+        moodDescription =
+            "Your responses indicate more positive experiences " +
+            "across the areas assessed. Keep supporting the " +
+            "habits and connections that work for you.";
+
+        moodColor = "#27f59a";
+    }
+
+
+    // Display stress results.
+
+    document.getElementById("stressScore").textContent =
+        stressTotal + " / 18";
+
+    document.getElementById("stressLevel").textContent =
+        stressLevel;
+
+    document.getElementById("stressLevel").style.color =
+        stressColor;
+
+    document.getElementById("stressDescription").textContent =
+        stressDescription;
+
+    document.getElementById("stressMeter").style.width =
+        (stressTotal / 18 * 100) + "%";
+
+    document.getElementById("stressMeter").style.background =
+        stressColor;
+
+
+    // Display mood results.
+
+    document.getElementById("moodScore").textContent =
+        moodTotal + " / 25";
+
+    document.getElementById("moodLevel").textContent =
+        moodLevel;
+
+    document.getElementById("moodLevel").style.color =
+        moodColor;
+
+    document.getElementById("moodDescription").textContent =
+        moodDescription;
+
+    document.getElementById("moodMeter").style.width =
+        (moodTotal / 25 * 100) + "%";
+
+    document.getElementById("moodMeter").style.background =
+        moodColor;
+
+
+    // Generate a combined summary.
+
+    let summary;
+
+    if (stressTotal >= 12 && moodTotal <= 11) {
+
+        summary =
+            "Your responses indicate both frequent stress " +
+            "experiences and lower reported wellbeing. " +
+            "Consider seeking additional support.";
+
+    } else if (stressTotal >= 12) {
+
+        summary =
+            "Your stress responses are elevated. Even when " +
+            "some aspects of wellbeing feel positive, rest " +
+            "and support remain important.";
+
+    } else if (moodTotal <= 11) {
+
+        summary =
+            "Your mood and wellbeing responses suggest that " +
+            "you may benefit from additional support, regardless " +
+            "of your reported stress level.";
+
+    } else {
+
+        summary =
+            "Your check-in is complete. Use both indicators " +
+            "to reflect on your current experiences and needs.";
+    }
+
+    document.getElementById("wellnessSummary").textContent =
+        summary;
+
+
+    // Build recommendations.
+
+    const recommendations = [];
+
+    if (stressTotal >= 6) {
+
+        recommendations.push(
+            "Plan short, regular breaks between demanding tasks."
+        );
+
+        recommendations.push(
+            "Try a comfortable breathing exercise or quiet " +
+            "relaxation period if it feels helpful."
+        );
+
+    } else {
+
+        recommendations.push(
+            "Maintain a balanced routine that includes rest, " +
+            "recreation and manageable work periods."
+        );
+    }
+
+
+    if (moodAnswers[2] <= 2) {
+
+        recommendations.push(
+            "Review your sleep and rest routine. If sleep " +
+            "difficulties persist, discuss them with a " +
+            "qualified healthcare professional."
+        );
+    }
+
+
+    if (moodAnswers[3] <= 2) {
+
+        recommendations.push(
+            "Consider connecting with a trusted crewmate, " +
+            "friend or family member."
+        );
+    }
+
+
+    if (moodAnswers[0] <= 2 || moodAnswers[4] <= 2) {
+
+        recommendations.push(
+            "Choose one manageable daily activity and consider " +
+            "asking someone you trust for support."
+        );
+    }
+
+
+    if (stressTotal >= 12 || moodTotal <= 11) {
+
+        recommendations.push(
+            "If these experiences persist, worsen or interfere " +
+            "with everyday life, consider speaking with a " +
+            "qualified mental health professional."
+        );
+    }
+
+
+    if (recommendations.length < 3) {
+
+        recommendations.push(
+            "Check in with yourself regularly and notice " +
+            "which routines help you feel rested and connected."
+        );
+    }
+
+
+    const list = document.getElementById(
+        "wellnessRecommendations"
+    );
+
+    list.replaceChildren();
+
+    recommendations.forEach(function (recommendation) {
+
+        const item = document.createElement("li");
+
+        item.textContent = recommendation;
+
+        list.appendChild(item);
+    });
+
+
+    // Reveal report.
+
+    document.getElementById("wellnessResults").style.display =
+        "block";
+
+    document.getElementById("wellnessResults").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+
+/* Show incomplete-question warning. */
+
+function showWellnessError() {
+
+    const error = document.getElementById("wellnessError");
+
+    error.textContent =
+        "Please answer all 11 questions before analysing your results.";
+
+    error.style.display = "block";
+
+    error.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+
+/* Reset the questionnaire and results. */
+
+function resetWellness() {
+
+    for (let i = 1; i <= 6; i++) {
+
+        document.querySelectorAll(
+            'input[name="stress' + i + '"]'
+        ).forEach(function (input) {
+            input.checked = false;
+        });
+    }
+
+
+    for (let i = 1; i <= 5; i++) {
+
+        document.querySelectorAll(
+            'input[name="mood' + i + '"]'
+        ).forEach(function (input) {
+            input.checked = false;
+        });
+    }
+
+
+    document.getElementById("wellnessResults").style.display =
+        "none";
+
+    document.getElementById("wellnessError").style.display =
+        "none";
+
+    document.getElementById("wellness").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+/* ===== END WELLNESS ASSESSMENT ===== */
 </script>
 
 </body>
