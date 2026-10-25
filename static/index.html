@@ -2276,5 +2276,706 @@ function resetWellness() {
 /* ===== END WELLNESS ASSESSMENT ===== */
 </script>
 
+<style>
+/* SpaceMed Cognitive Lab — isolated styling */
+#cognitiveLab {
+  --cog-bg: #07111f;
+  --cog-panel: #101e30;
+  --cog-cyan: #55e6ef;
+  --cog-muted: #a4b7ca;
+  margin: 30px auto;
+  padding: 22px;
+  max-width: 1050px;
+  color: #edf7ff;
+  background: radial-gradient(ellipse at top, #17344c, #07111f 70%);
+  border: 1px solid #28516a;
+  border-radius: 20px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+#cognitiveLab * { box-sizing: border-box; }
+#cognitiveLab .cog-panel {
+  background: rgba(16,30,48,.94);
+  border: 1px solid #29445d;
+  border-radius: 14px;
+  padding: 18px;
+  margin-top: 16px;
+}
+#cognitiveLab .cog-kicker {
+  color: var(--cog-cyan);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+#cognitiveLab h2, #cognitiveLab h3 { margin-top: 8px; }
+#cognitiveLab p { line-height: 1.6; }
+#cognitiveLab .cog-muted { color: var(--cog-muted); }
+#cognitiveLab .cog-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+#cognitiveLab .cog-stat {
+  padding: 13px;
+  border-radius: 12px;
+  background: #0a1726;
+  border: 1px solid #29445d;
+}
+#cognitiveLab .cog-stat strong {
+  display: block;
+  font-size: 23px;
+  color: var(--cog-cyan);
+  margin-top: 5px;
+}
+#cognitiveLab .cog-label {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--cog-muted);
+}
+#cognitiveLab .cog-progress {
+  height: 7px;
+  background: #24384c;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+#cognitiveLab #cogProgressFill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg,#42a5ff,#55e6ef);
+  transition: width .2s;
+}
+#cognitiveLab .cog-button {
+  border: 1px solid #55e6ef;
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin: 5px 5px 5px 0;
+  color: #06111d;
+  background: #55e6ef;
+  font-weight: bold;
+  cursor: pointer;
+  min-height: 44px;
+}
+#cognitiveLab .cog-button:hover { filter: brightness(1.1); }
+#cognitiveLab .cog-button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+#cognitiveLab .cog-button.secondary {
+  background: transparent;
+  color: #dffaff;
+  border-color: #52738d;
+}
+#cognitiveLab .cog-button.option {
+  background: #142b40;
+  color: #eafaff;
+  border-color: #3e6883;
+  min-width: 75px;
+}
+#cognitiveLab .cog-stage {
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+#cognitiveLab #cogStimulus {
+  font-size: clamp(30px,7vw,54px);
+  font-weight: bold;
+  color: var(--cog-cyan);
+  overflow-wrap: anywhere;
+}
+#cognitiveLab #cogChoices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+}
+#cognitiveLab .cog-note {
+  border-left: 3px solid var(--cog-cyan);
+  padding: 10px 12px;
+  color: #c5d8e8;
+  background: #0a1726;
+  font-size: 13px;
+  line-height: 1.5;
+}
+#cognitiveLab .cog-result-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 10px;
+}
+#cognitiveLab .cog-result {
+  background: #0a1726;
+  border: 1px solid #29445d;
+  border-radius: 10px;
+  padding: 12px;
+}
+#cognitiveLab .cog-result strong {
+  color: var(--cog-cyan);
+  display: block;
+  margin-top: 6px;
+}
+#cognitiveLab [hidden] { display: none !important; }
+@media(max-width:520px) {
+  #cognitiveLab { padding: 13px; }
+  #cognitiveLab .cog-stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #cognitiveLab .cog-result-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<section id="cognitiveLab">
+  <div class="cog-kicker">SPACEMED // HUMAN PERFORMANCE SYSTEMS</div>
+  <h2>🧠 Cognitive Performance Lab</h2>
+  <p class="cog-muted">
+    Five-minute interactive assessment of reaction speed, attention,
+    response inhibition, and mental processing.
+  </p>
+
+  <div class="cog-note">
+    Educational exercise only — not a medical test or an astronaut
+    fitness-for-duty assessment. Use a steady internet-free environment
+    and remember that device and screen latency affect reaction times.
+  </div>
+
+  <div class="cog-stats">
+    <div class="cog-stat">
+      <span class="cog-label">TIME REMAINING</span>
+      <strong id="cogTime">05:00</strong>
+    </div>
+    <div class="cog-stat">
+      <span class="cog-label">TRIALS COMPLETED</span>
+      <strong id="cogTrials">0</strong>
+    </div>
+    <div class="cog-stat">
+      <span class="cog-label">ACCURACY</span>
+      <strong id="cogLiveAccuracy">—</strong>
+    </div>
+  </div>
+
+  <div class="cog-progress">
+    <div id="cogProgressFill"></div>
+  </div>
+
+  <div class="cog-panel" id="cogIntro">
+    <div class="cog-kicker">PRE-FLIGHT BRIEFING</div>
+    <h3>Assessment protocol</h3>
+    <p>During the five-minute session, the system will present randomized tasks:</p>
+    <ul>
+      <li><b>Reaction:</b> tap when the signal turns green.</li>
+      <li><b>Inhibition:</b> don't tap during a red NO-GO signal.</li>
+      <li><b>Processing:</b> solve short arithmetic questions.</li>
+      <li><b>Patterns:</b> choose the next number in a sequence.</li>
+      <li><b>Symbols:</b> identify whether two symbols match.</li>
+    </ul>
+    <p class="cog-muted">Difficulty adjusts modestly based on your answers. You can end the session at any time.</p>
+    <button type="button" class="cog-button" id="cogStart">INITIALIZE TEST</button>
+  </div>
+
+  <div class="cog-panel" id="cogTest" hidden>
+    <div class="cog-kicker" id="cogTaskLabel">TASK 01</div>
+    <h3 id="cogTaskTitle">Reaction test</h3>
+    <p class="cog-muted" id="cogInstruction">Follow the instruction on screen.</p>
+    <div class="cog-stage" id="cogStage">
+      <div id="cogStimulus">STANDBY</div>
+      <div id="cogChoices"></div>
+      <button type="button" class="cog-button" id="cogReact" disabled>
+        WAIT FOR SIGNAL
+      </button>
+      <p id="cogFeedback" aria-live="polite" class="cog-muted"></p>
+    </div>
+    <button type="button" class="cog-button secondary" id="cogEnd">END SESSION</button>
+  </div>
+
+  <div class="cog-panel" id="cogResults" hidden>
+    <div class="cog-kicker">SESSION COMPLETE</div>
+    <h3>Performance debrief</h3>
+    <p id="cogSummary" aria-live="polite"></p>
+    <div class="cog-stats">
+      <div class="cog-stat"><span class="cog-label">AVG REACTION</span><strong id="cogAvg">—</strong></div>
+      <div class="cog-stat"><span class="cog-label">MEDIAN REACTION</span><strong id="cogMedian">—</strong></div>
+      <div class="cog-stat"><span class="cog-label">ACCURACY</span><strong id="cogAccuracy">—</strong></div>
+      <div class="cog-stat"><span class="cog-label">FALSE STARTS</span><strong id="cogFalse">0</strong></div>
+      <div class="cog-stat"><span class="cog-label">MISSED / WRONG</span><strong id="cogMissed">0</strong></div>
+      <div class="cog-stat"><span class="cog-label">TOTAL TRIALS</span><strong id="cogTotal">0</strong></div>
+    </div>
+    <div class="cog-panel">
+      <h3>Task breakdown</h3>
+      <div id="cogBreakdown" class="cog-result-grid"></div>
+    </div>
+    <div class="cog-panel">
+      <h3>Session interpretation</h3>
+      <p id="cogInterpretation"></p>
+      <p class="cog-muted">Results describe this session only. They are not a diagnosis or a validated comparison against astronaut standards.</p>
+    </div>
+    <button type="button" class="cog-button" id="cogRestart">RUN NEW SESSION</button>
+  </div>
+</section>
+
+<script>
+(function () {
+  "use strict";
+
+  const root = document.getElementById("cognitiveLab");
+  if (!root || root.dataset.initialized === "yes") return;
+  root.dataset.initialized = "yes";
+
+  const $ = id => document.getElementById(id);
+  const intro = $("cogIntro");
+  const test = $("cogTest");
+  const results = $("cogResults");
+  const stage = $("cogStage");
+  const stimulus = $("cogStimulus");
+  const choices = $("cogChoices");
+  const reactButton = $("cogReact");
+
+  const TASKS = {
+    reaction: "Reaction speed",
+    inhibit: "Response inhibition",
+    arithmetic: "Mental arithmetic",
+    pattern: "Number patterns",
+    symbols: "Symbol matching"
+  };
+
+  let running = false;
+  let deadline = 0;
+  let clock = null;
+  let trialTimer = null;
+  let activeTask = null;
+  let signalTime = 0;
+  let signalReady = false;
+  let difficulty = 1;
+  let streak = 0;
+  let records = [];
+  let falseStarts = 0;
+  let falseAlarms = 0;
+  let taskCounts = {};
+  let taskCorrect = {};
+
+  function resetData() {
+    records = [];
+    falseStarts = 0;
+    falseAlarms = 0;
+    difficulty = 1;
+    streak = 0;
+    taskCounts = {};
+    taskCorrect = {};
+    Object.keys(TASKS).forEach(key => {
+      taskCounts[key] = 0;
+      taskCorrect[key] = 0;
+    });
+  }
+
+  function clearTrialTimer() {
+    if (trialTimer !== null) {
+      clearTimeout(trialTimer);
+      trialTimer = null;
+    }
+  }
+
+  function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shuffle(items) {
+    const result = items.slice();
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = randomInt(0, i);
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
+
+  function setFeedback(message) {
+    $("cogFeedback").textContent = message || "";
+  }
+
+  function updateClock() {
+    if (!running) return;
+    const remaining = Math.max(0, deadline - Date.now());
+    const seconds = Math.ceil(remaining / 1000);
+    $("cogTime").textContent =
+      String(Math.floor(seconds / 60)).padStart(2, "0") + ":" +
+      String(seconds % 60).padStart(2, "0");
+    $("cogProgressFill").style.width =
+      (100 * (300000 - remaining) / 300000) + "%";
+
+    $("cogTrials").textContent = records.length;
+    $("cogLiveAccuracy").textContent = records.length
+      ? Math.round(records.filter(r => r.correct).length /
+          records.length * 100) + "%"
+      : "—";
+
+    if (remaining <= 0) finishTest("Five minutes completed.");
+  }
+
+  function chooseTask() {
+    const keys = Object.keys(TASKS);
+    // Shuffle task order to avoid a fixed predictable sequence.
+    return keys[randomInt(0, keys.length - 1)];
+  }
+
+  function beginTest() {
+    resetData();
+    running = true;
+    deadline = Date.now() + 300000;
+
+    intro.hidden = true;
+    results.hidden = true;
+    test.hidden = false;
+
+    $("cogStart").disabled = true;
+    updateClock();
+    clock = setInterval(updateClock, 200);
+    nextTrial();
+  }
+
+  function nextTrial() {
+    if (!running) return;
+    clearTrialTimer();
+
+    if (Date.now() >= deadline) {
+      finishTest("Five minutes completed.");
+      return;
+    }
+
+    activeTask = {
+      type: chooseTask(),
+      answered: false
+    };
+    signalReady = false;
+    signalTime = 0;
+    choices.innerHTML = "";
+    reactButton.hidden = true;
+    reactButton.disabled = true;
+    stage.style.cursor = "default";
+    setFeedback("");
+
+    $("cogTaskLabel").textContent =
+      "TRIAL " + String(records.length + 1).padStart(2, "0") +
+      " // LEVEL " + difficulty;
+    $("cogTaskTitle").textContent = TASKS[activeTask.type];
+
+    switch (activeTask.type) {
+      case "reaction": startReaction(); break;
+      case "inhibit": startInhibition(); break;
+      case "arithmetic": startArithmetic(); break;
+      case "pattern": startPattern(); break;
+      case "symbols": startSymbols(); break;
+    }
+  }
+
+  function startReaction() {
+    $("cogInstruction").textContent =
+      "Wait for the green signal, then tap it as quickly as you can.";
+    stimulus.textContent = "STANDBY";
+    stimulus.style.color = "#a4b7ca";
+    reactButton.hidden = false;
+    reactButton.textContent = "WAIT FOR SIGNAL";
+    reactButton.disabled = true;
+
+    const delay = randomInt(900, 2200);
+    trialTimer = setTimeout(() => {
+      if (!running || !activeTask || activeTask.answered) return;
+      signalReady = true;
+      signalTime = performance.now();
+      stimulus.textContent = "●";
+      stimulus.style.color = "#54f5a5";
+      reactButton.textContent = "TAP NOW";
+      reactButton.disabled = false;
+      reactButton.style.background = "#54f5a5";
+      trialTimer = setTimeout(() => {
+        if (running && activeTask && !activeTask.answered) {
+          recordAnswer(false, null, "Missed signal");
+        }
+      }, Math.min(2500, Math.max(500, deadline - Date.now())));
+    }, delay);
+  }
+
+  function startInhibition() {
+    $("cogInstruction").textContent =
+      "NO-GO trial: do not tap anywhere inside the task area.";
+    stimulus.textContent = "NO-GO";
+    stimulus.style.color = "#ff657a";
+    stage.style.cursor = "not-allowed";
+    trialTimer = setTimeout(() => {
+      if (!running || !activeTask || activeTask.answered) return;
+      recordAnswer(true, null, "Correct inhibition");
+    }, 1300);
+  }
+
+  function startArithmetic() {
+    $("cogInstruction").textContent = "Select the correct answer.";
+    const level = difficulty;
+    let a, b, answer, prompt;
+
+    if (level === 1) {
+      a = randomInt(2, 12);
+      b = randomInt(2, 12);
+      answer = a + b;
+      prompt = a + " + " + b;
+    } else if (level === 2) {
+      a = randomInt(5, 24);
+      b = randomInt(2, 15);
+      answer = a + b;
+      prompt = a + " + " + b;
+    } else {
+      a = randomInt(3, 15);
+      b = randomInt(2, 9);
+      answer = a * b;
+      prompt = a + " × " + b;
+    }
+
+    showChoices(prompt, answer);
+  }
+
+  function startPattern() {
+    $("cogInstruction").textContent =
+      "Identify the next number in the sequence.";
+    const step = randomInt(2, 4 + difficulty);
+    const start = randomInt(1, 12);
+    const sequence = [
+      start, start + step, start + step * 2, start + step * 3
+    ];
+    showChoices(sequence.join(", ") + ", ?", start + step * 4);
+  }
+
+  function startSymbols() {
+    $("cogInstruction").textContent =
+      "Decide whether the two symbols are identical.";
+    const symbols = ["◆", "●", "▲", "■", "★", "✚", "⬟"];
+    const first = symbols[randomInt(0, symbols.length - 1)];
+    const match = Math.random() < 0.5;
+    let second = first;
+
+    if (!match) {
+      while (second === first) {
+        second = symbols[randomInt(0, symbols.length - 1)];
+      }
+    }
+
+    stimulus.textContent = first + "     " + second;
+    stimulus.style.color = "#55e6ef";
+    addChoice("MATCH", match);
+    addChoice("DIFFERENT", !match);
+    startAnswerTimeout();
+  }
+
+  function showChoices(prompt, answer) {
+    stimulus.textContent = prompt;
+    stimulus.style.color = "#55e6ef";
+
+    const options = new Set([answer]);
+    while (options.size < 4) {
+      const offset = randomInt(1, 5 + difficulty * 2);
+      options.add(Math.max(0, Math.random() < 0.5
+        ? answer - offset : answer + offset));
+    }
+
+    shuffle(Array.from(options)).forEach(value => {
+      addChoice(String(value), value === answer);
+    });
+    startAnswerTimeout();
+  }
+
+  function addChoice(label, isCorrect) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "cog-button option";
+    button.textContent = label;
+    button.addEventListener("click", () => {
+      if (!running || !activeTask || activeTask.answered) return;
+      const rt = performance.now() - signalTime;
+      recordAnswer(isCorrect, rt, isCorrect ? "Correct" : "Incorrect");
+    });
+    choices.appendChild(button);
+  }
+
+  function startAnswerTimeout() {
+    signalTime = performance.now();
+    trialTimer = setTimeout(() => {
+      if (running && activeTask && !activeTask.answered) {
+        recordAnswer(false, null, "No answer");
+      }
+    }, Math.min(10000, Math.max(500, deadline - Date.now())));
+  }
+
+  function recordAnswer(correct, reactionTime, message) {
+    if (!running || !activeTask || activeTask.answered) return;
+    activeTask.answered = true;
+    clearTrialTimer();
+
+    const type = activeTask.type;
+    records.push({
+      task: type,
+      correct: Boolean(correct),
+      rt: Number.isFinite(reactionTime) ? reactionTime : null
+    });
+    taskCounts[type]++;
+
+    if (correct) {
+      taskCorrect[type]++;
+      streak++;
+      if (streak >= 4 && difficulty < 3) {
+        difficulty++;
+        streak = 0;
+      }
+    } else {
+      streak = 0;
+      if (difficulty > 1) difficulty--;
+    }
+
+    choices.querySelectorAll("button").forEach(button => {
+      button.disabled = true;
+    });
+    reactButton.disabled = true;
+    reactButton.hidden = true;
+    stage.style.cursor = "default";
+    stimulus.textContent = message;
+    stimulus.style.color = correct ? "#54f5a5" : "#ff9caa";
+    setFeedback(
+      reactionTime !== null && Number.isFinite(reactionTime)
+        ? Math.round(reactionTime) + " ms"
+        : (correct ? "Response recorded" : "Keep going")
+    );
+
+    updateClock();
+    if (running) {
+      trialTimer = setTimeout(nextTrial, 450);
+    }
+  }
+
+  reactButton.addEventListener("click", () => {
+    if (!running || !activeTask || activeTask.answered ||
+        activeTask.type !== "reaction") return;
+
+    if (!signalReady) {
+      falseStarts++;
+      recordAnswer(false, null, "Premature response");
+      return;
+    }
+
+    const rt = performance.now() - signalTime;
+    recordAnswer(true, rt, "Signal detected");
+  });
+
+ 
+stage.addEventListener("click", event => {
+  if (!running || !activeTask || activeTask.answered) return;
+  if (!event.isTrusted) return;
+
+  if (activeTask.type === "reaction" && !signalReady) {
+    falseStarts++;
+    recordAnswer(false, null, "Premature response");
+    return;
+  }
+
+  if (activeTask.type === "inhibit") {
+    falseAlarms++;
+    recordAnswer(false, null, "False alarm");
+  }
+});
+
+ 
+
+  function finishTest(reason) {
+    if (!running) return;
+    running = false;
+    clearTrialTimer();
+    if (clock !== null) clearInterval(clock);
+    clock = null;
+
+    test.hidden = true;
+    results.hidden = false;
+    $("cogProgressFill").style.width = "100%";
+
+    const answered = records.length;
+    const correct = records.filter(r => r.correct).length;
+    const accuracy = answered ? Math.round(correct / answered * 100) : 0;
+    const times = records
+      .filter(r => r.task === "reaction" && r.rt !== null)
+      .map(r => r.rt).sort((a, b) => a - b);
+
+    const avg = times.length
+      ? Math.round(times.reduce((sum, n) => sum + n, 0) / times.length)
+      : null;
+    const median = times.length
+      ? Math.round(times.length % 2
+          ? times[Math.floor(times.length / 2)]
+          : (times[times.length / 2 - 1] + times[times.length / 2]) / 2)
+      : null;
+
+    $("cogSummary").textContent =
+      reason + " You completed " + answered +
+      " scored trials. Treat these results as a snapshot of this session.";
+
+    $("cogAvg").textContent = avg === null ? "—" : avg + " ms";
+    $("cogMedian").textContent = median === null ? "—" : median + " ms";
+    $("cogAccuracy").textContent = accuracy + "%";
+    $("cogFalse").textContent = falseStarts;
+    $("cogMissed").textContent = records.filter(r => !r.correct).length;
+    $("cogTotal").textContent = answered;
+
+    const breakdown = $("cogBreakdown");
+    breakdown.innerHTML = "";
+
+    Object.keys(TASKS).forEach(key => {
+      const total = taskCounts[key];
+      const pct = total ? Math.round(taskCorrect[key] / total * 100) : null;
+      const card = document.createElement("div");
+      card.className = "cog-result";
+
+      const name = document.createElement("span");
+      name.textContent = TASKS[key];
+
+      const detail = document.createElement("strong");
+      detail.textContent = total
+        ? pct + "% accuracy · " + taskCorrect[key] + "/" + total
+        : "No trials completed";
+
+      card.append(name, detail);
+      breakdown.appendChild(card);
+    });
+
+    let interpretation;
+    if (answered < 5) {
+      interpretation = "Too few trials were completed for a useful summary. Try again when you can focus without interruptions.";
+    } else if (accuracy >= 80) {
+      interpretation = "You answered most tasks correctly in this session. Review the task breakdown to see which activities felt easier or more challenging.";
+    } else if (accuracy >= 55) {
+      interpretation = "Your results varied across tasks. Consider which question types were difficult and whether distractions or unfamiliarity affected your responses.";
+    } else {
+      interpretation = "Many responses were incorrect or missed. This can happen when learning the tasks, rushing, or experiencing interruptions. Consider another session under comfortable conditions.";
+    }
+
+    if (falseStarts || falseAlarms) {
+      interpretation += " Premature taps: " + falseStarts +
+        "; responses during NO-GO trials: " + falseAlarms + ".";
+    }
+
+    $("cogInterpretation").textContent = interpretation;
+    $("cogTime").textContent = reason.startsWith("Five minutes")
+      ? "00:00" : $("cogTime").textContent;
+    $("cogTrials").textContent = answered;
+    $("cogLiveAccuracy").textContent = answered ? accuracy + "%" : "—";
+    $("cogStart").disabled = false;
+  }
+
+  function endTest() {
+    finishTest("Session ended early.");
+  }
+
+  $("cogStart").addEventListener("click", beginTest);
+  $("cogEnd").addEventListener("click", endTest);
+  $("cogRestart").addEventListener("click", () => {
+    results.hidden = true;
+    intro.hidden = false;
+    $("cogStart").disabled = false;
+  });
+})();
+</script>
+
 </body>
 </html>
