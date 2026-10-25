@@ -10,246 +10,6 @@ content="width=device-width, initial-scale=1.0">
 <title>SpaceMed // Mission Control</title>
 
 <style>
-/* ===== SPACEMED WELLNESS MONITOR ===== */
-
-.wellness-panel {
-    margin-top: 24px;
-    padding: 24px;
-    border: 1px solid rgba(56, 189, 248, 0.25);
-    border-radius: 18px;
-    background: rgba(7, 20, 38, 0.92);
-    color: #e6f4ff;
-}
-
-.wellness-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 20px;
-}
-
-.wellness-heading h2 {
-    margin: 0;
-    color: #67e8f9;
-    font-size: 22px;
-}
-
-.wellness-subtitle {
-    margin-top: 8px;
-    color: #9bb3ca;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.wellness-tag {
-    color: #67e8f9;
-    border: 1px solid rgba(103, 232, 249, 0.4);
-    padding: 7px 10px;
-    border-radius: 8px;
-    font-size: 11px;
-    letter-spacing: 1px;
-}
-
-.wellness-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-}
-
-.wellness-card {
-    padding: 18px;
-    background: rgba(17, 39, 63, 0.75);
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 14px;
-    min-width: 0;
-}
-
-.wellness-card h3 {
-    margin: 0 0 8px;
-    color: #d9f5ff;
-    font-size: 16px;
-}
-
-.wellness-card p {
-    color: #9bb3ca;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.wellness-question {
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(148, 163, 184, 0.15);
-}
-
-.wellness-question label {
-    display: block;
-    margin-bottom: 10px;
-    color: #e2edf8;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.wellness-options {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-}
-
-.wellness-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px;
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    border-radius: 9px;
-    background: rgba(4, 16, 31, 0.65);
-    color: #c9d9e8;
-    font-size: 12px;
-    cursor: pointer;
-    line-height: 1.4;
-}
-
-.wellness-option:has(input:checked) {
-    border-color: #38bdf8;
-    background: rgba(14, 116, 144, 0.22);
-    color: #a5f3fc;
-}
-
-.wellness-option input {
-    accent-color: #38bdf8;
-    flex-shrink: 0;
-}
-
-.wellness-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 22px;
-}
-
-.wellness-button {
-    border: 1px solid #38bdf8;
-    background: #075985;
-    color: white;
-    border-radius: 9px;
-    padding: 12px 18px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.wellness-button:hover {
-    background: #0369a1;
-}
-
-.wellness-button.secondary {
-    background: transparent;
-    border-color: #526b85;
-    color: #cbd5e1;
-}
-
-.wellness-results {
-    display: none;
-    margin-top: 24px;
-    padding-top: 22px;
-    border-top: 1px solid rgba(148, 163, 184, 0.25);
-}
-
-.wellness-results h3 {
-    color: #67e8f9;
-}
-
-.wellness-result-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-}
-
-.wellness-score-card {
-    padding: 18px;
-    border-radius: 12px;
-    background: rgba(17, 39, 63, 0.85);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.wellness-score {
-    font-size: 26px;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.wellness-meter {
-    height: 8px;
-    background: #26394e;
-    border-radius: 20px;
-    overflow: hidden;
-    margin: 12px 0;
-}
-
-.wellness-meter-fill {
-    width: 0%;
-    height: 100%;
-    background: #38bdf8;
-    transition: width 0.3s ease;
-}
-
-.wellness-report-text {
-    color: #c5d5e5;
-    font-size: 13px;
-    line-height: 1.7;
-}
-
-.wellness-recommendations {
-    margin-top: 16px;
-    padding: 18px;
-    border-radius: 12px;
-    background: rgba(8, 47, 73, 0.4);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-}
-
-.wellness-recommendations li {
-    margin: 10px 0;
-    color: #d1e5f5;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.wellness-disclaimer {
-    margin-top: 18px;
-    color: #91a8bd;
-    font-size: 11px;
-    line-height: 1.7;
-}
-
-.wellness-error {
-    display: none;
-    color: #fda4af;
-    margin-top: 12px;
-    font-size: 13px;
-}
-
-@media (max-width: 650px) {
-    .wellness-grid,
-    .wellness-result-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .wellness-panel {
-        padding: 15px;
-    }
-
-    .wellness-options {
-        grid-template-columns: 1fr;
-    }
-}
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
 
 :root {
     --bg: #030711;
@@ -898,6 +658,246 @@ footer {
     .mission-time {
         display: none;
     }
+}
+/* ===== SPACEMED WELLNESS MONITOR ===== */
+
+.wellness-panel {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 18px;
+    background: rgba(7, 20, 38, 0.92);
+    color: #e6f4ff;
+}
+
+.wellness-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.wellness-heading h2 {
+    margin: 0;
+    color: #67e8f9;
+    font-size: 22px;
+}
+
+.wellness-subtitle {
+    margin-top: 8px;
+    color: #9bb3ca;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wellness-tag {
+    color: #67e8f9;
+    border: 1px solid rgba(103, 232, 249, 0.4);
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.wellness-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.wellness-card {
+    padding: 18px;
+    background: rgba(17, 39, 63, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    min-width: 0;
+}
+
+.wellness-card h3 {
+    margin: 0 0 8px;
+    color: #d9f5ff;
+    font-size: 16px;
+}
+
+.wellness-card p {
+    color: #9bb3ca;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wellness-question {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.wellness-question label {
+    display: block;
+    margin-bottom: 10px;
+    color: #e2edf8;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.wellness-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.wellness-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 9px;
+    background: rgba(4, 16, 31, 0.65);
+    color: #c9d9e8;
+    font-size: 12px;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.wellness-option:has(input:checked) {
+    border-color: #38bdf8;
+    background: rgba(14, 116, 144, 0.22);
+    color: #a5f3fc;
+}
+
+.wellness-option input {
+    accent-color: #38bdf8;
+    flex-shrink: 0;
+}
+
+.wellness-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.wellness-button {
+    border: 1px solid #38bdf8;
+    background: #075985;
+    color: white;
+    border-radius: 9px;
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.wellness-button:hover {
+    background: #0369a1;
+}
+
+.wellness-button.secondary {
+    background: transparent;
+    border-color: #526b85;
+    color: #cbd5e1;
+}
+
+.wellness-results {
+    display: none;
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.wellness-results h3 {
+    color: #67e8f9;
+}
+
+.wellness-result-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.wellness-score-card {
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(17, 39, 63, 0.85);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.wellness-score {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.wellness-meter {
+    height: 8px;
+    background: #26394e;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.wellness-meter-fill {
+    width: 0%;
+    height: 100%;
+    background: #38bdf8;
+    transition: width 0.3s ease;
+}
+
+.wellness-report-text {
+    color: #c5d5e5;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.wellness-recommendations {
+    margin-top: 16px;
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(8, 47, 73, 0.4);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.wellness-recommendations li {
+    margin: 10px 0;
+    color: #d1e5f5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.wellness-disclaimer {
+    margin-top: 18px;
+    color: #91a8bd;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.wellness-error {
+    display: none;
+    color: #fda4af;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+@media (max-width: 650px) {
+    .wellness-grid,
+    .wellness-result-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .wellness-panel {
+        padding: 15px;
+    }
+
+    .wellness-options {
+        grid-template-columns: 1fr;
+    }
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 </style>
