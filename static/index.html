@@ -1,657 +1,627 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpaceMed | Astronaut Health System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06152c">
+<title>SpaceMed | Astronaut Health Monitoring</title>
 
 <style>
 :root {
-  --bg:#07111f;
-  --panel:#101e30;
-  --panel2:#14263a;
-  --line:#263d55;
-  --cyan:#39d9f4;
-  --blue:#4285ff;
-  --text:#edf6ff;
-  --muted:#91a8bd;
-  --green:#42dfa0;
-  --yellow:#ffd166;
-  --red:#ff6379;
+  --bg:#041126;
+  --panel:#081e3c;
+  --panel2:#0b2548;
+  --line:#1b416b;
+  --blue:#2588ff;
+  --cyan:#3bd8ed;
+  --green:#37d6ad;
+  --purple:#a77aff;
+  --amber:#f6c15b;
+  --red:#ff6e88;
+  --text:#eaf3ff;
+  --muted:#8fa9cc;
 }
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
-  background-image:radial-gradient(circle at 80% 5%,#123353 0,transparent 35%);
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  color:var(--text);
+  background:radial-gradient(ellipse at top,#10345d,var(--bg) 65%);
+  font:14px/1.5 system-ui,Arial,sans-serif;
 }
-button,input,select{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible,select:focus-visible{
-  outline:2px solid var(--cyan);outline-offset:2px
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,input:focus-visible,select:focus-visible {
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
 }
-.hidden{display:none!important}
-.screen{min-height:100vh;padding:24px}
-.brand{display:flex;align-items:center;gap:12px;font-weight:bold;font-size:22px}
-.brand-icon{
-  width:45px;height:45px;display:grid;place-items:center;
-  border:1px solid #2d8098;border-radius:14px;
-  background:#103349;color:var(--cyan);font-size:24px
+.hidden { display:none!important; }
+.muted { color:var(--muted); }
+.small { font-size:12px; }
+.eyebrow {
+  color:#67c8ff;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.15em;
+  text-transform:uppercase;
 }
-.muted{color:var(--muted)}
-.eyebrow{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:2px}
-.primary,.secondary,.danger{
-  border:0;border-radius:10px;padding:13px 18px;font-weight:bold
+.brand { display:flex;align-items:center;gap:10px;font-weight:800; }
+.brand-mark {
+  display:grid;place-items:center;
+  width:40px;height:40px;border-radius:13px;
+  color:#04152b;font-size:22px;
+background:linear-gradient(135deg,var(--cyan),var(--blue));
 }
-.primary{background:linear-gradient(100deg,var(--cyan),#5398ff);color:#04111d}
-.secondary{background:#1a3047;color:var(--text);border:1px solid var(--line)}
-.danger{background:#542335;color:#ffb7c2;border:1px solid #a83f59}
-.primary:hover,.secondary:hover,.danger:hover{filter:brightness(1.12)}
-.welcome{
-  max-width:1100px;margin:auto;display:flex;flex-direction:column;
-  justify-content:center;min-height:90vh
+.primary,.secondary,.danger {
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px 16px;
+  color:white;font-weight:750;
 }
-.welcome-grid{
-  display:grid;grid-template-columns:1.15fr .85fr;
-  gap:45px;align-items:center;margin-top:55px
+.primary { background:linear-gradient(110deg,#2689ff,#16b9ed); }
+.secondary { background:#0b2345; }
+.danger { background:#451b35;border-color:#74304c;color:#ffb6c3; }
+button:hover { filter:brightness(1.12); }
+.full { width:100%; }
+.card {
+  min-width:0;
+  background:linear-gradient(145deg,#081e3c,#071a34);
+  border:1px solid #153b65;
+  border-radius:15px;
+  overflow:hidden;
 }
-h1{font-size:clamp(38px,6vw,68px);line-height:1.05;margin:15px 0}
-h2{margin-top:0}
-.gradient{color:var(--cyan)}
-.hero-art{
-  min-height:330px;display:grid;place-items:center;position:relative;
-  border:1px solid var(--line);border-radius:26px;
-  background:linear-gradient(145deg,#132b44,#081522);
-  overflow:hidden
+.card-head {
+  padding:17px 18px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;flex-wrap:wrap;
 }
-.planet{
-  width:210px;height:210px;border-radius:50%;
-  background:radial-gradient(circle at 30% 25%,#9cf3ff,#3189d9 40%,#173c82 75%);
-  box-shadow:0 0 65px #2aabff55;display:grid;place-items:center;
-  font-size:90px
+.card-body { padding:15px 18px 18px; }
+.card-title { font-weight:800;font-size:14px; }
+.grid { display:grid;gap:16px; }
+.metrics { grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:17px; }
+.metric { padding:17px; }
+.metric-head { color:#a9c2e0;font-size:12px;font-weight:700; }
+.metric-value { font-size:28px;font-weight:800;margin:10px 0 4px; }
+.metric-foot { color:#7fa0c7;font-size:11px; }
+.pill {
+  display:inline-block;padding:4px 8px;border-radius:20px;
+  background:#103b42;color:#5ce4c0;font-size:10px;font-weight:800;
 }
-.orbit{
-  position:absolute;width:290px;height:100px;border:1px solid #4dd9f488;
-  border-radius:50%;transform:rotate(-25deg)
+.pill.warn { background:#45371c;color:#ffd47c; }
+.pill.blue { background:#113867;color:#72caff; }
+.dashboard-grid {
+  grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr);
+  margin-bottom:16px;
 }
-.feature-row{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
-.feature{
-  border:1px solid var(--line);background:#0e2031;padding:10px 13px;
-  border-radius:10px;color:#cce4f7;font-size:13px
+.lower-grid {
+  grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr);
+  margin-bottom:16px;
 }
-.card{
-  background:linear-gradient(145deg,var(--panel),#0c1928);
-  border:1px solid var(--line);border-radius:16px;padding:20px
+.lower-grid {
+  grid-template-columns:minmax(0,1.35fr) minmax(260px,1fr);
+  margin-bottom:16px;
 }
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-label{display:block;color:#b8cce0;font-size:13px;margin-bottom:8px}
-input,select{
-  width:100%;padding:12px;border:1px solid #30475e;
-  background:#081522;color:var(--text);border-radius:9px
+.two-col { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.page { padding:25px;max-width:1600px;margin:auto; }
+.page-heading {
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:16px;margin-bottom:20px;
 }
-.field{margin-bottom:15px}
-.setup{max-width:700px;margin:40px auto}
-.setup h1{font-size:36px}
-.topline{display:flex;justify-content:space-between;align-items:center;gap:15px}
-.progress{height:4px;background:#1c3045;border-radius:9px;margin:22px 0}
-.progress span{display:block;width:66%;height:100%;background:var(--cyan);border-radius:9px}
-.layout{display:grid;grid-template-columns:225px minmax(0,1fr);min-height:100vh}
-.sidebar{
-  padding:24px 16px;background:#091522;border-right:1px solid var(--line);
-  display:flex;flex-direction:column;gap:22px
+.page-heading h1 { font-size:26px;margin:4px 0; }
+.section-view { display:none; }
+.section-view.active { display:block; }
+.chart-wrap { width:100%;height:220px; }
+.chart-wrap svg { width:100%;height:100%; }
+.chart-legend { display:flex;gap:12px;flex-wrap:wrap;font-size:11px;color:var(--muted); }
+.legend-dot { display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px; }
+.activity-row {
+  display:flex;align-items:center;gap:10px;
+  padding:12px 0;border-bottom:1px solid #153555;
 }
-.nav{display:flex;flex-direction:column;gap:8px}
-.nav button{
-  text-align:left;background:transparent;color:var(--muted);
-  border:1px solid transparent;padding:13px;border-radius:10px
+.activity-row:last-child { border-bottom:0; }
+.activity-icon {
+  display:grid;place-items:center;width:32px;height:32px;
+  background:#102f57;border-radius:9px;flex-shrink:0;
 }
-.nav button.active,.nav button:hover{
-  color:var(--cyan);background:#122a3d;border-color:#25465b
+.activity-time { margin-left:auto;color:#7e9cbe;font-size:11px; }
+.form-section {
+padding:17px;margin:15px 0;
+  background:#081f3e;border:1px solid #15375f;border-radius:13px;
 }
-.side-bottom{margin-top:auto}
-.main{padding:28px;min-width:0}
-.header{
+.form-grid,.health-form {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;
+}
+.field label { display:block;color:#a9c1df;font-size:12px;margin-bottom:6px; }
+.field input,.field select {
+  width:100%;padding:12px;
+  background:#061831;border:1px solid #21466f;
+  border-radius:9px;color:var(--text);
+}
+.field input::placeholder { color:#59799f; }
+.result-box {
+  margin-top:16px;padding:16px;border-radius:12px;
+  background:#0a2443;border:1px solid #21456e;
+}
+.result-box.normal { border-color:#1c866d; }
+.result-box.monitor { border-color:#b58a31; }
+.result-box.alert { border-color:#c44a63; }
+.problem {
+  background:#102b48;border-radius:8px;padding:10px;margin:7px 0;
+}
+.test-question { font-size:30px;font-weight:800;letter-spacing:.25em;margin:20px 0; }
+.report-stat {
+  padding:16px;border:1px solid #173a61;
+  background:#091f3d;border-radius:12px;
+}
+.settings-row {
   display:flex;justify-content:space-between;align-items:center;
-  gap:15px;margin-bottom:25px
+  gap:12px;padding:15px 0;border-bottom:1px solid #163657;
 }
-.header h1{font-size:28px;margin:0 0 8px}
-.live{color:var(--green);font-size:12px}
-.live:before{content:"●";margin-right:7px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-.metric{padding:17px}
-.metric-label{font-size:12px;color:var(--muted)}
-.metric-value{font-size:29px;font-weight:bold;margin:13px 0 7px}
-.metric-unit{font-size:12px;color:var(--muted)}
-.two-col{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.8fr);gap:16px;margin-top:16px}
-.section-title{font-size:16px;margin:0 0 18px}
-.badge{
-  display:inline-block;padding:6px 9px;border-radius:7px;
-  font-size:11px;font-weight:bold;background:#193b36;color:var(--green)
+.settings-row:last-child { border-bottom:0; }
+.progress { height:7px;background:#102e51;border-radius:8px;overflow:hidden;margin-top:10px; }
+.progress span { display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan)); }
+.footer-note { color:#6988ad;text-align:center;font-size:11px;margin-top:22px; }
+
+/* Welcome */
+.welcome {
+  min-height:100vh;padding:25px clamp(20px,5vw,75px);
+  display:flex;flex-direction:column;position:relative;overflow:hidden;
+  background:
+    linear-gradient(90deg,#031025f5,#04142bdd 60%,#04142b88),
+    radial-gradient(ellipse at 75% 30%,#164d80,#041126 65%);
 }
-.badge.warn{background:#46391d;color:var(--yellow)}
-.badge.alert{background:#4a2230;color:#ff9bad}
-.vitals-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.action-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
-.result{margin-top:16px;padding:15px;border-radius:10px;background:#0a1725;border:1px solid var(--line)}
-.result.normal{border-color:#267b60}
-.result.monitor{border-color:#9c7a30}
-.result.alert{border-color:#b5445c}
-.result h3{margin:0 0 10px}
-.result p{color:#bfd0e0;line-height:1.5}
-.chart{width:100%;height:155px;display:block}
-.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
-.legend span:before{content:"●";color:var(--cyan);margin-right:6px}
-.info-list{display:flex;flex-direction:column;gap:12px}
-.info-item{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #213449;padding-bottom:12px;font-size:13px}
-.info-item span:last-child{color:#d7e9f8;text-align:right}
-.tool-card{margin-top:16px}
-.tool-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.tool-buttons button{min-height:70px}
-.footer{color:#71899e;font-size:11px;line-height:1.5;margin-top:24px}
-.small{font-size:12px}
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .two-col{grid-template-columns:1fr}
-  .welcome-grid{grid-template-columns:1fr}
-  .hero-art{min-height:260px}
+.welcome-nav { display:flex;align-items:center;justify-content:space-between;gap:15px; }
+.nav-tag { border:1px solid #37618e;border-radius:30px;padding:8px 13px;font-size:12px; }
+.welcome-content { width:min(650px,100%);margin:auto 0;padding:9vh 0; }
+.welcome h1 { font-size:clamp(40px,6vw,70px);line-height:1.05;letter-spacing:-.04em;margin:15px 0; }
+.welcome h1 span { color:#55c9ff; }
+.welcome-copy { max-width:520px;font-size:16px;line-height:1.8;color:#bfd1e9; }
+.welcome-actions { display:flex;gap:12px;flex-wrap:wrap;margin-top:25px; }
+.welcome-footer { display:flex;gap:22px;flex-wrap:wrap;color:#9ab5d6;font-size:12px; }
+
+/* Profile setup */
+.setup-shell {
+  min-height:100vh;padding:20px;display:grid;place-items:center;
 }
-@media(max-width:650px){
-  .screen{padding:16px}
-  .layout{grid-template-columns:1fr}
-  .sidebar{padding:12px;position:static;border-right:0;border-bottom:1px solid var(--line)}
-  .sidebar .brand{font-size:18px}
-  .nav{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
-  .nav button{text-align:center;font-size:12px;padding:10px 5px}
-  .side-bottom{display:none}
-  .main{padding:16px}
-  .header{align-items:flex-start}
-  .header h1{font-size:23px}
-  .form-grid{grid-template-columns:1fr}
-  .tool-buttons{grid-template-columns:1fr}
-  .metric-value{font-size:24px}
+.setup-card {
+  width:min(1050px,100%);display:grid;
+  grid-template-columns:250px minmax(0,1fr);
+  background:#061832;border:1px solid #183d68;border-radius:20px;overflow:hidden;
+}
+.setup-aside {
+  padding:25px;background:linear-gradient(180deg,#0b2c56,#06162e);
+}
+.astronaut-art { text-align:center;font-size:90px;margin:40px 0; }
+.setup-form { padding:clamp(20px,4vw,40px); }
+.setup-form h2 { margin:8px 0;font-size:27px; }
+.radio-list { display:grid;gap:10px; }
+.radio-item { display:flex;align-items:center;gap:8px; }
+.radio-item input { accent-color:var(--blue); }
+/* Dashboard shell */
+.app { min-height:100vh;display:grid;grid-template-columns:220px minmax(0,1fr); }
+.sidebar {
+  min-height:100vh;position:sticky;top:0;height:100vh;
+  padding:18px 12px;background:#04142b;border-right:1px solid #14355d;
+  display:flex;flex-direction:column;z-index:5;
+}
+.sidebar .brand { padding:0 5px 20px;border-bottom:1px solid #143154; }
+.nav-list { display:grid;gap:5px;margin-top:18px; }
+.nav-btn {
+  display:flex;align-items:center;gap:10px;width:100%;
+  padding:11px 10px;border:1px solid transparent;border-radius:9px;
+  background:transparent;color:#a8bfde;text-align:left;font-weight:650;
+}
+.nav-btn:hover,.nav-btn.active { background:#10345e;color:#72d7ff; }
+.sidebar-bottom { margin-top:auto; }
+.crew-card { border:1px solid #17395f;border-radius:12px;padding:12px;background:#0a2447; }
+.app-main { min-width:0; }
+.topbar {
+  height:62px;border-bottom:1px solid #14355d;padding:0 22px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:#04142bd9;
+}
+.topbar-right { display:flex;align-items:center;gap:10px; }
+.avatar {
+  display:grid;place-items:center;width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(140deg,var(--cyan),var(--blue));color:#04152b;font-weight:900;
+}
+.icon-btn { border:1px solid #1c4069;border-radius:9px;background:#081e3b;color:white;padding:8px; }
+.quick-actions { display:grid;gap:10px; }
+.action-btn {
+  width:100%;display:flex;align-items:center;gap:12px;text-align:left;
+  padding:13px;border-radius:10px;border:1px solid #1b416b;
+  background:#0a2345;color:#e6f2ff;font-weight:700;
+}
+.action-btn span:last-child { margin-left:auto; }
+.mission-box { display:flex;align-items:center;gap:14px; }
+.planet-art {
+  display:grid;place-items:center;flex-shrink:0;width:100px;height:95px;
+  border-radius:12px;font-size:45px;background:radial-gradient(circle,#246db1,#0b2850 60%,#06162d);
+}
+.readings { width:100%;border-collapse:collapse;font-size:12px; }
+.readings th,.readings td { padding:10px 7px;text-align:left;border-bottom:1px solid #153555; }
+.readings th { color:#7898bd; }
+#toast {
+  position:fixed;right:18px;bottom:18px;z-index:50;
+  padding:13px 17px;border:1px solid #27618c;border-radius:12px;
+  background:#0a2545;box-shadow:0 10px 30px #0005;
+}
+@media(max-width:1100px) {
+  .metrics { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .dashboard-grid,.lower-grid { grid-template-columns:1fr; }
+}
+@media(max-width:700px) {
+  .setup-card { grid-template-columns:1fr; }
+  .setup-aside { padding:16px; }
+  .setup-aside .astronaut-art,.setup-aside .aside-copy { display:none; }
+  .app { display:block; }
+  .sidebar { height:auto;min-height:0;position:sticky;padding:10px; }
+  .sidebar .brand { padding:0 3px 8px;border:0; }
+  .nav-list { display:flex;overflow-x:auto;margin:0;padding:5px 0; }
+  .nav-btn { width:auto;white-space:nowrap;padding:9px;font-size:12px; }
+  .sidebar-bottom { display:none; }
+  .topbar { height:52px;padding:0 12px; }
+  .page { padding:17px 12px; }
+  .page-heading { display:block; }
+  .form-grid,.health-form,.two-col { grid-template-columns:1fr; }
+  .welcome-actions button { flex:1; }
+  .mission-box { align-items:flex-start; }
+  .planet-art { width:70px;height:70px;font-size:35px; }
+}
+@media(max-width:380px) {
+  .metrics { grid-template-columns:1fr; }
+  .welcome h1 { font-size:38px; }
+}
+@media print {
+  .sidebar,.topbar,.welcome,.setup-shell,button { display:none!important; }
+  body { background:white;color:black; }
+  .card,.report-stat { background:white;color:black;border:1px solid #aaa; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- SCREEN 1: WELCOME -->
-<section id="welcomeScreen" class="screen">
-  <div class="welcome">
+<!-- 1. WELCOME SCREEN -->
+<section id="welcomeScreen" class="welcome">
+  <header class="welcome-nav">
     <div class="brand">
-      <div class="brand-icon">🚀</div>
-      <div>SpaceMed <span class="gradient">/</span></div>
+      <div class="brand-mark">✦</div>
+      <div>SpaceMed<br><span class="muted small">ASTRONAUT HEALTH SYSTEM</span></div>
     </div>
+    <span class="nav-tag">● MISSION SYSTEM ONLINE</span>
+  </header>
 
-    <div class="welcome-grid">
-      <div>
-        <div class="eyebrow">MISSION HEALTH SYSTEMS · 01</div>
-        <h1>Healthcare,<br> beyond <span class="gradient">Earth.</span></h1>
-        <p class="muted" style="line-height:1.8;max-width:500px">
-          A mission health monitoring interface for tracking astronaut
-          vital signs, reviewing screening results and running simulated
-          mission checks.
-        </p>
-
-        <div class="feature-row">
-          <span class="feature">♡ Vital monitoring</span>
-          <span class="feature">◈ Mission readiness</span>
-          <span class="feature">⌁ Emergency simulation</span>
-        </div>
-
-        <button class="primary" onclick="showSetup()">
-          Initialize mission &nbsp; →
-        </button>
-        <p class="muted small">SpaceMed prototype · Mission interface</p>
-      </div>
-
-      <div class="hero-art" aria-label="Space themed illustration">
-        <div class="orbit"></div>
-        <div class="planet">👨‍🚀</div>
-      </div>
+  <div class="welcome-content">
+    <div class="eyebrow">Human performance · Deep space ready</div>
+    <h1>Healthy astronauts.<br><span>Successful missions.</span></h1>
+    <p class="welcome-copy">
+      Monitor vital signs, recovery, alertness and astronaut readiness
+      through one unified mission-health console.
+    </p>
+    <div class="welcome-actions">
+      <button class="primary" onclick="showSetup()">Get started →</button>
+      <button class="secondary" onclick="showSetup(true)">Open mission profile</button>
     </div>
+    <p class="muted small">DEMO ENVIRONMENT · No wearable connection required</p>
   </div>
+
+  <footer class="welcome-footer">
+    <span>✦ Vital monitoring</span>
+    <span>✦ Mission readiness</span>
+    <span>✦ Cognitive performance</span>
+ <span>✦ Health reports</span>
+  </footer>
 </section>
 
-<!-- SCREEN 2: ASTRONAUT PROFILE -->
-<section id="setupScreen" class="screen hidden">
-  <div class="topline">
-    <div class="brand">
-      <div class="brand-icon">🚀</div> SpaceMed
-    </div>
-    <span class="muted small">MISSION SETUP · 02 / 03</span>
-  </div>
-
-  <div class="setup">
-    <div class="eyebrow">ASTRONAUT IDENTIFICATION</div>
-    <h1>Configure your mission</h1>
-    <p class="muted">Enter the astronaut profile and mission details to continue.</p>
-
-    <div class="progress"><span></span></div>
-
-    <div class="card">
-      <h2 class="section-title">👨‍🚀 Astronaut profile</h2>
-      <div class="form-grid">
-        <div class="field">
-          <label for="profileName">Astronaut name *</label>
-          <input id="profileName" placeholder="Enter full name" autocomplete="name">
-        </div>
-        <div class="field">
-          <label for="astronautId">Astronaut ID</label>
-          <input id="astronautId" placeholder="e.g. AST-001">
-        </div>
-        <div class="field">
-          <label for="missionName">Mission name</label>
-          <input id="missionName" placeholder="e.g. Asteria-7">
-        </div>
-        <div class="field">
-          <label for="missionDuration">Mission duration</label>
-          <select id="missionDuration">
-            <option>Short duration</option>
-            <option>30 days</option>
-            <option>90 days</option>
-            <option>180 days</option>
-            <option>Long duration</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="field">
-        <label for="missionLocation">Mission location</label>
-        <select id="missionLocation">
-          <option>Low Earth Orbit</option>
-          <option>Lunar Mission</option>
-          <option>Deep Space Simulation</option>
-          <option>Mars Transit Simulation</option>
-        </select>
-      </div>
-
-      <div class="action-row">
-        <button class="primary" onclick="startMission()">Continue to dashboard →</button>
-        <button class="secondary" onclick="showWelcome()">Back</button>
-      </div>
-      <p class="muted small">This is a demonstration profile; it does not connect to a real spacecraft.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SCREEN 3: DASHBOARD -->
-<section id="dashboardScreen" class="hidden">
-  <div class="layout">
-    <aside class="sidebar">
+<!-- 2. ASTRONAUT PROFILE SETUP -->
+<section id="setupScreen" class="setup-shell hidden">
+  <div class="setup-card">
+    <aside class="setup-aside">
       <div class="brand">
-        <div class="brand-icon">🚀</div>
-        <div>SpaceMed</div>
+        <div class="brand-mark">✦</div>
+        <div>SpaceMed<br><span class="muted small">MISSION CONTROL</span></div>
       </div>
-      <div>
-        <div class="eyebrow">MISSION CONTROL</div>
-        <p id="sideMission" class="muted small">Mission pending</p>
+      <div class="astronaut-art">🧑‍🚀</div>
+      <div class="aside-copy">
+        <div class="eyebrow">Your health powers the mission</div>
+        <h2>Every signal matters.</h2>
+        <p class="muted">Set up your mission profile to personalize your dashboard.</p>
       </div>
-
-      <nav class="nav">
-        <button class="active" onclick="showPanel('overview',this)">▦ Overview</button>
-        <button onclick="showPanel('healthPanel',this)">♡ Health monitor</button>
-        <button onclick="showPanel('toolsPanel',this)">⚙ Mission tools</button>
-      </nav>
-
-      <div class="side-bottom">
-        <div class="card">
-          <div class="eyebrow">SYSTEM STATUS</div>
-          <p><span class="live">Interface online</span></p>
-          <p class="muted small">Prototype mode</p>
-        </div>
-        <button class="secondary" style="width:100%;margin-top:12px" onclick="showSetup()">↻ New profile</button>
-      </div>
+      <p class="muted small">SPACE MEDICAL OPERATIONS · DEMO</p>
     </aside>
 
-    <main class="main">
-      <header class="header">
-        <div>
-          <div class="eyebrow">MISSION OPERATIONS / HEALTH</div>
-          <h1 id="dashboardTitle">Welcome, astronaut</h1>
-          <div id="dashboardSubtitle" class="muted small">Mission health overview</div>
-        </div>
-        <div style="text-align:right">
-          <span class="live">SYSTEM ONLINE</span>
-          <div class="muted small" style="margin-top:8px">DEMO ENVIRONMENT</div>
-        </div>
-      </header>
+    <div class="setup-form">
+      <div class="eyebrow">Mission onboarding</div>
+      <h2>Astronaut profile & mission setup</h2>
+      <p class="muted">Complete your profile to enter the health console.</p>
 
-      <!-- OVERVIEW -->
-      <div id="overview">
-        <div class="grid">
-          <div class="card metric">
-            <div class="metric-label">♡ HEART RATE</div>
-            <div id="mHeart" class="metric-value">-- <span class="metric-unit">BPM</span></div>
-            <span class="muted small">Latest entered value</span>
-          </div>
-          <div class="card metric">
-            <div class="metric-label">◉ OXYGEN SATURATION</div>
-            <div id="mOxygen" class="metric-value">-- <span class="metric-unit">%</span></div>
-            <span class="muted small">SpO₂ reading</span>
-          </div>
-          <div class="card metric">
-            <div class="metric-label">♨ TEMPERATURE</div>
-            <div id="mTemp" class="metric-value">-- <span class="metric-unit">°C</span></div>
-            <span class="muted small">Body temperature</span>
-          </div>
-          <div class="card metric">
-            <div class="metric-label">⌁ SCREENING STATUS</div>
-            <div id="mStatus" class="metric-value" style="font-size:19px">PENDING</div>
-            <span class="muted small">Based on submitted readings</span>
-          </div>
-        </div>
-
-        <div class="two-col">
-          <div class="card">
-            <h2 class="section-title">Health screening</h2>
-            <p class="muted small">Enter the current readings and submit them for a screening result.</p>
-
-            <div class="vitals-form">
-              <div class="field">
-                <label for="heart_rate">Heart rate (BPM)</label>
-                <input id="heart_rate" type="number" min="1" placeholder="75">
-              </div>
-              <div class="field">
-                <label for="spo2">SpO₂ (%)</label>
-                <input id="spo2" type="number" min="1" max="100" placeholder="98">
-              </div>
-              <div class="field">
-                <label for="temperature">Temperature (°C)</label>
-                <input id="temperature" type="number" step="0.1" placeholder="36.8">
-              </div>
-              <div class="field">
-                <label for="systolic">Systolic pressure</label>
-                <input id="systolic" type="number" placeholder="120">
-              </div>
-              <div class="field">
-                <label for="diastolic">Diastolic pressure</label>
-                <input id="diastolic" type="number" placeholder="80">
-              </div>
+      <form id="profileForm">
+        <div class="form-section">
+          <h3>♙ Astronaut details</h3>
+          <div class="form-grid">
+            <div class="field">
+              <label for="astronautId">Astronaut ID *</label>
+              <input id="astronautId" value="AST-001" required>
             </div>
-
-            <div class="action-row">
-              <button class="primary" onclick="checkHealth()">🔍 Check health</button>
-              <button class="secondary" onclick="clearForm()">Clear readings</button>
+            <div class="field">
+              <label for="fullName">Full name *</label>
+              <input id="fullName" placeholder="e.g. Alex Johnson" required>
             </div>
-            <div id="result" class="result">
-              <h3>Awaiting readings</h3>
-              <p>Enter the values above and select Check health.</p>
+            <div class="field">
+              <label for="agency">Space agency</label>
+              <select id="agency">
+                <option>NASA</option><option>ESA</option><option>ISRO</option>
+                <option>JAXA</option><option>Other</option>
+              </select>
             </div>
-          </div>
-
-          <div class="card">
-            <h2 class="section-title">Astronaut & mission</h2>
-            <div class="info-list">
-              <div class="info-item"><span class="muted">Astronaut</span><span id="infoName">Not set</span></div>
-              <div class="info-item"><span class="muted">Astronaut ID</span><span id="infoId">Not set</span></div>
-              <div class="info-item"><span class="muted">Mission</span><span id="infoMission">Not set</span></div>
-              <div class="info-item"><span class="muted">Location</span><span id="infoLocation">Not set</span></div>
-              <div class="info-item"><span class="muted">Duration</span><span id="infoDuration">Not set</span></div>
-            </div>
-            <div style="margin-top:20px">
-              <span class="badge">PROFILE LOADED</span>
+            <div class="field">
+              <label for="role">Role</label>
+              <select id="role">
+                <option>Mission Specialist</option><option>Commander</option>
+                <option>Pilot</option><option>Flight Engineer</option>
+                <option>Medical Officer</option>
+              </select>
             </div>
           </div>
         </div>
 
-        <div class="card tool-card">
-          <h2 class="section-title">Mission quick actions</h2>
-          <div class="tool-buttons">
-            <button class="secondary" onclick="simulateEmergency()">🚨 Simulate emergency</button>
-            <button class="secondary" onclick="runCognitiveTest()">🧠 Cognitive test</button>
-            <button class="secondary" onclick="clearForm()">↻ Reset readings</button>
+        <div class="form-section">
+          <h3>✦ Mission information</h3>
+          <div class="form-grid">
+            <div class="field">
+    <label for="missionPhase">Mission phase</label>
+              <select id="missionPhase">
+                <option>In Orbit</option><option>Pre-launch</option>
+                <option>Launch</option><option>Transit</option>
+                <option>Lunar Operations</option><option>Return</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="duration">Planned duration</label>
+              <select id="duration">
+                <option>10 days</option><option>30 days</option>
+                <option>3 months</option><option selected>6 months</option>
+                <option>12 months</option>
+              </select>
+            </div>
           </div>
-          <div id="cognitiveResult" class="result hidden"></div>
         </div>
-      </div>
 
-      <!-- HEALTH PANEL -->
-      <div id="healthPanel" class="hidden">
-        <div class="card">
-          <h2 class="section-title">♡ Health monitor</h2>
-          <p class="muted">Enter readings in the overview panel to run the health screening.</p>
-          <button class="primary" onclick="showPanel('overview',document.querySelector('.nav button'))">Open health screening</button>
-        </div>
-      </div>
-
-      <!-- TOOLS PANEL -->
-      <div id="toolsPanel" class="hidden">
-        <div class="card">
-          <h2 class="section-title">Mission tools</h2>
-          <p class="muted">Use simulations for demonstration only. They do not contact mission control or emergency services.</p>
-          <div class="tool-buttons">
-            <button class="danger" onclick="simulateEmergency()">🚨 Run emergency simulation</button>
-            <button class="secondary" onclick="runCognitiveTest()">🧠 Run cognitive test</button>
-            <button class="secondary" onclick="clearForm()">↻ Clear health readings</button>
+        <div class="form-section">
+          <h3>Monitoring preference</h3>
+          <div class="radio-list">
+            <label class="radio-item"><input type="radio" name="monitorMode" value="demo" checked> Demo mode</label>
+            <label class="radio-item"><input type="radio" name="monitorMode" value="manual"> Manual data entry</label>
+            <label class="radio-item"><input type="radio" name="monitorMode" value="wearable"> Wearable interface preview</label>
           </div>
-          <div id="toolsResult" class="result hidden"></div>
+          <p class="muted small">Wearable mode is only a UI preview; no sensor is connected.</p>
         </div>
-      </div>
 
-      <footer class="footer">
-        SpaceMed is a hackathon prototype for demonstration and educational screening.
-        It is not a medical device, does not provide a diagnosis, and does not replace
-        professional medical assessment or mission-approved clinical protocols.
-      </footer>
-    </main>
+        <div class="setup-actions" style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+          <button type="button" class="secondary" onclick="showWelcome()">Back</button>
+          <button type="submit" class="primary">Enter mission control →</button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
-<script>
-function hideScreens() {
-  document.getElementById("welcomeScreen").classList.add("hidden");
-  document.getElementById("setupScreen").classList.add("hidden");
-  document.getElementById("dashboardScreen").classList.add("hidden");
-}
+<!-- 3. MAIN DASHBOARD -->
+<section id="appScreen" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">✦</div>
+      <div>SpaceMed<br><span class="muted small">HEALTH MONITORING</span></div>
+    </div>
 
-function showWelcome() {
-  hideScreens();
-  document.getElementById("welcomeScreen").classList.remove("hidden");
-}
+    <nav class="nav-list" aria-label="Main navigation">
+      <button class="nav-btn active" data-view="dashboard">⌂ Dashboard</button>
+      <button class="nav-btn" data-view="health">♡ Health overview</button>
+      <button class="nav-btn" data-view="heart">♥ Heart rate & HRV</button>
+      <button class="nav-btn" data-view="sleep">☾ Sleep</button>
+      <button class="nav-btn" data-view="fatigue">◉ Mental fatigue</button>
+      <button class="nav-btn" data-view="cognitive">▦ Memory test</button>
+      <button class="nav-btn" data-view="activity">⌁ Physical activity</button>
+      <button class="nav-btn" data-view="nutrition">♧ Nutrition & hydration</button>
+      <button class="nav-btn" data-view="reports">▤ Reports</button>
+      <button class="nav-btn" data-view="settings">⚙ Settings</button>
+    </nav>
 
-function showSetup() {
-  hideScreens();
-  document.getElementById("setupScreen").classList.remove("hidden");
-}
+    <div class="sidebar-bottom">
+      <div class="crew-card">
+        <div style="font-size:28px">🧑‍🚀</div>
+        <strong id="sideName">Astronaut</strong>
+        <div class="muted small" id="sideId">AST-001</div>
+        <p class="muted small">Healthy crew. Successful mission.</p>
+      </div>
+    </div>
+  </aside>
 
-function startMission() {
-  const name = document.getElementById("profileName").value.trim();
+  <div class="app-main">
+    <header class="topbar">
+      <div class="eyebrow">MISSION CONTROL / <span id="crumb">DASHBOARD</span></div>
+      <div class="topbar-right">
+        <button class="icon-btn" title="Notifications" onclick="notify('No new mission alerts.')">♧</button>
+        <div class="avatar">A</div>
+        <div>
+          <strong id="topName" class="small">Astronaut</strong>
+          <div id="topId" class="muted small">AST-001</div>
+        </div>
+        <button class="icon-btn" title="Edit profile" onclick="showSetup(true)">⌄</button>
+      </div>
+    </header>
 
-  if (!name) {
-    alert("Please enter the astronaut's name first.");
-    document.getElementById("profileName").focus();
-    return;
-  }
+    <main class="page">
 
-  const astronautId = document.getElementById("astronautId").value.trim() || "Not assigned";
-  const mission = document.getElementById("missionName").value.trim() || "Demo Mission";
-  const duration = document.getElementById("missionDuration").value;
-  const location = document.getElementById("missionLocation").value;
+      <!-- DASHBOARD -->
+      <div id="view-dashboard" class="section-view active">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow" id="dashGreeting">WELCOME ABOARD, ASTRONAUT</div>
+            <h1>Mission health overview</h1>
+            <div class="muted">Your health snapshot · <span id="missionSubtitle">Mission status: In Orbit</span></div>
+          </div>
+          <div class="form-field">
+            <select id="periodControl" aria-label="Dashboard time period">
+              <option>Daily</option><option>Weekly</option><option>Monthly</option>
+            </select>
+          </div>
+        </div>
 
-  document.getElementById("dashboardTitle").textContent = "Welcome, " + name;
-  document.getElementById("dashboardSubtitle").textContent = mission + " · " + location;
-  document.getElementById("sideMission").textContent = mission;
-  document.getElementById("infoName").textContent = name;
-  document.getElementById("infoId").textContent = astronautId;
-  document.getElementById("infoMission").textContent = mission;
-  document.getElementById("infoLocation").textContent = location;
-  document.getElementById("infoDuration").textContent = duration;
+        <div class="grid metrics"
+<article class="card metric">
+            <div class="metric-head">♥ Resting heart rate</div>
+            <div class="metric-value">62 <span class="small">bpm</span></div>
+            <div class="metric-foot">Demo baseline · 60–100 bpm <span class="pill">Sample</span></div>
+          </article>
+          <article class="card metric">
+            <div class="metric-head">⌁ Heart rate variability</div>
+            <div class="metric-value">68 <span class="small">ms</span></div>
+            <div class="metric-foot">Illustrative trend <span class="pill">Sample</span></div>
+          </article>
+          <article class="card metric">
+            <div class="metric-head">☾ Sleep quality</div>
+            <div class="metric-value">8 <span class="small">h 12 m</span></div>
+            <div class="metric-foot">Illustrative data <span class="pill">Sample</span></div>
+          </article>
+          <article class="card metric">
+            <div class="metric-head">◉ Mental fatigue</div>
+            <div class="metric-value" style="font-size:25px">Not logged</div>
+            <div class="metric-foot">Use the fatigue check-in</div>
+          </article>
+        </div>
 
-  hideScreens();
-  document.getElementById("dashboardScreen").classList.remove("hidden");
-}
+        <div class="grid dashboard-grid">
+          <article class="card">
+            <div class="card-head">
+              <div class="card-title">Health trends</div>
+              <div class="chart-legend">
+                <span><i class="legend-dot" style="background:#b37bff"></i>Heart rate</span>
+                <span><i class="legend-dot" style="background:#42d7ef"></i>HRV</span>
+                <span><i class="legend-dot" style="background:#5b8dff"></i>Sleep</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart-wrap">
+                <svg viewBox="0 0 680 230" role="img" aria-label="Illustrative health trends">
+                  <g stroke="#18385d">
+                    <path d="M45 30H660M45 75H660M45 120H660M45 165H660M45 205H660"/>
+                  </g>
+                  <g fill="#7f9ec2" font-size="11">
+                    <text x="45" y="224">Day 1</text><text x="145" y="224">Day 2</text>
+                    <text x="245" y="224">Day 3</text><text x="345" y="224">Day 4</text>
+                    <text x="445" y="224">Day 5</text><text x="545" y="224">Day 6</text>
+                    <text x="630" y="224">Day 7</text>
+                  </g>
+                  <polyline points="45,142 145,118 245,133 345,100 445,108 545,82 660,105"
+                    fill="none" stroke="#42d7ef" stroke-width="3"/>
+                  <polyline points="45,104 145,112 245,95 345,108 445,98 545,113 660,91"
+                    fill="none" stroke="#b37bff" stroke-width="3"/>
+                  <polyline points="45,166 145,159 245,166 345,150 445,159 545,151 660,157"
+                    fill="none" stroke="#5b8dff" stroke-width="3"/>
+                </svg>
+              </div>
+              <p class="muted small">Illustrative sample data only — not live telemetry.</p>
+            </div>
+          </article>
+   <article class="card">
+            <div class="card-head"><div class="card-title">Quick actions</div></div>
+            <div class="card-body quick-actions">
+              <button class="action-btn" onclick="navigate('health')"><span>♡</span> Check vital signs <span>→</span></button>
+              <button class="action-btn" onclick="navigate('cognitive')"><span>▦</span> Take memory test <span>→</span></button>
+              <button class="action-btn" onclick="navigate('fatigue')"><span>◉</span> Log fatigue check-in <span>→</span></button>
+              <button class="action-btn" onclick="navigate('reports')"><span>▤</span> View health report <span>→</span></button>
+              <button class="danger" onclick="simulateEmergency()">🚨 Simulate emergency</button>
+            </div>
+          </article>
+        </div>
 
-function showPanel(panelId, button) {
-  ["overview", "healthPanel", "toolsPanel"].forEach(id => {
-    document.getElementById(id).classList.add("hidden");
-  });
-  document.getElementById(panelId).classList.remove("hidden");
+        <div class="grid lower-grid">
+          <article class="card">
+            <div class="card-head"><div class="card-title">Recent activity</div><span class="muted small">SESSION TIMELINE</span></div>
+            <div class="card-body" id="activityList">
+              <p class="muted">Your new session activities will appear here.</p>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><div class="card-title">Mission status</div><span class="pill">DEMO</span></div>
+            <div class="card-body">
+              <div class="mission-box">
+                <div class="planet-art">🛰️</div>
+                <div>
+                  <strong id="missionCardName">Artemis-3</strong>
+                  <div id="missionCardPhase" style="color:#55d9c1">In Orbit</div>
+                  <p class="muted small">Example mission progress</p>
+                  <div class="progress"><span style="width:68%"></span></div>
+                  <p class="muted small">Illustrative progress only</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="footer-note">SpaceMed prototype · Not a substitute for professional medical assessment.</div>
+      </div>
 
-  document.querySelectorAll(".nav button").forEach(b => b.classList.remove("active"));
-  if (button) button.classList.add("active");
-}
+      <!-- HEALTH SCREENING -->
+      <div id="view-health" class="section-view">
+        <div class="page-heading">
+          <div><div class="eyebrow">VITALS / SCREENING</div><h1>Health overview</h1>
+          <p class="muted">Enter measurements and run the existing backend screening.</p></div>
+        </div>
+        <div class="grid dashboard-grid">
+          <article class="card">
+            <div class="card-head"><div class="card-title">Physiological data console</div><span class="pill blue">MANUAL INPUT</span></div>
+            <div class="card-body">
+              <form id="healthForm">
+                <div class="health-form">
+ <div class="field"><label for="healthName">Astronaut name</label><input id="healthName" placeholder="Name" required></div>
+                  <div class="field"><label for="heart_rate">Heart rate (bpm)</label><input id="heart_rate" type="number" min="1" max="250" placeholder="e.g. 72" required></div>
+                  <div class="field"><label for="spo2">SpO₂ (%)</label><input id="spo2" type="number" min="1" max="100" placeholder="e.g. 98" required></div>
+                  <div class="field"><label for="temperature">Body temperature (°C)</label><input id="temperature" type="number" step="0.1" placeholder="e.g. 36.8" required></div>
+                  <div class="field"><label for="systolic">Systolic blood pressure</label><input id="systolic" type="number" placeholder="e.g. 120" required></div>
+                  <div class="field"><label for="diastolic">Diastolic blood pressure</label><input id="diastolic" type="number" placeholder="e.g. 80" required></div>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px">
+                  <button class="primary" type="submit">Run health check →</button>
+                  <button class="danger" type="button" onclick="simulateEmergency()">Simulate emergency</button>
+                  <button class="secondary" type="button" onclick="clearHealthForm()">Clear</button>
+                </div>
+              </form>
+              <div id="healthResult" class="result-box muted">Enter all measurements and run the demo screening.</div>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-head"><div class="card-title">Screening notes</div></div>
+            <div class="card-body">
+              <p class="muted">This screen uses the existing <code>/check-health</code> endpoint. It applies prototype screening ranges and is not a diagnosis.</p>
+              <div class="form-section"><strong>Possible results</strong><p><span class="pill">NORMAL</span> <span class="pill warn">NEEDS MONITORING</span> <span class="pill" style="background:#4b2035;color:#ffb0c1">MEDICAL ALERT</span></p></div>
+              <p class="muted small">If a real medical emergency is suspected, seek qualified medical help. This demo cannot contact a medical team.</p>
+            </div>
+          </article>
+        </div>
+      </div>
 
-async function checkHealth() {
-  const name = document.getElementById("profileName").value.trim() || "Test Astronaut";
-  const heartRate = Number(document.getElementById("heart_rate").value);
-  const spo2 = Number(document.getElementById("spo2").value);
-  const temperature = Number(document.getElementById("temperature").value);
-  const systolic = Number(document.getElementById("systolic").value);
-  const diastolic = Number(document.getElementById("diastolic").value);
-  const resultBox = document.getElementById("result");
+      <!-- HEART RATE & HRV -->
+      <div id="view-heart" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">CARDIAC / RECOVERY</div><h1>Heart rate & variability</h1><p class="muted">Illustrative HRV and resting heart-rate history.</p></div></div>
+        <div class="grid metrics">
+          <article class="card metric"><div class="metric-head">Average HRV</div><div class="metric-value">68 <span class="small">ms</span></div><div class="metric-foot">Demo data</div></article>
+          <article class="card metric"><div class="metric-head">Resting heart rate</div><div class="metric-value">54 <span class="small">bpm</span></div><div class="metric-foot">Demo data</div></article>
+          <article class="card metric"><div class="metric-head">HRV balance</div><div class="metric-value">Good</div><div class="metric-foot">Illustrative status</div></article>
+          <article class="card metric"><div class="metric-head">Recovery index</div><div class="metric-value">82/100</div><div class="metric-foot">Simulated score</div></article>
+        </div>
+div class="grid dashboard-grid">
+          <article class="card"><div class="card-head"><div class="card-title">HRV trend</div><div class="chart-legend">HRV · Resting HR</div></div>
+            <div class="card-body"><div class="chart-wrap"><svg viewBox="0 0 680 230" role="img" aria-label="Illustrative HRV trend"><g stroke="#18385d"><path d="M45 30H660M45 75H660M45 120H660M45 165H660M45 205H660"/></g><polyline points="45,145 145,118 245,132 345,90 445,95 545,65 645,88" fill="none" stroke="#42d7ef" stroke-width="3"/><polyline points="45,175 145,145 245,156 345,150 445,153 545,137 645,149" fill="none" stroke="#b37bff" stroke-width="3"/></svg></div>
+            <p class="muted small">HRV varies between individuals. Compare with personal baseline, not a universal target.</p></div>
+          </article>
+          <article class="card"><div class="card-head"><div class="card-title">What is HRV?</div></div><div class="card-body"><p>Heart rate variability describes variation in the time between heartbeats. It may be one signal used to understand recovery alongside sleep, symptoms and personal baseline.</p><div class="form-section"><strong>Quick tip</strong><p class="muted small">Consistent sleep, hydration and stress-management habits can support general wellbeing.</p></div></div></article>
+        </div>
+      </div>
 
-  if (
-    document.getElementById("heart_rate").value === "" ||
-    document.getElementById("spo2").value === "" ||
-    document.getElementById("temperature").value === "" ||
-    document.getElementById("systolic").value === "" ||
-    document.getElementById("diastolic").value === "" ||
-    ![heartRate, spo2, temperature, systolic, diastolic].every(Number.isFinite)
-  ) {
-    resultBox.className = "result monitor";
-    resultBox.innerHTML = "<h3>⚠ Missing information</h3><p>Please enter all five vital readings.</p>";
-    return;
-  }
-
-  const healthData = {
-    name: name,
-    heart_rate: heartRate,
-    spo2: spo2,
-    temperature: temperature,
-    systolic: systolic,
-    diastolic: diastolic
-  };
-resultBox.className = "result";
-  resultBox.innerHTML = "<h3>Checking readings…</h3><p>Contacting the screening endpoint.</p>";
-
-  try {
-    const response = await fetch("/check-health", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(healthData)
-    });
-
-    if (!response.ok) throw new Error("Server returned " + response.status);
-    const data = await response.json();
-
-    const status = data.status || "UNKNOWN";
-    const problems = Array.isArray(data.problems) ? data.problems : [];
-
-    resultBox.className = "result " +
-      (status === "NORMAL" ? "normal" :
-      status === "NEEDS MONITORING" ? "monitor" : "alert");
-
-    const heading = status === "NORMAL" ? "🟢 NORMAL" :
-      status === "NEEDS MONITORING" ? "🟡 NEEDS MONITORING" :
-      "🔴 MEDICAL ALERT";
-
-    let html = "<h3>" + heading + "</h3>";
-    html += "<p>" + (
-      status === "NORMAL" ? "No out-of-range values were detected by the demo rules." :
-      status === "NEEDS MONITORING" ? "Some values are outside the demo screening ranges." :
-      "The screening endpoint reported an alert. Review the readings and follow appropriate professional protocols."
-    ) + "</p>";
-
-    if (problems.length) {
-      html += "<strong>Reported issues</strong>";
-      problems.forEach(problem => {
-        const item = document.createElement("div");
-        item.className = "info-item";
-        item.style.marginTop = "10px";
-        item.textContent = "⚠ " + problem;
-        resultBox.appendChild(item);
-      });
-    }
-
-    resultBox.innerHTML = html;
-    if (problems.length) {
-      problems.forEach(problem => {
-        const item = document.createElement("p");
-        item.textContent = "⚠ " + problem;
-        resultBox.appendChild(item);
-      });
-    }
-resultBox.innerHTML = html;
-    if (problems.length) {
-      problems.forEach(problem => {
-        const item = document.createElement("p");
-        item.textContent = "⚠ " + problem;
-        resultBox.appendChild(item);
-      });
-    }
-
-    document.getElementById("mHeart").innerHTML = heartRate + ' <span class="metric-unit">BPM</span>';
-    document.getElementById("mOxygen").innerHTML = spo2 + ' <span class="metric-unit">%</span>';
-    document.getElementById("mTemp").innerHTML = temperature + ' <span class="metric-unit">°C</span>';
-    document.getElementById("mStatus").textContent = status;
-
-    document.getElementById("mStatus").style.color =
-      status === "NORMAL" ? "var(--green)" :
-      status === "NEEDS MONITORING" ? "var(--yellow)" : "var(--red)";
-
-  } catch (error) {
-    resultBox.className = "result alert";
-    resultBox.innerHTML =
-      "<h3>Connection error</h3><p>Could not reach /check-health. Check that the deployed server is running and that the endpoint is available.</p>";
-  }
-}
-
-function simulateEmergency() {
-  document.getElementById("heart_rate").value = 125;
-  document.getElementById("spo2").value = 89;
-  document.getElementById("temperature").value = 38.2;
-  document.getElementById("systolic").value = 155;
-  document.getElementById("diastolic").value = 95;
-
-  document.getElementById("result").innerHTML =
-    "<h3>🚨 DEMONSTRATION ONLY</h3><p>Test readings have been filled in. Select Check health to submit the simulation to the screening endpoint.</p>";
-  document.getElementById("result").className = "result alert";
-}
-
-function clearForm() {
-  ["heart_rate", "spo2", "temperature", "systolic", "diastolic"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
-
-  document.getElementById("result").className = "result";
-  document.getElementById("result").innerHTML =
-    "<h3>Awaiting readings</h3><p>Enter the values above and select Check health.</p>";
-
-  document.getElementById("mHeart").innerHTML = '-- <span class="metric-unit">BPM</span>';
-  document.getElementById("mOxygen").innerHTML = '-- <span class="metric-unit">%</span>';
-  document.getElementById("mTemp").innerHTML = '-- <span class="metric-unit">°C</span>';
-  document.getElementById("mStatus").textContent = "PENDING";
-document.getElementById("mStatus").style.color = "var(--text)";
-  document.getElementById("cognitiveResult").classList.add("hidden");
-}
-
-function runCognitiveTest() {
-  const box = document.getElementById("cognitiveResult");
-  box.className = "result";
-  box.innerHTML =
-    '<h3>🧠 Cognitive response test</h3>' +
-    '<p>For this simple demo, remember this sequence:</p>' +
-    '<div style="font-size:28px;letter-spacing:8px;color:var(--cyan);margin:16px 0">7 · 2 · 9</div>' +
-    '<p>Enter the three digits in order.</p>' +
-    '<input id="cognitiveAnswer" inputmode="numeric" maxlength="3" placeholder="Enter sequence">' +
-    '<button class="primary" style="margin-top:12px" onclick="checkCognitiveAnswer()">Submit answer</button>';
-  box.classList.remove("hidden");
-  box.scrollIntoView({behavior:"smooth",block:"nearest"});
-}
-
-function checkCognitiveAnswer() {
-  const answer = document.getElementById("cognitiveAnswer").value.trim();
-  const box = document.getElementById("cognitiveResult");
-
-  if (answer === "729") {
-    box.innerHTML = "<h3>✓ Correct response</h3><p>You entered the demonstration sequence correctly. This is a simple memory game, not a medical or cognitive fitness assessment.</p>";
-  } else {
-    box.innerHTML = '<h3>Sequence not matched</h3><p>This is only a demo exercise. You can run it again if you wish.</p><button class="secondary" onclick="runCognitiveTest()">Try again</button>';
-  }
-}
-</script>
-</body>
-</html>
+      <!-- SLEEP -->
+      <div id="view-sleep" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">RECOVERY / REST</div><h1>Sleep overview</h1><p class="muted">Sample sleep metrics for the interface demo.</p></div></div>
+        <div class="grid metrics">
+          <article class="card metric"><div class="metric-head">Sleep duration</div><div class="metric-value">8h 12m</div><div class="metric-foot">Sample reading</div></article>
+          <article class="card metric"><div class="metric-head">Sleep score</div><div class="metric-value">86/100</div><div class="metric-foot">Simulated score</div></article>
