@@ -10,7 +10,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>SpaceMed</title>
+    <title>SpaceMed | Astronaut Health Monitoring</title>
 
 
     <style>
@@ -320,6 +320,22 @@
         .small-note { color:#91afbf; font-size:12px; line-height:1.5; }
         @media(max-width:520px) { .field-grid { grid-template-columns:1fr; } .container { padding:14px; } }
 
+
+/* Mission-control dashboard redesign inspired by the supplied reference */
+:root{--bg:#031329;--panel:#061d3a;--panel2:#082447;--line:#174779;--blue:#389bff;--cyan:#32d6e8;--green:#39d9b0;--text:#e6f2ff;--muted:#9eb8d7}
+body{padding:0!important;background:#031329!important;color:var(--text)!important;font-family:Inter,Arial,sans-serif!important}
+.dashboard-shell{min-height:100vh;display:grid;grid-template-columns:216px minmax(0,1fr);background:radial-gradient(ellipse at 75% 0%,#08264a 0%,#031329 58%)}
+.sidebar{background:#041832;border-right:1px solid #12345b;padding:18px 12px;display:flex;flex-direction:column;gap:7px;min-height:100vh}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 5px 22px;font-weight:750;font-size:15px;line-height:1.25;color:#eaf5ff}.brand-mark{font-size:28px;color:#53bfff}.nav-item{display:flex;gap:12px;align-items:center;padding:11px 10px;border-radius:9px;color:#a9c2e1;text-decoration:none;font-size:13px;line-height:1.25}.nav-item:hover,.nav-item.active{background:linear-gradient(90deg,#124c86,#0a3566);color:#71dfff}.side-promo{margin-top:auto;border:1px solid #16406b;border-radius:12px;padding:10px;background:linear-gradient(160deg,#082b52,#04152d);color:#c9e4ff;font-size:12px;line-height:1.5}.side-promo .space-art{font-size:48px;text-align:center;padding:12px 0;color:#3faeff}
+.dash-main{min-width:0;padding:0 20px 24px}.topbar{height:57px;display:flex;align-items:center;justify-content:flex-end;gap:22px;border-bottom:1px solid #14375e;color:#b6cce6;font-size:13px;margin:0 -20px 20px;padding:0 26px}.profile{display:flex;align-items:center;gap:9px}.avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#1265a4;font-size:17px}.dash-heading{display:flex;justify-content:space-between;gap:16px;align-items:center;margin:12px 0 22px}.heading-left{display:flex;align-items:center;gap:14px}.heading-icon{width:62px;height:62px;border-radius:50%;border:4px solid #368dff;display:grid;place-items:center;color:#52b9ff;font-size:29px;box-shadow:0 0 16px #087dff55}.dash-heading h1{font-size:27px;margin:0 0 5px;text-align:left;letter-spacing:-.4px}.dash-heading p{color:#a9c4e5;font-size:12px;line-height:1.55;margin:0;max-width:670px}.period{border:1px solid #1a4d80;background:#082448;color:#cce3ff;padding:14px 16px;border-radius:10px;white-space:nowrap;font-size:13px}
+.dash-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}.dash-card{min-width:0;background:linear-gradient(145deg,#071f3e,#061a35);border:1px solid #174779;border-radius:13px;padding:17px;box-shadow:inset 0 1px 0 #16416a44}.metric-top{display:flex;align-items:center;gap:10px;color:#b8cee8;font-size:12px;margin-bottom:14px}.metric-icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#0c3d6d;color:#50caff;font-size:20px}.metric-number{font-size:27px;font-weight:750;letter-spacing:-.5px}.metric-number small{font-size:14px}.metric-change{color:#38dcb1;font-size:13px;font-weight:700;margin-top:7px}.metric-foot{color:#9ab6d7;font-size:11px;margin-top:6px}.spark{width:85px;height:35px;float:right;margin-top:-32px}.progress{height:8px;background:#092d53;border:1px solid #1c527e;border-radius:99px;margin-top:13px;overflow:hidden}.progress span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#2f9bff,#31d7b0)}
+.content-grid{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(250px,.85fr);gap:14px;margin-bottom:17px}.card-title{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;margin-bottom:16px}.card-title .ico{color:#4aaeff;font-size:20px}.chart-wrap{width:100%;overflow:hidden}.chart-wrap svg{display:block;width:100%;height:auto;min-height:200px}.info-copy{font-size:13px;line-height:1.65;color:#b8cce4;margin:0}.quick-tip{border:1px solid #174779;background:#082448;border-radius:11px;padding:13px;margin-top:18px;font-size:12px;line-height:1.6;color:#c5d9f0}.quick-tip strong{display:block;color:#43d9b5;margin-bottom:5px;font-size:13px}.lower-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:14px;margin-bottom:16px}.distribution{display:grid;grid-template-columns:1.25fr .8fr;gap:15px;align-items:center}.dist-bars{height:170px;display:flex;align-items:end;justify-content:space-around;border-bottom:1px solid #2a527c;padding:0 4px;gap:8px;background:repeating-linear-gradient(to top,transparent 0,transparent 41px,#16385c 42px)}.bar-col{display:flex;flex-direction:column;align-items:center;justify-content:end;height:100%;flex:1;gap:6px;color:#a7c3e3;font-size:10px}.bar{width:70%;max-width:38px;border-radius:4px 4px 0 0;background:linear-gradient(#38d7cb,#2e8bff)}.dist-note{border-left:1px solid #174779;padding-left:15px;color:#a9c3e0;font-size:11px;line-height:1.6}.dist-note strong{display:block;font-size:23px;color:#eaf5ff;margin:7px 0}.readings{width:100%;border-collapse:collapse;font-size:11px;color:#c3d7ee}.readings th{text-align:left;color:#9fbada;font-weight:500;padding:8px 5px;border-bottom:1px solid #174779}.readings td{padding:8px 5px;border-bottom:1px solid #102f51}.readings tr:nth-child(even){background:#092344}.status-pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#0b6b68;color:#6ff0d6;font-size:10px;white-space:nowrap}.status-pill.fair{background:#665323;color:#ffe18a}.status-pill.attn{background:#6b2849;color:#ff9bb8}.insight{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:center}.insight-left{display:flex;align-items:center;gap:14px}.insight-heart{flex-shrink:0;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:#27cba5;color:#fff;font-size:24px}.insight strong{color:#3de0b1}.insight p{font-size:12px;line-height:1.6;color:#aec6e3;margin:7px 0 0}.recommendations{border-left:1px solid #1b4771;padding-left:20px;font-size:12px;color:#c2d6ec}.recommendations strong{color:#60baff}.recommendations ul{padding-left:17px;margin:8px 0 0;line-height:1.8}
+/* Keep the original functional controls, styled as a full-width monitoring workspace below the dashboard */
+.container{max-width:1440px!important;margin:22px auto!important;padding:22px!important;background:#061b35!important;border:1px solid #174779!important;border-radius:15px!important;box-shadow:none!important;color:#e6f2ff!important}.container .logo{display:none}.container h1{text-align:left!important;font-size:25px!important;margin:0 0 8px!important}.container>.subtitle{text-align:left!important;color:#9eb8d7!important}.container .section{background:#082344!important;border:1px solid #174779!important;border-radius:12px!important}.container .section-title{color:#e5f3ff}.container label{color:#bcd3ed!important;font-size:13px}.container input{background:#04162d!important;color:#e9f4ff!important;border:1px solid #1b4a77!important;border-radius:8px!important}.container input::placeholder{color:#6f8eaf}.container button{background:linear-gradient(90deg,#1374c7,#1c9ed4)!important;border:1px solid #2e85c6!important;border-radius:8px!important;color:white!important}.container button.clear{background:#183957!important}.container .footer{color:#91abc9!important}.container .field-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.container .field-grid label{margin-top:0}.container .button-row{display:flex;gap:12px}.container .button-row button{flex:1}.container .metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.container .stat{background:#061a34!important;border:1px solid #174779!important;border-radius:10px!important;padding:13px!important;color:#a9c3e0!important}.container .stat strong{display:block;color:#eaf5ff!important;font-size:21px;margin-top:7px}.container .muted,.container .small-note{color:#9fb9d8!important}.workspace-title{font-size:22px;margin:30px 0 5px}.workspace-subtitle{font-size:13px;color:#9eb8d7;margin:0 0 16px}
+@media(max-width:1050px){.dashboard-shell{grid-template-columns:175px minmax(0,1fr)}.dash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1.5fr) minmax(220px,1fr)}.lower-grid{grid-template-columns:1fr}.container .field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-heading h1{font-size:23px}}
+@media(max-width:700px){.dashboard-shell{display:block}.sidebar{min-height:auto;display:flex;flex-direction:row;overflow-x:auto;padding:10px;gap:6px;border-right:0;border-bottom:1px solid #12345b}.brand{min-width:145px;padding:5px;font-size:12px}.nav-item{min-width:max-content;padding:10px;font-size:12px}.side-promo{display:none}.dash-main{padding:0 12px 15px}.topbar{margin:0 -12px 16px;padding:0 14px;height:48px}.dash-heading{align-items:flex-start;flex-direction:column}.heading-icon{width:48px;height:48px;font-size:23px}.dash-heading h1{font-size:21px}.period{padding:10px 12px}.dash-grid{gap:9px}.dash-card{padding:12px}.metric-number{font-size:22px}.metric-top{font-size:11px;gap:7px}.metric-icon{width:30px;height:30px;font-size:16px}.content-grid{grid-template-columns:1fr}.lower-grid{grid-template-columns:1fr}.insight{grid-template-columns:1fr}.recommendations{border-left:0;border-top:1px solid #1b4771;padding:14px 0 0}.container{margin:14px 10px!important;padding:14px!important}.container .field-grid{grid-template-columns:1fr 1fr}.container .button-row{flex-direction:column}.readings{font-size:10px}.readings th,.readings td{padding:7px 3px}}
+@media(max-width:390px){.dash-grid{grid-template-columns:1fr 1fr}.container .field-grid{grid-template-columns:1fr}.metric-number{font-size:20px}.dash-heading p{font-size:11px}}
+
     </style>
 
 </head>
@@ -327,11 +343,49 @@
 
 <body>
 
-
-<div class="container">
-
-
-    <div class="logo">
+<div class="dashboard-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">🪐</span><span>Astronaut Health<br>Monitoring</span></div>
+    <a class="nav-item active" href="#dashboard">⌂ <span>Home</span></a>
+    <a class="nav-item" href="#simulationSection">☾ <span>Sleep</span></a>
+    <a class="nav-item" href="#cognitiveLab">⚙ <span>Mental Fatigue &amp; Alertness</span></a>
+    <a class="nav-item" href="#cognitiveLab">♧ <span>Mental Fatigue &amp; Memory<br>Cognitive Test</span></a>
+    <a class="nav-item" href="#hrv-section">♥ <span>Heart Rate Variability</span></a>
+    <a class="nav-item" href="#physiologyInput">⚒ <span>Physical Activity</span></a>
+    <a class="nav-item" href="#physiologyInput">♜ <span>Nutrition</span></a>
+    <a class="nav-item" href="#recent-readings">▤ <span>Reports</span></a>
+    <a class="nav-item" href="#monitoring-workspace">⚙ <span>Settings</span></a>
+    <div class="side-promo"><div class="space-art">👨‍🚀</div><strong>Healthy crew.<br>Successful mission.</strong><br><span style="color:#43b8ff">⌁⌁⌁</span></div>
+  </aside>
+  <main class="dash-main" id="dashboard">
+    <div class="topbar"><span>♧</span><span>♧</span><div class="profile"><span class="avatar">👨‍🚀</span><span>Astronaut 01　⌄</span></div></div>
+    <div class="dash-heading" id="hrv-section">
+      <div class="heading-left"><div class="heading-icon">♥</div><div><h1>Heart Rate Variability (HRV)</h1><p>Heart rate variability shows how well your body adapts to stress and recovers.<br>It's an important indicator of your overall health, recovery and readiness for mission.</p></div></div>
+      <div class="period">▦　 Last 7 days　⌄</div>
+    </div>
+    <div class="dash-grid">
+      <div class="dash-card"><div class="metric-top"><span class="metric-icon">♥</span>Average HRV</div><div class="metric-number">68 <small>ms</small></div><svg class="spark" viewBox="0 0 90 36" aria-hidden="true"><path d="M2 29 L18 21 L30 25 L45 12 L57 17 L73 8 L88 3" fill="none" stroke="#39d8b4" stroke-width="2.5"/></svg><div class="metric-change">↑ 12%</div><div class="metric-foot">vs. previous 7 days</div></div>
+      <div class="dash-card"><div class="metric-top"><span class="metric-icon">♥</span>Resting Heart Rate</div><div class="metric-number">54 <small>bpm</small></div><svg class="spark" viewBox="0 0 90 36" aria-hidden="true"><path d="M2 27 L15 32 L29 22 L42 26 L55 12 L68 18 L88 4" fill="none" stroke="#398dff" stroke-width="2.5"/></svg><div class="metric-change">↓ 8%</div><div class="metric-foot">vs. previous 7 days</div></div>
+      <div class="dash-card"><div class="metric-top"><span class="metric-icon" style="color:#54e7ba">◔</span>HRV Balance</div><div class="metric-number" style="font-size:25px">Good</div><div class="metric-foot">Within normal range</div><div class="progress"><span style="width:82%"></span></div></div>
+      <div class="dash-card"><div class="metric-top"><span class="metric-icon">ϟ</span>Recovery Index</div><div class="metric-number">82 <small>/ 100</small></div><div class="metric-foot">Good recovery</div><div class="progress"><span style="width:82%;background:linear-gradient(90deg,#2998ff,#3eafff)"></span></div></div>
+    </div>
+    <div class="content-grid">
+      <section class="dash-card"><div class="card-title"><span class="ico">∿</span>HRV Trend <span style="margin-left:auto;font-size:11px;color:#a9c4e5;font-weight:400">━ HRV (ms)　 <span style="color:#bd8dff">━</span> Resting Heart Rate (bpm)</span></div>
+        <div class="chart-wrap"><svg viewBox="0 0 640 245" role="img" aria-label="Illustrative HRV and resting heart rate trend for seven days"><g stroke="#17385e" stroke-width="1"><path d="M45 25H590 M45 65H590 M45 105H590 M45 145H590 M45 185H590 M45 225H590"/><path d="M45 25V225 M120 25V225 M195 25V225 M270 25V225 M345 25V225 M420 25V225 M495 25V225 M570 25V225"/></g><g fill="#a8c2e1" font-size="11"><text x="5" y="29">120</text><text x="11" y="69">90</text><text x="11" y="109">60</text><text x="11" y="149">30</text><text x="21" y="229">0</text><text x="87" y="241">Apr 22</text><text x="162" y="241">Apr 23</text><text x="237" y="241">Apr 24</text><text x="312" y="241">Apr 25</text><text x="387" y="241">Apr 26</text><text x="462" y="241">Apr 27</text><text x="537" y="241">Apr 28</text><text x="2" y="15">HRV (ms)</text><text x="580" y="15">Heart rate</text></g><path d="M45 125 L120 105 L195 115 L270 88 L345 90 L420 62 L495 86 L570 87" fill="none" stroke="#39aaff" stroke-width="3"/><path d="M45 165 L120 143 L195 150 L270 148 L345 150 L420 138 L495 147 L570 136" fill="none" stroke="#b27aff" stroke-width="2.5"/><g fill="#5bd4ff" stroke="#0d3761" stroke-width="2"><circle cx="45" cy="125" r="4"/><circle cx="120" cy="105" r="4"/><circle cx="195" cy="115" r="4"/><circle cx="270" cy="88" r="4"/><circle cx="345" cy="90" r="4"/><circle cx="420" cy="62" r="4"/><circle cx="495" cy="86" r="4"/><circle cx="570" cy="87" r="4"/></g><g fill="#c29aff"><circle cx="45" cy="165" r="3.5"/><circle cx="120" cy="143" r="3.5"/><circle cx="195" cy="150" r="3.5"/><circle cx="270" cy="148" r="3.5"/><circle cx="345" cy="150" r="3.5"/><circle cx="420" cy="138" r="3.5"/><circle cx="495" cy="147" r="3.5"/><circle cx="570" cy="136" r="3.5"/></g></svg></div>
+      </section>
+      <section class="dash-card"><div class="card-title"><span class="ico">ⓘ</span>What is HRV?</div><p class="info-copy">Heart rate variability (HRV) is the variation in time between each heartbeat. A higher HRV is often associated with better recovery and resilience. A lower HRV may be associated with fatigue, stress or increased physical load.</p><div class="quick-tip"><strong>☼　Quick tip</strong>Stay hydrated, get enough sleep and manage stress to support healthy recovery.</div></section>
+    </div>
+    <div class="lower-grid">
+      <section class="dash-card"><div class="card-title"><span class="ico">▥</span>HRV Distribution</div><div class="distribution"><div class="dist-bars"><div class="bar-col"><div class="bar" style="height:25%"></div><span>&lt; 40</span></div><div class="bar-col"><div class="bar" style="height:45%"></div><span>40–60</span></div><div class="bar-col"><div class="bar" style="height:82%;background:#2dd5d0"></div><span>60–80</span></div><div class="bar-col"><div class="bar" style="height:45%;background:#24c99e"></div><span>80–100</span></div><div class="bar-col"><div class="bar" style="height:18%;background:#24c99e"></div><span>&gt; 100</span></div></div><div class="dist-note">Most common range<strong>60 – 80 ms</strong>(4 days)<p>Your HRV is mostly within the illustrative healthy range, which may be a sign of balance and recovery.</p></div></div><div style="text-align:center;color:#a9c4e5;font-size:11px;margin-top:8px">HRV (ms)</div></section>
+      <section class="dash-card" id="recent-readings"><div class="card-title"><span class="ico">◷</span>Recent Readings <span style="font-size:10px;color:#8eaed2;font-weight:400;margin-left:auto">DEMO DATA</span></div><div style="overflow-x:auto"><table class="readings"><thead><tr><th>Date</th><th>HRV (ms)</th><th>Resting HR (bpm)</th><th>Status</th></tr></thead><tbody><tr><td>● Apr 28, 2025</td><td>72</td><td>52</td><td><span class="status-pill">Good</span></td></tr><tr><td>● Apr 27, 2025</td><td>68</td><td>54</td><td><span class="status-pill">Good</span></td></tr><tr><td>● Apr 26, 2025</td><td>76</td><td>50</td><td><span class="status-pill">Excellent</span></td></tr><tr><td>● Apr 25, 2025</td><td>63</td><td>57</td><td><span class="status-pill">Good</span></td></tr><tr><td>● Apr 24, 2025</td><td>58</td><td>60</td><td><span class="status-pill fair">Fair</span></td></tr><tr><td>● Apr 23, 2025</td><td>52</td><td>64</td><td><span class="status-pill fair">Fair</span></td></tr><tr><td>● Apr 22, 2025</td><td>49</td><td>68</td><td><span class="status-pill attn">Needs attention</span></td></tr></tbody></table></div></section>
+    </div>
+    <section class="dash-card insight"><div class="insight-left"><div class="insight-heart">♥</div><div><div class="card-title" style="margin-bottom:5px">✦ AI Insight <span style="font-size:10px;color:#7ca5cf;font-weight:400">DEMO</span></div><strong>Your HRV is within a healthy range!</strong><p>This sample dashboard shows an average HRV increased by 12% compared with the previous week. This is illustrative demo content, not a real assessment.</p></div></div><div class="recommendations"><strong>✓　Recommendations</strong><ul><li>Keep up a consistent sleep and hydration routine.</li><li>Try relaxation techniques such as slow breathing.</li><li>Recheck readings if you feel unusually tired or stressed.</li></ul></div></section>
+  </main>
+</div>
+<div class="container" id="monitoring-workspace">
+  <h1 class="workspace-title">Live Monitoring &amp; Manual Inputs</h1>
+  <p class="workspace-subtitle">Enter astronaut measurements, run the health check, or use clearly labelled simulated readings.</p>
+<div class="logo">
         🚀
     </div>
 
@@ -443,9 +497,6 @@
         <input id="respiration_rate" type="number" min="1" max="80" placeholder="Example: 16">
 
     </div>
-
-
-
     <!-- Dedicated physiological input panel -->
     <div class="section" id="physiologyInput">
         <div class="section-title">🩺 Physiological Data Console</div>
@@ -560,8 +611,6 @@
 
 
 </div>
-
-
 
 <script>
 
@@ -834,7 +883,38 @@ function clearForm() {
         "";
 
 
-    document.getElementById("diastolic").
+    document.getElementById("diastolic").value =
+        "";
+    document.getElementById("rhr").value = "";
+    document.getElementById("hrv").value = "";
+    document.getElementById("respiration_rate").value = "";
+
+
+    const result =
+        document.getElementById("result");
+
+
+    result.className = "";
+
+
+    result.innerHTML =
+
+        "Enter the astronaut's health information " +
+        "and press CHECK HEALTH.";
+
+}
+
+// --- Simulated live readings: fictional demo data only ---
+let simulationTimer = null;
+function toggleSimulation() {
+    const button = document.getElementById("startSimulation");
+    const status = document.getElementById("simulationStatus");
+    if (simulationTimer) {
+        clearInterval(simulationTimer);
+        simulationTimer = null;
+        button.textContent = "▶ START SIMULATION";
+        status.textContent = "Simulation stopped. Displayed values are fictional demo data.";
+        return;
     }
     function updateSimulation() {
         const heart = 68 + Math.round(Math.random() * 18);
@@ -978,8 +1058,6 @@ function resetCognitiveTest() {
     document.getElementById("cogSummary").textContent = "";
     renderCogStats();
 }
-
-
 function applyPhysiologyInputs() {
     const pairs = [
         ["phys_heart", "heart_rate"], ["phys_rhr", "rhr"],
@@ -1016,4 +1094,5 @@ function clearPhysiologyInputs() {
 
 
 </body>
+
 </html>
