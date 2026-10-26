@@ -291,6 +291,35 @@
         .stat strong { display:block; font-size:21px; margin-top:5px; }
         @media(max-width:500px) { .metric-grid { grid-template-columns:1fr; } }
 
+
+        /* Mission-control visual upgrade */
+        body { background: radial-gradient(circle at 15% 5%, #173f61 0, transparent 32%), radial-gradient(circle at 90% 20%, #123d45 0, transparent 30%), #050b16; font-family: Inter, Arial, sans-serif; }
+        .container { max-width: 1000px; background: rgba(8,20,36,.94); border: 1px solid rgba(83,190,226,.24); padding: clamp(16px,3vw,32px); box-shadow: 0 20px 70px rgba(0,0,0,.4); }
+        .logo { display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; border-radius:20px; background:linear-gradient(135deg,#123d5b,#0c6b80); border:1px solid #398ba8; font-size:36px; margin:0 auto 10px; }
+        h1 { letter-spacing: .08em; text-transform:uppercase; font-size:clamp(28px,4vw,42px); }
+        .subtitle { letter-spacing:.04em; }
+        .section { background:linear-gradient(145deg,rgba(21,48,72,.98),rgba(12,30,48,.98)); border:1px solid rgba(115,190,220,.16); padding:clamp(16px,2.5vw,24px); box-shadow:0 8px 24px rgba(0,0,0,.12); }
+        .section-title { font-size:19px; color:#e9f8ff; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+        label { font-size:13px; font-weight:700; letter-spacing:.02em; }
+        input { border:1px solid #d4e5ee; transition:box-shadow .2s,border-color .2s; }
+        input:focus { border-color:#53d5f5; box-shadow:0 0 0 3px rgba(83,213,245,.2); }
+        button { background:linear-gradient(100deg,#087eae,#20b7c9); box-shadow:0 5px 15px rgba(0,150,190,.15); transition:transform .15s,filter .15s; }
+        button:hover { opacity:1; filter:brightness(1.08); transform:translateY(-1px); }
+        .emergency { background:linear-gradient(100deg,#9f293c,#df4b55); }
+        .clear { background:linear-gradient(100deg,#344b60,#526875); }
+        .metric-grid { grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); }
+        .stat { border:1px solid rgba(95,179,213,.2); background:rgba(5,19,33,.68); color:#a9ccdc; font-size:13px; }
+        .stat strong { color:#f1fbff; font-size:clamp(19px,2vw,25px); overflow-wrap:anywhere; }
+        .demo-badge { background:rgba(245,173,42,.15); border:1px solid rgba(245,173,42,.5); }
+        .field-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 14px; }
+        .section-intro { color:#b9d8e8; font-size:14px; line-height:1.6; margin-top:-4px; }
+        .button-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; }
+        .button-row button { margin-top:10px; }
+        .live-indicator { display:inline-block; width:8px; height:8px; border-radius:50%; background:#35d994; margin-right:7px; box-shadow:0 0 12px #35d994; }
+        #manualVitalsResult { display:none; margin-top:14px; padding:14px; border:1px solid rgba(83,213,245,.3); border-radius:12px; background:rgba(3,15,27,.65); line-height:1.6; }
+        .small-note { color:#91afbf; font-size:12px; line-height:1.5; }
+        @media(max-width:520px) { .field-grid { grid-template-columns:1fr; } .container { padding:14px; } }
+
     </style>
 
 </head>
@@ -417,6 +446,28 @@
 
 
 
+    <!-- Dedicated physiological input panel -->
+    <div class="section" id="physiologyInput">
+        <div class="section-title">🩺 Physiological Data Console</div>
+        <p class="section-intro">Enter a set of readings here, then apply them to the main health check. All fields are manually entered and remain in this browser session.</p>
+        <div class="field-grid">
+            <div><label for="phys_heart">Heart Rate (BPM)</label><input id="phys_heart" type="number" min="1" max="250" placeholder="e.g. 75"></div>
+            <div><label for="phys_rhr">Resting Heart Rate (BPM)</label><input id="phys_rhr" type="number" min="1" max="250" placeholder="e.g. 62"></div>
+            <div><label for="phys_hrv">Heart Rate Variability (ms)</label><input id="phys_hrv" type="number" min="1" max="300" placeholder="e.g. 45"></div>
+            <div><label for="phys_spo2">Blood Oxygen / SpO₂ (%)</label><input id="phys_spo2" type="number" min="1" max="100" placeholder="e.g. 98"></div>
+            <div><label for="phys_temp">Body Temperature (°C)</label><input id="phys_temp" type="number" min="25" max="45" step="0.1" placeholder="e.g. 36.8"></div>
+            <div><label for="phys_resp">Respiration Rate (breaths/min)</label><input id="phys_resp" type="number" min="1" max="80" placeholder="e.g. 16"></div>
+            <div><label for="phys_systolic">Systolic Blood Pressure (mmHg)</label><input id="phys_systolic" type="number" min="1" max="300" placeholder="e.g. 120"></div>
+            <div><label for="phys_diastolic">Diastolic Blood Pressure (mmHg)</label><input id="phys_diastolic" type="number" min="1" max="200" placeholder="e.g. 80"></div>
+        </div>
+        <div class="button-row">
+            <button type="button" onclick="applyPhysiologyInputs()">↗ APPLY TO HEALTH CHECK</button>
+            <button type="button" class="clear" onclick="clearPhysiologyInputs()">CLEAR PHYSIOLOGY INPUTS</button>
+        </div>
+        <div id="manualVitalsResult" aria-live="polite"></div>
+        <p class="small-note">These values are for a hackathon prototype. They are not a diagnosis or a substitute for medical assessment.</p>
+    </div>
+
     <!-- Buttons -->
 
     <button onclick="checkHealth()">
@@ -440,6 +491,7 @@
         CLEAR
 
     </button>
+
 
 
 
@@ -782,41 +834,7 @@ function clearForm() {
         "";
 
 
-    document.getElementById("diastolic").value =
-        "";
-    document.getElementById("rhr").value = "";
-    document.getElementById("hrv").value = "";
-    document.getElementById("respiration_rate").value = "";
-
-
-    const result =
-        document.getElementById("result");
-
-
-    result.className = "";
-
-
-    result.innerHTML =
-
-        "Enter the astronaut's health information " +
-        "and press CHECK HEALTH.";
-
-}
-
-
-
-
-// --- Simulated live readings: fictional demo data only ---
-let simulationTimer = null;
-function toggleSimulation() {
-    const button = document.getElementById("startSimulation");
-    const status = document.getElementById("simulationStatus");
-    if (simulationTimer) {
-        clearInterval(simulationTimer);
-        simulationTimer = null;
-        button.textContent = "▶ START SIMULATION";
-        status.textContent = "Simulation stopped. Displayed values are fictional demo data.";
-        return;
+    document.getElementById("diastolic").
     }
     function updateSimulation() {
         const heart = 68 + Math.round(Math.random() * 18);
@@ -899,7 +917,7 @@ function scheduleCogTrial() {
     }, delay);
 }
 document.getElementById("cogTarget").addEventListener("click", function () {
-if (!cogRunning) return;
+    if (!cogRunning) return;
     if (!cogIsSignal) {
         cogFalse++;
         document.getElementById("cogPrompt").textContent = "Early tap counted. Wait for green.";
@@ -961,9 +979,41 @@ function resetCognitiveTest() {
     renderCogStats();
 }
 
+
+function applyPhysiologyInputs() {
+    const pairs = [
+        ["phys_heart", "heart_rate"], ["phys_rhr", "rhr"],
+        ["phys_hrv", "hrv"], ["phys_spo2", "spo2"],
+        ["phys_temp", "temperature"], ["phys_resp", "respiration_rate"],
+        ["phys_systolic", "systolic"], ["phys_diastolic", "diastolic"]
+    ];
+    const missing = [];
+    pairs.forEach(([source, target]) => {
+        const value = document.getElementById(source).value;
+        if (value === "") missing.push(source);
+        else document.getElementById(target).value = value;
+    });
+    const box = document.getElementById("manualVitalsResult");
+    box.style.display = "block";
+    if (missing.length) {
+        box.textContent = "Readings copied where provided. Please fill every physiological field before running the health check.";
+        box.style.borderColor = "rgba(245,173,42,.65)";
+        return;
+    }
+    box.innerHTML = "<strong>Readings applied.</strong> Scroll to the main health check and tap CHECK HEALTH to run the prototype screening.";
+    box.style.borderColor = "rgba(53,217,148,.6)";
+}
+function clearPhysiologyInputs() {
+    ["phys_heart","phys_rhr","phys_hrv","phys_spo2","phys_temp","phys_resp","phys_systolic","phys_diastolic"].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+    const box = document.getElementById("manualVitalsResult");
+    box.style.display = "none";
+    box.textContent = "";
+}
+
 </script>
 
 
 </body>
-
 </html>
