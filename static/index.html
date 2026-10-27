@@ -625,3 +625,424 @@ div class="grid dashboard-grid">
         <div class="grid metrics">
           <article class="card metric"><div class="metric-head">Sleep duration</div><div class="metric-value">8h 12m</div><div class="metric-foot">Sample reading</div></article>
           <article class="card metric"><div class="metric-head">Sleep score</div><div class="metric-value">86/100</div><div class="metric-foot">Simulated score</div></article>
+</div>
+  <!-- FATIGUE -->
+      <div id="view-fatigue" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">HUMAN PERFORMANCE</div><h1>Mental fatigue check-in</h1><p class="muted">Record a self-reported alertness level. This is not a clinical assessment.</p></div></div>
+        <article class="card"><div class="card-head"><div class="card-title">How alert do you feel right now?</div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="field"><label for="fatigueLevel">Current fatigue</label><select id="fatigueLevel"><option value="Low">Low — alert and focused</option><option value="Moderate">Moderate — some tiredness</option><option value="High">High — very tired</option></select></div>
+              <div class="field"><label for="fatigueNote">Optional note</label><input id="fatigueNote" placeholder="e.g. after a long shift"></div>
+            </div>
+            <button class="primary" style="margin-top:16px" onclick="saveFatigue()">Save check-in</button>
+            <div id="fatigueResult" class="result-box muted">No new check-in recorded in this session.</div>
+          </div>
+        </article>
+      </div>
+      <!-- MEMORY TEST -->
+      <div id="view-cognitive" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">COGNITIVE PERFORMANCE</div><h1>Memory & attention test</h1><p class="muted">A short demonstration exercise; results are for the prototype only.</p></div></div>
+        <article class="card"><div class="card-head"><div class="card-title">Sequence recall</div><span class="pill blue">DEMO TEST</span></div>
+          <div class="card-body">
+            <p id="testInstructions">Press Start. Memorize the three digits shown, hide them, then enter your answer.</p>
+            <div id="memorySequence" class="test-question">— — —</div>
+            <div class="field" style="max-width:320px"><label for="memoryAnswer">Your answer</label><input id="memoryAnswer" inputmode="numeric" placeholder="Enter the 3 digits" maxlength="3"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+              <button id="memoryStart" class="primary" onclick="startMemoryTest()">Start test</button>
+              <button class="secondary" onclick="checkMemoryTest()">Submit answer</button>
+            </div>
+            <div id="memoryResult" class="result-box muted">No test run yet.</div>
+          </div>
+        </article>
+      </div>
+ <!-- ACTIVITY -->
+      <div id="view-activity" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">MOVEMENT / EXERCISE</div><h1>Physical activity</h1><p class="muted">Manually logged demo activity.</p></div></div>
+        <article class="card"><div class="card-head"><div class="card-title">Log activity</div></div><div class="card-body">
+          <div class="form-grid">
+            <div class="field"><label for="activityType">Activity</label><select id="activityType"><option>Resistance training</option><option>Cardio</option><option>Mobility / stretching</option><option>Mission task</option></select></div>
+            <div class="field"><label for="activityMinutes">Duration (minutes)</label><input id="activityMinutes" type="number" min="1" max="600" placeholder="30"></div>
+          </div>
+          <button class="primary" style="margin-top:16px" onclick="saveActivity()">Save activity</button>
+          <div id="activityResult" class="result-box muted">No activity logged in this session.</div>
+        </div></article>
+      </div>
+
+      <!-- NUTRITION & HYDRATION -->
+      <div id="view-nutrition" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">FUEL / HYDRATION</div><h1>Nutrition & hydration</h1><p class="muted">Simple self-reported logs for the prototype.</p></div></div>
+        <article class="card"><div class="card-head"><div class="card-title">Hydration log</div></div><div class="card-body">
+          <div class="field" style="max-width:360px"><label for="waterAmount">Water consumed (mL)</label><input id="waterAmount" type="number" min="1" max="10000" placeholder="e.g. 250"></div>
+          <button class="primary" style="margin-top:16px" onclick="saveWater()">Log water</button>
+          <div id="waterResult" class="result-box muted">No hydration entries logged in this session.</div>
+        </div></article>
+      </div>
+
+      <!-- REPORTS -->
+      <div id="view-reports" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">MISSION RECORDS</div><h1>Health reports</h1><p class="muted">Session summary of actions recorded in this browser session.</p></div><button class="secondary" onclick="window.print()">Print report</button></div>
+        <div class="grid two-col">
+          <div class="report-stat"><div class="muted small">Health screenings</div><div id="reportChecks" class="metric-value">0</div></div>
+          <div class="report-stat"><div class="muted small">Fatigue check-ins</div><div id="reportFatigue" class="metric-value">0</div></div>
+          <div class="report-stat"><div class="muted small">Cognitive tests</div><div id="reportTests" class="metric-value">0</div></div>
+          <div class="report-stat"><div class="muted small">Activity logs</div><div id="reportActivity" class="metric-value">0</div></div>
+        </div>
+        <article class="card" style="margin-top:16px"><div class="card-head"><div class="card-title">Recent session events</div></div><div class="card-body" id="reportEvents" class="muted">No new events yet.</div></article>
+      </div>
+    <!-- SETTINGS -->
+      <div id="view-settings" class="section-view">
+        <div class="page-heading"><div><div class="eyebrow">PREFERENCES</div><h1>Settings</h1><p class="muted">Edit your profile or return to onboarding.</p></div></div>
+        <article class="card"><div class="card-body">
+          <div class="settings-row"><div><strong>Astronaut profile</strong><div class="muted small" id="settingsProfile">AST-001 · Astronaut</div></div><button class="secondary" onclick="showSetup(true)">Edit profile</button></div>
+          <div class="settings-row"><div><strong>Monitoring mode</strong><div class="muted small" id="settingsMode">Demo model</div></div><span class="pill blue">Prototype</span></div>
+          <div class="settings-row"><div><strong>Demo data</strong><div class="muted small">Example values are not real sensor readings.</div></div><button class="secondary" onclick="notify('Sample data is labelled throughout SpaceMed.')">About data</button></div>
+          <div class="settings-row"><div><strong>Return to welcome</strong><div class="muted small">Return to the landing screen.</div></div><button class="secondary" onclick="showWelcome()">Welcome screen</button></div>
+        </div></article>
+      </div>
+
+    </main>
+  </div>
+</section>
+
+<div id="toast" class="hidden" role="status"></div>
+
+<script>
+const state = {
+  profile:{
+    id:"AST-001",name:"Astronaut",agency:"NASA",
+    role:"Mission Specialist",mission:"Artemis-3",
+    phase:"In Orbit",duration:"6 months",mode:"demo"
+  },
+  events:[],checks:0,fatigue:0,tests:0,activities:0,water:0,
+  memoryDigits:"",memoryStage:"idle"
+};
+
+function el(id){ return document.getElementById(id); }
+
+function showWelcome(){
+  el("welcomeScreen").classList.remove("hidden");
+  el("setupScreen").classList.add("hidden");
+  el("appScreen").classList.add("hidden");
+}
+function showSetup(edit=false){
+  el("welcomeScreen").classList.add("hidden");
+  el("setupScreen").classList.remove("hidden");
+  el("appScreen").classList.add("hidden");
+
+  if(edit){
+    el("astronautId").value=state.profile.id;
+    el("fullName").value=state.profile.name==="Astronaut"?"":state.profile.name;
+    el("agency").value=state.profile.agency;
+    el("role").value=state.profile.role;
+    el("missionName").value=state.profile.mission;
+    el("missionPhase").value=state.profile.phase;
+    el("duration").value=state.profile.duration;
+
+    document.querySelectorAll('input[name="monitorMode"]').forEach(r=>{
+      r.checked=r.value===state.profile.mode;
+    });
+  }
+}
+
+function showApp(){
+  el("welcomeScreen").classList.add("hidden");
+  el("setupScreen").classList.add("hidden");
+  el("appScreen").classList.remove("hidden");
+  navigate("dashboard");
+}
+
+el("profileForm").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  state.profile={
+    id:el("astronautId").value.trim()||"AST-001",
+    name:el("fullName").value.trim()||"Astronaut",
+    agency:el("agency").value,
+    role:el("role").value,
+    mission:el("missionName").value.trim()||"Mission Demo",
+    phase:el("missionPhase").value,
+    duration:el("duration").value,
+    mode:document.querySelector('input[name="monitorMode"]:checked').value
+  };
+
+  el("sideName").textContent=state.profile.name;
+  el("sideId").textContent=state.profile.id;
+  el("topName").textContent=state.profile.name;
+  el("topId").textContent=state.profile.id;
+  el("dashGreeting").textContent="WELCOME ABOARD, "+state.profile.name.toUpperCase();
+  el("missionSubtitle").textContent="Mission: "+state.profile.mission;
+  el("missionCardName").textContent=state.profile.mission;
+  el("missionCardPhase").textContent=state.profile.phase;
+  el("settingsProfile").textContent=state.profile.id+" · "+state.profile.name;
+
+  const modes={
+    demo:"Demo model",
+    manual:"Manual data entry",
+    wearable:"Wearable connected (interface preview)"
+  };
+  el("settingsMode").textContent=modes[state.profile.mode];
+  el("healthName").value=state.profile.name;
+showApp();
+  addEvent("Profile setup completed");
+});
+
+function navigate(view){
+  document.querySelectorAll(".nav-btn").forEach(b=>{
+    b.classList.toggle("active",b.dataset.view===view);
+  });
+  document.querySelectorAll(".section-view").forEach(v=>{
+    v.classList.remove("active");
+  });
+
+  const target=el("view-"+view);
+  if(target) target.classList.add("active");
+
+  el("crumb").textContent=view.toUpperCase();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll(".nav-btn").forEach(b=>{
+  b.addEventListener("click",()=>navigate(b.dataset.view));
+});
+
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+let toastTimer;
+function notify(message){
+  const t=el("toast");
+  t.textContent=message;
+  t.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.add("hidden"),2800);
+}
+
+function addEvent(message){
+  state.events.unshift({
+    message,
+    time:new Date().toLocaleTimeString([],{
+      hour:"2-digit",minute:"2-digit"
+    })
+  });
+  renderReports();
+  renderActivity();
+}
+
+function renderReports(){
+  el("reportChecks").textContent=state.checks;
+  el("reportFatigue").textContent=state.fatigue;
+  el("reportTests").textContent=state.tests;
+  el("reportActivity").textContent=state.activities;
+
+  el("reportEvents").innerHTML=state.events.length
+    ?state.events.map(e=>
+      '<div class="activity-row"><span class="activity-icon">✦</span>'+
+      '<span>'+escapeHtml(e.message)+'</span>'+
+  '<span class="activity-time">'+escapeHtml(e.time)+'</span></div>'
+    ).join("")
+    :'<p class="muted">Your new session activities will appear here.</p>';
+}
+
+/* Existing backend endpoint is preserved. */
+async function checkHealth(){
+  const data={
+    name:el("healthName").value.trim(),
+    heart_rate:Number(el("heart_rate").value),
+    spo2:Number(el("spo2").value),
+    temperature:Number(el("temperature").value),
+    systolic:Number(el("systolic").value),
+    diastolic:Number(el("diastolic").value)
+  };
+
+  const requiredIds=["heart_rate","spo2","temperature","systolic","diastolic"];
+  if(!data.name || requiredIds.some(id=>el(id).value.trim()==="")){
+    notify("Please enter the astronaut's name and every health value.");
+    return;
+  }
+
+  if(Object.values(data).some(v=>typeof v==="number"&&!Number.isFinite(v))){
+    notify("Please enter valid numeric measurements.");
+    return;
+  }
+
+  const out=el("healthResult");
+  out.className="result-box";
+  out.textContent="Checking measurements…";
+
+  try{
+    const response=await fetch("/check-health",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(data)
+    });
+
+    const result=await response.json();
+    if(!response.ok) throw new Error(result.error||"Server error");
+
+    const status=result.status||"NEEDS MONITORING";
+    const klass=status==="NORMAL"?"normal":
+      status==="NEEDS MONITORING"?"monitor":"alert";
+
+    const description=status==="NORMAL"
+      ?"All monitored values are within the demo screening ranges."
+      :status==="NEEDS MONITORING"
+      ?"Some values require closer observation."
+      :"Multiple abnormal values detected.";
+
+    out.className="result-box "+klass;
+    out.innerHTML="<strong>"+escapeHtml(status)+"</strong>"+
+      "<p>"+escapeHtml(description)+"</p>"+
+      ((result.problems||[]).length
+        ?"<h3>Detected issues</h3>"+
+          result.problems.map(p=>'<div class="problem">⚠ '+escapeHtml(p)+"</div>").join("")
+        :"")+
+      '<p class="muted small">Screening result for '+
+escapeHtml(result.astronaut||data.name)+
+      ". Prototype screening only — not a diagnosis.</p>";
+
+    state.checks++;
+    addEvent("Health screening: "+status);
+    notify("Health screening completed: "+status);
+  }catch(error){
+    out.className="result-box monitor";
+    out.innerHTML="<strong>Connection error</strong>"+
+      "<p>Could not reach /check-health. Confirm the Python server is running.</p>";
+  }
+}
+
+el("healthForm").addEventListener("submit",async function(e){
+  e.preventDefault();
+  await checkHealth();
+});
+
+/* Emergency simulation fills example values AND automatically screens them. */
+async function simulateEmergency(){
+  navigate("health");
+
+  el("healthName").value=
+    state.profile.name==="Astronaut"?"Test Astronaut":state.profile.name;
+  el("heart_rate").value=125;
+  el("spo2").value=89;
+  el("temperature").value=38.2;
+  el("systolic").value=155;
+  el("diastolic").value=95;
+
+  notify("Running emergency demonstration screening…");
+  await checkHealth();
+}
+
+function clearHealthForm(){
+  ["heart_rate","spo2","temperature","systolic","diastolic"].forEach(id=>{
+    el(id).value="";
+  });
+  el("healthName").value=state.profile.name==="Astronaut"?"":state.profile.name;
+  el("healthResult").className="result-box muted";
+  el("healthResult").textContent="Enter all measurements and run the demo screening.";
+}
+
+/* Fatigue check-in */
+function saveFatigue(){
+  const level=el("fatigueLevel").value;
+  const note=el("fatigueNote").value.trim();
+
+  el("fatigueResult").textContent=
+    "Check-in saved for this session: "+level+
+    (note?" — "+note:"")+
+    ". This is self-reported, not a diagnosis.";
+
+  state.fatigue++;
+  addEvent("Fatigue check-in: "+level);
+  notify("Fatigue check-in saved.");
+}
+
+/* Physical activity log */
+function saveActivity(){
+  const minutes=Number(el("activityMinutes").value);
+const type=el("activityType").value;
+
+  if(!Number.isFinite(minutes)||minutes<1){
+    notify("Enter an activity duration in minutes.");
+    return;
+  }
+
+  el("activityResult").textContent=
+    "Logged "+type+" for "+minutes+" minutes in this session.";
+
+  state.activities++;
+  addEvent("Activity logged: "+type+" ("+minutes+" min)");
+  notify("Activity logged.");
+}
+
+/* Hydration log */
+function saveWater(){
+  const amount=Number(el("waterAmount").value);
+
+  if(!Number.isFinite(amount)||amount<1){
+    notify("Enter the amount of water in mL.");
+    return;
+  }
+
+  state.water+=amount;
+  el("waterResult").textContent=
+    "Logged "+amount+" mL. Total recorded in this session: "+
+    state.water+" mL.";
+
+  addEvent("Hydration logged: "+amount+" mL");
+  notify("Hydration entry saved.");
+}
+
+/* Memory test: start, hide sequence, submit answer. */
+function startMemoryTest(){
+  state.memoryDigits=String(Math.floor(100+Math.random()*900));
+  state.memoryStage="showing";
+
+  el("memorySequence").textContent=state.memoryDigits;
+  el("memoryAnswer").value="";
+  el("testInstructions").textContent=
+    "Memorize the digits. Tap Hide sequence when ready.";
+  el("memoryResult").textContent="Sequence displayed. Memorize it.";
+  el("memoryStart").textContent="Hide sequence";
+  el("memoryStart").onclick=hideMemorySequence;
+}
+
+function hideMemorySequence(){
+  if(!state.memoryDigits) return;
+
+  state.memoryStage="hidden";
+  el("memorySequence").textContent="• • •";
+  el("testInstructions").textContent=
+    "Enter the three digits you remember, then submit.";
+  el("memoryResult").textContent="Sequence hidden. Enter your answer.";
+  el("memoryStart").textContent="New test";
+  el("memoryStart").onclick=startMemoryTest;
+  el("memoryAnswer").focus();
+}
+function checkMemoryTest(){
+  if(!state.memoryDigits||state.memoryStage!=="hidden"){
+    notify("Start a test and hide the sequence before submitting.");
+    return;
+  }
+
+  const correct=el("memoryAnswer").value===state.memoryDigits;
+
+  el("memoryResult").textContent=correct
+    ?"Correct sequence. Demo result: successful recall."
+    :"Sequence did not match. The correct answer was "+
+      state.memoryDigits+". This is not a clinical cognitive test.";
+
+  state.tests++;
+  addEvent("Memory test submitted: "+(correct?"correct":"incorrect"));
+
+  state.memoryDigits="";
+  state.memoryStage="idle";
+  el("memoryStart").textContent="Start test";
+  el("memoryStart").onclick=startMemoryTest;
+  notify("Memory test recorded.");
+}
+</script>
+</body>
+</html>
