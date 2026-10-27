@@ -760,7 +760,7 @@ el("profileForm").addEventListener("submit",function(e){
     name:el("fullName").value.trim()||"Astronaut",
     agency:el("agency").value,
     role:el("role").value,
-    mission:el("missionName").value.trim()||"Mission Demo",
+    mission: (el("missionName")?.value || "Artemis-3").trim() || "Artemis-3",
     phase:el("missionPhase").value,
     duration:el("duration").value,
     mode:document.querySelector('input[name="monitorMode"]:checked').value
