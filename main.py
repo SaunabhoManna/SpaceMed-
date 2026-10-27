@@ -75,14 +75,14 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
 
             data = json.loads(body)
 
-data = {
-    "name": data.get("name", "Unknown Astronaut"),
-    "heart_rate": float(data.get("heart_rate", 0)),
-    "spo2": float(data.get("spo2", 0)),
-    "temperature": float(data.get("temperature", 0)),
-    "systolic": float(data.get("systolic", 0)),
-    "diastolic": float(data.get("diastolic", 0))
-}
+            data = {
+             "name": data.get("name", "Unknown Astronaut"),
+             "heart_rate": float(data.get("heart_rate", 0)),
+             "spo2": float(data.get("spo2", 0)),
+             "temperature": float(data.get("temperature", 0)),
+             "systolic": float(data.get("systolic", 0)),
+             "diastolic": float(data.get("diastolic", 0))
+            }
 
         except Exception:
 
