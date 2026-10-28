@@ -56,129 +56,95 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 
+   
     def do_POST(self):
-
         if self.path.rstrip("/") != "/check-health":
-
             self.send_response(404)
             self.end_headers()
             return
 
-
         try:
-
-            length = int(
-                self.headers.get("Content-Length", 0)
-            )
-
+            length = int(self.headers.get("Content-Length", 0))
             body = self.rfile.read(length)
-
-            data = json.loads(body)
+            incoming = json.loads(body)
 
             data = {
-             "name": data.get("name", "Unknown Astronaut"),
-             "heart_rate": float(data.get("heart_rate", 0)),
-             "spo2": float(data.get("spo2", 0)),
-             "temperature": float(data.get("temperature", 0)),
-             "systolic": float(data.get("systolic", 0)),
-             "diastolic": float(data.get("diastolic", 0))
+                "name": incoming.get("name", "Unknown Astronaut"),
+                "heart_rate": float(incoming.get("heart_rate", 0)),
+                "spo2": float(incoming.get("spo2", 0)),
+                "temperature": float(incoming.get("temperature", 0)),
+                "systolic": float(incoming.get("systolic", 0)),
+                "diastolic": float(incoming.get("diastolic", 0))
             }
 
+            problems = []
 
+            # Heart rate
+            if data["heart_rate"] < 60 or data["heart_rate"] > 100:
+                problems.append("Abnormal heart rate")
 
-        problems = []
+            # Blood oxygen
+            if data["spo2"] < 95:
+                problems.append("Low blood oxygen")
 
+            # Temperature
+            if data["temperature"] < 36.1 or data["temperature"] > 37.5:
+                problems.append("Abnormal body temperature")
 
-        # Heart rate
-        if data["heart_rate"] < 60 or data["heart_rate"] > 100:
+            # Systolic blood pressure
+            if data["systolic"] < 90 or data["systolic"] > 129:
+                problems.append("Abnormal systolic blood pressure")
 
-            problems.append(
-                "Abnormal heart rate"
-            )
+            # Diastolic blood pressure
+            if data["diastolic"] < 60 or data["diastolic"] > 84:
+                problems.append("Abnormal diastolic blood pressure")
 
+            # Overall status
+            if len(problems) == 0:
+                status = "NORMAL"
+            elif len(problems) <= 2:
+                status = "NEEDS MONITORING"
+            else:
+                status = "MEDICAL ALERT"
 
-        # Oxygen
-        if data["spo2"] < 95:
+            result = {
+                "astronaut": data["name"],
+                "status": status,
+                "problems": problems
+            }
 
-            problems.append(
-                "Low oxygen level"
-            )
+            response = json.dumps(result).encode("utf-8")
 
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(response)))
+            self.end_headers()
+            self.wfile.write(response)
 
-        # Temperature
-        if (
-            data["temperature"] < 36
-            or data["temperature"] > 37.5
-        ):
+        except (ValueError, TypeError, json.JSONDecodeError) as error:
+            response = json.dumps({
+                "error": "Invalid health data",
+                "details": str(error)
+            }).encode("utf-8")
 
-            problems.append(
-                "Abnormal temperature"
-            )
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(response)))
+            self.end_headers()
+            self.wfile.write(response)
 
+        except Exception as error:
+            print("Health check error:", error)
 
-        # Systolic blood pressure
-        if (
-            data["systolic"] < 90
-            or data["systolic"] > 139
-        ):
+            response = json.dumps({
+                "error": "Internal server error"
+            }).encode("utf-8")
 
-            problems.append(
-                "Abnormal systolic blood pressure"
-            )
-
-
-        # Diastolic blood pressure
-        if (
-            data["diastolic"] < 60
-            or data["diastolic"] > 89
-        ):
-
-            problems.append(
-                "Abnormal diastolic blood pressure"
-            )
-
-
-        # Overall status
-        if len(problems) == 0:
-
-            status = "NORMAL"
-
-        elif len(problems) <= 2:
-
-            status = "NEEDS MONITORING"
-
-        else:
-
-            status = "MEDICAL ALERT"
-
-
-        result = {
-            "astronaut": data["name"],
-            "status": status,
-            "problems": problems
-
-        }
-
-
-        response = json.dumps(result).encode("utf-8")
-
-
-        self.send_response(200)
-
-        self.send_header(
-            "Content-Type",
-            "application/json"
-        )
-
-        self.send_header(
-            "Content-Length",
-            str(len(response))
-        )
-
-        self.end_headers()
-
-        self.wfile.write(response)
-
+            self.send_response(500)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(response)))
+            self.end_headers()
+            self.wfile.write(response)
 
 
 print()
