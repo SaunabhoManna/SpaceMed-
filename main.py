@@ -84,11 +84,6 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
              "diastolic": float(data.get("diastolic", 0))
             }
 
-        except Exception:
-
-            self.send_response(400)
-            self.end_headers()
-            return
 
 
         problems = []
@@ -158,11 +153,8 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
 
 
         result = {
-
             "astronaut": data["name"],
-
             "status": status,
-
             "problems": problems
 
         }
