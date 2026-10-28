@@ -416,8 +416,8 @@ padding:17px;margin:15px 0;
 
     <nav class="nav-list" aria-label="Main navigation">
       <button class="nav-btn active" data-view="dashboard">⌂ Dashboard</button>
-      <button class="nav-btn" data-view="health">♡ Health overview</button>
-      <button class="nav-btn" data-view="heart">♥ Heart rate & HRV</button>
+      
+      <button class="nav-btn" data-view="physiological">♥ Physiological Health</button>
       <button class="nav-btn" data-view="sleep">☾ Sleep</button>
       <button class="nav-btn" data-view="fatigue">◉ Mental fatigue</button>
       <button class="nav-btn" data-view="cognitive">▦ Memory test</button>
@@ -787,24 +787,28 @@ showApp();
   addEvent("Profile setup completed");
 });
 
-function navigate(view){
-  document.querySelectorAll(".nav-btn").forEach(b=>{
-    b.classList.toggle("active",b.dataset.view===view);
+function navigate(view) {
+  document.querySelectorAll(".nav-btn").forEach(b => {
+    b.classList.toggle("active", b.dataset.view === view);
   });
-  document.querySelectorAll(".section-view").forEach(v=>{
+
+  document.querySelectorAll(".section-view").forEach(v => {
     v.classList.remove("active");
   });
 
-  const target=el("view-"+view);
-  if(target) target.classList.add("active");
+  if (view === "physiological") {
+    el("view-health")?.classList.add("active");
+    el("view-heart")?.classList.add("active");
+  } else {
+    const target = el("view-" + view);
+    if (target) target.classList.add("active");
+  }
 
-  el("crumb").textContent=view.toUpperCase();
-  window.scrollTo({top:0,behavior:"smooth"});
+  el("crumb").textContent =
+    view === "physiological" ? "PHYSIOLOGICAL HEALTH" : view.toUpperCase();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
-document.querySelectorAll(".nav-btn").forEach(b=>{
-  b.addEventListener("click",()=>navigate(b.dataset.view));
-});
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g,c=>({
