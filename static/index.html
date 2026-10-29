@@ -776,64 +776,7 @@ div class="grid dashboard-grid">
 
 <div id="toast" class="hidden" role="status"></div>
 
-/* Energy and fatigue assessment wiring */
-function setupEnergyFatigue() {
-  const energy = el("energy");
-  const fatigue = el("fatigue");
-  const sleep = el("sleep");
-  const workload = el("workload");
-  const symptoms = el("symptoms");
-  const save = el("save");
 
-  if (!energy || !fatigue || !sleep || !workload ||
-      !symptoms || !save) return;
-
-  [energy, fatigue, sleep, workload, symptoms].forEach(input => {
-    input.addEventListener("input", assessEnergyFatigue);
-    input.addEventListener("change", assessEnergyFatigue);
-  });
-
-  assessEnergyFatigue();
-
-  save.addEventListener("click", () => {
-    const sleepValue = Number(sleep.value);
-
-    if (sleep.value === "" || !Number.isFinite(sleepValue) ||
-        sleepValue < 0 || sleepValue > 24) {
-      notify("Enter sleep duration between 0 and 24 hours.");
-      return;
-    }
-
-    const result = assessEnergyFatigue();
-    const history = el("history");
-    const empty = el("historyEmpty");
-
-    if (!result || !history) {
-      notify("Assessment could not be saved.");
-      return;
-    }
-
-    const row = history.insertRow(0);
-    [
-      new Date().toLocaleTimeString(),
-      energy.value + "/10",
-      fatigue.value + "/10",
-      sleep.value + " hours",
-      result
-    ].forEach(value => {
-      const cell = row.insertCell();
-      cell.textContent = value;
-    });
-
-    if (empty) empty.textContent = "";
-
-    state.fatigue++;
-    addEvent("Energy/fatigue assessment saved: " + result);
-    notify("Energy and fatigue assessment saved.");
-  });
-}
-
-setupEnergyFatigue();
 /* Energy and fatigue assessment */
 function assessEnergyFatigue() {
   const energy = el("energy");
@@ -1204,6 +1147,64 @@ function checkMemoryTest(){
   el("memoryStart").onclick=startMemoryTest;
   notify("Memory test recorded.");
 }
+/* Energy and fatigue assessment wiring */
+function setupEnergyFatigue() {
+  const energy = el("energy");
+  const fatigue = el("fatigue");
+  const sleep = el("sleep");
+  const workload = el("workload");
+  const symptoms = el("symptoms");
+  const save = el("save");
+
+  if (!energy || !fatigue || !sleep || !workload ||
+      !symptoms || !save) return;
+
+  [energy, fatigue, sleep, workload, symptoms].forEach(input => {
+    input.addEventListener("input", assessEnergyFatigue);
+    input.addEventListener("change", assessEnergyFatigue);
+  });
+
+  assessEnergyFatigue();
+
+  save.addEventListener("click", () => {
+    const sleepValue = Number(sleep.value);
+
+    if (sleep.value === "" || !Number.isFinite(sleepValue) ||
+        sleepValue < 0 || sleepValue > 24) {
+      notify("Enter sleep duration between 0 and 24 hours.");
+      return;
+    }
+
+    const result = assessEnergyFatigue();
+    const history = el("history");
+    const empty = el("historyEmpty");
+
+    if (!result || !history) {
+      notify("Assessment could not be saved.");
+      return;
+    }
+
+    const row = history.insertRow(0);
+    [
+      new Date().toLocaleTimeString(),
+      energy.value + "/10",
+      fatigue.value + "/10",
+      sleep.value + " hours",
+      result
+    ].forEach(value => {
+      const cell = row.insertCell();
+      cell.textContent = value;
+    });
+
+    if (empty) empty.textContent = "";
+
+    state.fatigue++;
+    addEvent("Energy/fatigue assessment saved: " + result);
+    notify("Energy and fatigue assessment saved.");
+  });
+}
+
+setupEnergyFatigue();
 </script>
 </body>
 </html>
