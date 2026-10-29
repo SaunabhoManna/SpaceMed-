@@ -834,6 +834,44 @@ function setupEnergyFatigue() {
 }
 
 setupEnergyFatigue();
+/* Energy and fatigue assessment */
+function assessEnergyFatigue() {
+  const energy = el("energy");
+  const fatigue = el("fatigue");
+  const sleep = el("sleep");
+  const workload = el("workload");
+  const symptoms = el("symptoms");
+
+  if (!energy || !fatigue || !sleep || !workload || !symptoms) return "";
+
+  const e = Number(energy.value);
+  const f = Number(fatigue.value);
+  const s = Number(sleep.value);
+
+  el("energyValue").textContent = e;
+  el("fatigueValue").textContent = f;
+
+  let result = "No immediate concern reported";
+
+  if (
+    symptoms.value !== "None" ||
+    f >= 8 ||
+    e <= 2 ||
+    (sleep.value !== "" && s < 4)
+  ) {
+    result = "Medical review recommended";
+  } else if (
+    f >= 6 ||
+    e <= 4 ||
+    (sleep.value !== "" && s < 6) ||
+    workload.value === "High"
+  ) {
+    result = "Continue monitoring";
+  }
+
+  el("result").textContent = result;
+  return result;
+}
 
 <script>
 const state = {
@@ -1081,44 +1119,6 @@ function clearHealthForm(){
 }
 
 
-/* Energy and fatigue assessment */
-function assessEnergyFatigue() {
-  const energy = el("energy");
-  const fatigue = el("fatigue");
-  const sleep = el("sleep");
-  const workload = el("workload");
-  const symptoms = el("symptoms");
-
-  if (!energy || !fatigue || !sleep || !workload || !symptoms) return "";
-
-  const e = Number(energy.value);
-  const f = Number(fatigue.value);
-  const s = Number(sleep.value);
-
-  el("energyValue").textContent = e;
-  el("fatigueValue").textContent = f;
-
-  let result = "No immediate concern reported";
-
-  if (
-    symptoms.value !== "None" ||
-    f >= 8 ||
-    e <= 2 ||
-    (sleep.value !== "" && s < 4)
-  ) {
-    result = "Medical review recommended";
-  } else if (
-    f >= 6 ||
-    e <= 4 ||
-    (sleep.value !== "" && s < 6) ||
-    workload.value === "High"
-  ) {
-    result = "Continue monitoring";
-  }
-
-  el("result").textContent = result;
-  return result;
-}
 
 /* Physical activity log */
 function saveActivity(){
