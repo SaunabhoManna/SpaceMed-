@@ -627,19 +627,88 @@ div class="grid dashboard-grid">
           <article class="card metric"><div class="metric-head">Sleep score</div><div class="metric-value">86/100</div><div class="metric-foot">Simulated score</div></article>
 </div>
   <!-- FATIGUE -->
-      <div id="view-fatigue" class="section-view">
-        <div class="page-heading"><div><div class="eyebrow">HUMAN PERFORMANCE</div><h1>Mental fatigue check-in</h1><p class="muted">Record a self-reported alertness level. This is not a clinical assessment.</p></div></div>
-        <article class="card"><div class="card-head"><div class="card-title">How alert do you feel right now?</div></div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="field"><label for="fatigueLevel">Current fatigue</label><select id="fatigueLevel"><option value="Low">Low — alert and focused</option><option value="Moderate">Moderate — some tiredness</option><option value="High">High — very tired</option></select></div>
-              <div class="field"><label for="fatigueNote">Optional note</label><input id="fatigueNote" placeholder="e.g. after a long shift"></div>
-            </div>
-            <button class="primary" style="margin-top:16px" onclick="saveFatigue()">Save check-in</button>
-            <div id="fatigueResult" class="result-box muted">No new check-in recorded in this session.</div>
-          </div>
-        </article>
+      
+<div id="view-fatigue" class="section-view">
+  <div class="page-heading">
+    <div>
+      <div class="eyebrow">HUMAN PERFORMANCE</div>
+      <h1>Energy and Fatigue Levels</h1>
+      <p class="muted">Monitor self-reported energy, fatigue, sleep, workload and symptoms. This is a monitoring aid, not a medical diagnosis.</p>
+    </div>
+  </div>
+
+  <article class="card">
+    <div class="card-head">
+      <div class="card-title">Energy and fatigue check-in</div>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field">
+          <label for="energy">Energy level: <span id="energyValue">7</span>/10</label>
+          <input type="range" id="energy" min="1" max="10" value="7">
+        </div>
+        <div class="field">
+          <label for="fatigue">Fatigue level: <span id="fatigueValue">3</span>/10</label>
+          <input type="range" id="fatigue" min="1" max="10" value="3">
+        </div>
+        <div class="field">
+          <label for="sleep">Sleep duration (hours)</label>
+          <input type="number" id="sleep" min="0" max="24" step="0.5" value="8">
+        </div>
+        <div class="field">
+          <label for="workload">Workload</label>
+          <select id="workload">
+            <option>Low</option>
+            <option selected>Moderate</option>
+            <option>High</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="symptoms">Symptoms</label>
+          <select id="symptoms">
+            <option>None</option>
+            <option>Dizziness</option>
+            <option>Headache</option>
+            <option>Weakness</option>
+            <option>Difficulty concentrating</option>
+          </select>
+        </div>
       </div>
+
+      <div class="result-box" style="margin-top:16px">
+        <div class="eyebrow">ASSESSMENT STATUS</div>
+        <p id="result" aria-live="polite">Monitoring</p>
+        <p class="muted">This result is based on self-reported inputs and does not diagnose a medical condition.</p>
+      </div>
+
+      <button class="primary" id="save" type="button" style="margin-top:16px">Save assessment</button>
+    </div>
+  </article>
+
+  <article class="card" style="margin-top:20px">
+    <div class="card-head">
+      <div class="card-title">Assessment history</div>
+    </div>
+    <div class="card-body">
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Energy</th>
+              <th>Fatigue</th>
+              <th>Sleep</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody id="history"></tbody>
+        </table>
+      </div>
+      <p id="historyEmpty" class="muted">No assessments saved in this session.</p>
+    </div>
+  </article>
+</div>
+
       <!-- MEMORY TEST -->
       <div id="view-cognitive" class="section-view">
         <div class="page-heading"><div><div class="eyebrow">COGNITIVE PERFORMANCE</div><h1>Memory & attention test</h1><p class="muted">A short demonstration exercise; results are for the prototype only.</p></div></div>
@@ -706,6 +775,65 @@ div class="grid dashboard-grid">
 </section>
 
 <div id="toast" class="hidden" role="status"></div>
+
+/* Energy and fatigue assessment wiring */
+function setupEnergyFatigue() {
+  const energy = el("energy");
+  const fatigue = el("fatigue");
+  const sleep = el("sleep");
+  const workload = el("workload");
+  const symptoms = el("symptoms");
+  const save = el("save");
+
+  if (!energy || !fatigue || !sleep || !workload ||
+      !symptoms || !save) return;
+
+  [energy, fatigue, sleep, workload, symptoms].forEach(input => {
+    input.addEventListener("input", assessEnergyFatigue);
+    input.addEventListener("change", assessEnergyFatigue);
+  });
+
+  assessEnergyFatigue();
+
+  save.addEventListener("click", () => {
+    const sleepValue = Number(sleep.value);
+
+    if (sleep.value === "" || !Number.isFinite(sleepValue) ||
+        sleepValue < 0 || sleepValue > 24) {
+      notify("Enter sleep duration between 0 and 24 hours.");
+      return;
+    }
+
+    const result = assessEnergyFatigue();
+    const history = el("history");
+    const empty = el("historyEmpty");
+
+    if (!result || !history) {
+      notify("Assessment could not be saved.");
+      return;
+    }
+
+    const row = history.insertRow(0);
+    [
+      new Date().toLocaleTimeString(),
+      energy.value + "/10",
+      fatigue.value + "/10",
+      sleep.value + " hours",
+      result
+    ].forEach(value => {
+      const cell = row.insertCell();
+      cell.textContent = value;
+    });
+
+    if (empty) empty.textContent = "";
+
+    state.fatigue++;
+    addEvent("Energy/fatigue assessment saved: " + result);
+    notify("Energy and fatigue assessment saved.");
+  });
+}
+
+setupEnergyFatigue();
 
 <script>
 const state = {
@@ -952,19 +1080,44 @@ function clearHealthForm(){
   el("healthResult").textContent="Enter all measurements and run the demo screening.";
 }
 
-/* Fatigue check-in */
-function saveFatigue(){
-  const level=el("fatigueLevel").value;
-  const note=el("fatigueNote").value.trim();
 
-  el("fatigueResult").textContent=
-    "Check-in saved for this session: "+level+
-    (note?" — "+note:"")+
-    ". This is self-reported, not a diagnosis.";
+/* Energy and fatigue assessment */
+function assessEnergyFatigue() {
+  const energy = el("energy");
+  const fatigue = el("fatigue");
+  const sleep = el("sleep");
+  const workload = el("workload");
+  const symptoms = el("symptoms");
 
-  state.fatigue++;
-  addEvent("Fatigue check-in: "+level);
-  notify("Fatigue check-in saved.");
+  if (!energy || !fatigue || !sleep || !workload || !symptoms) return "";
+
+  const e = Number(energy.value);
+  const f = Number(fatigue.value);
+  const s = Number(sleep.value);
+
+  el("energyValue").textContent = e;
+  el("fatigueValue").textContent = f;
+
+  let result = "No immediate concern reported";
+
+  if (
+    symptoms.value !== "None" ||
+    f >= 8 ||
+    e <= 2 ||
+    (sleep.value !== "" && s < 4)
+  ) {
+    result = "Medical review recommended";
+  } else if (
+    f >= 6 ||
+    e <= 4 ||
+    (sleep.value !== "" && s < 6) ||
+    workload.value === "High"
+  ) {
+    result = "Continue monitoring";
+  }
+
+  el("result").textContent = result;
+  return result;
 }
 
 /* Physical activity log */
