@@ -281,13 +281,101 @@ h2 {font-size:16px;margin:0 0 14px}
   .grid,.grid.three,.form-grid {grid-template-columns:1fr}
   .login-card {padding:25px}
 }
+/* WELCOME SCREEN */
+.welcome-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    box-sizing: border-box;
+    background:
+        linear-gradient(rgba(3, 12, 25, 0.65), rgba(3, 12, 25, 0.9)),
+        url("https://media.swipepages.com/2026/10/6ae21dc0c9c0120012aad775/aegis-mission-control-backdrop.jpeg")
+        center/cover no-repeat;
+    color: white;
+}
+
+.welcome-content {
+    max-width: 650px;
+}
+
+.welcome-logo {
+    font-size: 17px;
+    letter-spacing: 7px;
+    color: #56d9ff;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.welcome-subtitle {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #a5b8cc;
+}
+
+.welcome-content h1 {
+    font-size: clamp(38px, 8vw, 68px);
+    line-height: 1.1;
+    letter-spacing: 2px;
+    margin: 35px 0 20px;
+}
+
+.welcome-description {
+    color: #c0d0df;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.welcome-button {
+    margin-top: 35px;
+    padding: 16px 30px;
+    background: #39c9f5;
+    color: #03111f;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.welcome-footer {
+    margin-top: 55px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #8195aa;
+}
 </style>
 </head>
 
 <body>
+<!-- WELCOME SCREEN -->
+<section id="welcomeScreen" class="welcome-screen">
+    <div class="welcome-content">
 
+        <div class="welcome-logo">ORBITALIS</div>
+        <p class="welcome-subtitle">SPACE MEDICAL MONITORING SYSTEM</p>
+
+        <h1>YOUR HEALTH.<br>OUR MISSION.</h1>
+
+        <p class="welcome-description">
+            Advanced astronaut health monitoring
+            for safer and smarter space exploration.
+        </p>
+
+        <button class="welcome-button" onclick="showLogin()">
+            ENTER MISSION CONTROL →
+        </button>
+
+        <p class="welcome-footer">
+            MISSION CONTROL SYSTEM • SPACE MED
+        </p>
+
+    </div>
+</section>
 <!-- LOGIN SCREEN -->
-<section id="loginScreen">
+<section id="loginScreen" style="display:none;">
   <div class="login-card">
     <div class="brand">ORBITALIS / SPACE MED</div>
     <h1>Mission Login</h1>
@@ -551,6 +639,10 @@ h2 {font-size:16px;margin:0 0 14px}
 </section>
 
 <script>
+function showLogin() {
+    document.getElementById("welcomeScreen").style.display = "none";
+    document.getElementById("loginScreen").style.display = "flex";
+}
 /* DEMO LOGIN
    This is front-end demonstration authentication only.
    Do not use these credentials for real personal or medical data. */
