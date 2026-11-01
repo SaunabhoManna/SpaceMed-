@@ -370,6 +370,22 @@ h2 {font-size:16px;margin:0 0 14px}
     white-space: pre-line;
     line-height: 1.8;
 }
+/* BONE HEALTH MODULE */
+
+#boneHistory,
+#boneResult {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+#boneHistory {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+#boneResult {
+    border-left: 3px solid #56d9ff;
+}
 </style>
 </head>
 
@@ -704,9 +720,61 @@ h2 {font-size:16px;margin:0 0 14px}
 </div>
 
     <div class="card">
-        <h2>Bone Health Risk Monitoring</h2>
-        <p class="muted">Monitor bone health risks associated with prolonged microgravity exposure.</p>
+    <h2>Bone Health Risk Monitoring</h2>
+    <p class="muted">Track mission exposure and bone-health-related habits.</p>
+
+    <div class="form-grid">
+        <div>
+            <label for="missionDays">MISSION DURATION (DAYS)</label>
+            <input id="missionDays" type="number" min="0"
+                   placeholder="Enter mission days">
+        </div>
+
+        <div>
+            <label for="exerciseDays">EXERCISE DAYS THIS WEEK</label>
+            <input id="exerciseDays" type="number" min="0" max="7"
+                   placeholder="0–7">
+        </div>
+
+        <div>
+            <label for="calciumIntake">CALCIUM INTAKE</label>
+            <select id="calciumIntake">
+                <option value="Not recorded">Not recorded</option>
+                <option value="Low">Low</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Adequate">Adequate</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="vitaminD">VITAMIN D INTAKE</label>
+            <select id="vitaminD">
+                <option value="Not recorded">Not recorded</option>
+                <option value="Low">Low</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Adequate">Adequate</option>
+            </select>
+        </div>
     </div>
+
+    <button class="btn accent" onclick="saveBoneAssessment()">
+        Save Assessment
+    </button>
+
+    <div id="boneResult" class="result">
+        No assessment recorded yet.
+    </div>
+
+    <h3>Assessment History</h3>
+    <div id="boneHistory" class="result">
+        No previous assessments.
+    </div>
+
+    <div class="notice">
+        These entries track reported habits and mission exposure only.
+        They do not measure bone density or diagnose bone loss.
+    </div>
+</div>
 
     <div class="card">
         <h2>Balance & Coordination</h2>
@@ -884,6 +952,61 @@ function resetMuscleTimer() {
     muscleTimerInterval = null;
     muscleTimerSeconds = 0;
     updateMuscleTimer();
+}
+/* BONE HEALTH MONITORING */
+
+let boneAssessments = [];
+
+function saveBoneAssessment() {
+    const missionDays = Number(document.getElementById("missionDays").value);
+    const exerciseDays = Number(document.getElementById("exerciseDays").value);
+    const calcium = document.getElementById("calciumIntake").value;
+    const vitaminD = document.getElementById("vitaminD").value;
+
+    const result = document.getElementById("boneResult");
+    const history = document.getElementById("boneHistory");
+
+    if (
+        document.getElementById("missionDays").value === "" ||
+        !Number.isInteger(missionDays) || missionDays < 0
+    ) {
+        result.textContent = "Enter a valid mission duration.";
+        return;
+    }
+
+    if (
+        document.getElementById("exerciseDays").value === "" ||
+        !Number.isInteger(exerciseDays) ||
+        exerciseDays < 0 || exerciseDays > 7
+    ) {
+        result.textContent = "Enter exercise days between 0 and 7.";
+        return;
+    }
+
+    const assessment = {
+        missionDays,
+        exerciseDays,
+        calcium,
+        vitaminD,
+        date: new Date().toLocaleString()
+    };
+
+    boneAssessments.unshift(assessment);
+
+    result.textContent =
+        "Assessment saved successfully.\n" +
+        "Mission duration: " + missionDays + " days\n" +
+        "Exercise days: " + exerciseDays + "/7\n" +
+        "Calcium intake: " + calcium + "\n" +
+        "Vitamin D intake: " + vitaminD;
+
+    history.textContent = boneAssessments.map((item, index) =>
+        (index + 1) + ". " + item.date +
+        "\nMission: " + item.missionDays + " days" +
+        " | Exercise: " + item.exerciseDays + "/7 days" +
+        "\nCalcium: " + item.calcium +
+        " | Vitamin D: " + item.vitaminD
+    ).join("\n\n");
 }
 /* NAVIGATION */
 function showView(viewName) {
