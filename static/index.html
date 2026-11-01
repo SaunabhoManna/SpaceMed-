@@ -346,6 +346,30 @@ h2 {font-size:16px;margin:0 0 14px}
     letter-spacing: 2px;
     color: #8195aa;
 }
+/* MUSCLE ASSESSMENT TIMER */
+
+.timer-panel {
+    margin-top: 18px;
+    padding: 18px;
+    background: #0a1b2b;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.timer-display {
+    font-size: 42px;
+    font-weight: bold;
+    color: #56d9ff;
+    letter-spacing: 3px;
+    margin: 18px 0;
+    font-variant-numeric: tabular-nums;
+}
+
+#muscleHistory {
+    white-space: pre-line;
+    line-height: 1.8;
+}
 </style>
 </head>
 
@@ -631,9 +655,53 @@ h2 {font-size:16px;margin:0 0 14px}
     </div>
 
     <div class="card">
-        <h2>Muscle Strength & Endurance</h2>
-        <p class="muted">Track muscle strength and endurance during mission activities.</p>
+    <h2>Muscle Strength & Endurance</h2>
+    <p class="muted">Record strength and endurance assessments.</p>
+
+    <div class="form-grid">
+        <div>
+            <label for="strengthScore">STRENGTH SCORE (1–10)</label>
+            <input id="strengthScore" type="number" min="1" max="10"
+                   placeholder="Enter score">
+        </div>
+
+        <div>
+            <label for="enduranceActivity">ENDURANCE ACTIVITY</label>
+            <select id="enduranceActivity">
+                <option value="Squats">Squats</option>
+                <option value="Wall sit">Wall sit</option>
+                <option value="Plank">Plank</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
     </div>
+
+    <div class="timer-panel">
+    <h3>Endurance Test Timer</h3>
+
+    <div id="muscleTimer" class="timer-display">00:00</div>
+
+    <button class="btn accent" onclick="startMuscleTimer()">Start</button>
+    <button class="btn" onclick="stopMuscleTimer()">Stop</button>
+    <button class="btn" onclick="resetMuscleTimer()">Reset</button>
+</div>
+    <label for="enduranceDuration">ENDURANCE DURATION (SECONDS)</label>
+    <input id="enduranceDuration" type="number" min="0"
+           placeholder="Enter duration">
+
+    <button class="btn accent" onclick="saveMuscleAssessment()">
+        Save Assessment
+    </button>
+
+    <div id="muscleResult" class="result">
+        No assessment recorded yet.
+    </div>
+
+    <h3>Assessment History</h3>
+    <div id="muscleHistory" class="result">
+        No previous assessments.
+    </div>
+</div>
 
     <div class="card">
         <h2>Bone Health Risk Monitoring</h2>
@@ -735,6 +803,87 @@ function logout() {
   document.getElementById("loginScreen").classList.remove("hidden");
   document.getElementById("loginPassword").value = "";
   resetReactionTest();
+}
+/* MUSCLE STRENGTH & ENDURANCE */
+
+let muscleAssessments = [];
+
+function saveMuscleAssessment() {
+    const score = Number(document.getElementById("strengthScore").value);
+    const activity = document.getElementById("enduranceActivity").value;
+    const duration = Number(document.getElementById("enduranceDuration").value);
+
+    const result = document.getElementById("muscleResult");
+    const history = document.getElementById("muscleHistory");
+
+    if (!Number.isInteger(score) || score < 1 || score > 10) {
+        result.textContent = "Please enter a strength score from 1 to 10.";
+        return;
+    }
+
+    if (!Number.isFinite(duration) || duration <= 0) {
+        result.textContent = "Please enter a valid duration in seconds.";
+        return;
+    }
+
+    const assessment = {
+        score: score,
+        activity: activity,
+        duration: duration,
+        date: new Date().toLocaleString()
+    };
+
+    muscleAssessments.unshift(assessment);
+
+    result.textContent =
+        "Assessment saved successfully.\n" +
+        "Strength score: " + score + "/10\n" +
+        "Activity: " + activity + "\n" +
+        "Duration: " + duration + " seconds";
+
+    history.textContent = muscleAssessments.map((item, index) =>
+        (index + 1) + ". " + item.date +
+        " | Strength: " + item.score + "/10" +
+        " | " + item.activity +
+        " | " + item.duration + " seconds"
+    ).join("\n");
+}
+/* ENDURANCE TIMER */
+
+let muscleTimerSeconds = 0;
+let muscleTimerInterval = null;
+
+function updateMuscleTimer() {
+    const minutes = Math.floor(muscleTimerSeconds / 60);
+    const seconds = muscleTimerSeconds % 60;
+
+    document.getElementById("muscleTimer").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+}
+
+function startMuscleTimer() {
+    if (muscleTimerInterval !== null) return;
+
+    muscleTimerInterval = setInterval(() => {
+        muscleTimerSeconds++;
+        updateMuscleTimer();
+    }, 1000);
+}
+
+function stopMuscleTimer() {
+    clearInterval(muscleTimerInterval);
+    muscleTimerInterval = null;
+
+    document.getElementById("enduranceDuration").value =
+        muscleTimerSeconds;
+}
+
+function resetMuscleTimer() {
+    clearInterval(muscleTimerInterval);
+    muscleTimerInterval = null;
+    muscleTimerSeconds = 0;
+    updateMuscleTimer();
 }
 /* NAVIGATION */
 function showView(viewName) {
