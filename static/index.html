@@ -403,6 +403,22 @@ h2 {font-size:16px;margin:0 0 14px}
 #balanceTimer {
     color: #56d9ff;
 }
+/* EXERCISE PERFORMANCE & RECOVERY */
+
+#exerciseResult,
+#exerciseHistory {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+#exerciseHistory {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+#exerciseResult {
+    border-left: 3px solid #56d9ff;
+}
 </style>
 </head>
 
@@ -833,9 +849,59 @@ h2 {font-size:16px;margin:0 0 14px}
 </div>
 
     <div class="card">
-        <h2>Exercise Performance & Recovery</h2>
-        <p class="muted">Track exercise performance and recovery progress.</p>
+    <h2>Exercise Performance & Recovery</h2>
+    <p class="muted">Track exercise sessions, effort and recovery progress.</p>
+
+    <h3>Exercise Session</h3>
+
+    <label for="exerciseType">EXERCISE TYPE</label>
+    <select id="exerciseType">
+        <option value="Resistance training">Resistance training</option>
+        <option value="Cardio">Cardio</option>
+        <option value="Mobility">Mobility</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <div class="form-grid">
+        <div>
+            <label for="exerciseDuration">DURATION (MINUTES)</label>
+            <input id="exerciseDuration" type="number"
+                   min="1" placeholder="Enter minutes">
+        </div>
+
+        <div>
+            <label for="exerciseIntensity">EFFORT LEVEL (1–10)</label>
+            <input id="exerciseIntensity" type="number"
+                   min="1" max="10" placeholder="Enter score">
+        </div>
     </div>
+
+    <h3>Recovery Assessment</h3>
+
+    <label for="recoveryEnergy">ENERGY LEVEL (1–10)</label>
+    <input id="recoveryEnergy" type="number"
+           min="1" max="10" placeholder="Enter score">
+
+    <label for="recoveryStatus">RECOVERY STATUS</label>
+    <select id="recoveryStatus">
+        <option value="Fully recovered">Fully recovered</option>
+        <option value="Partially recovered">Partially recovered</option>
+        <option value="Needs more rest">Needs more rest</option>
+    </select>
+
+    <button class="btn accent" onclick="saveExerciseSession()">
+        Save Session
+    </button>
+
+    <div id="exerciseResult" class="result">
+        No exercise session recorded.
+    </div>
+
+    <h3>Session History</h3>
+    <div id="exerciseHistory" class="result">
+        No previous sessions.
+    </div>
+</div>
 
     <div class="notice">
         This section is an educational monitoring prototype, not a medical diagnostic tool.
@@ -1189,6 +1255,69 @@ function cancelCoordinationTest() {
 
     document.getElementById("coordinationButton").textContent =
         "Start Test";
+}
+/* EXERCISE PERFORMANCE & RECOVERY */
+
+let exerciseSessions = [];
+
+function saveExerciseSession() {
+    const type = document.getElementById("exerciseType").value;
+    const durationInput = document.getElementById("exerciseDuration").value;
+    const intensityInput = document.getElementById("exerciseIntensity").value;
+    const energyInput = document.getElementById("recoveryEnergy").value;
+    const recovery = document.getElementById("recoveryStatus").value;
+
+    const duration = Number(durationInput);
+    const intensity = Number(intensityInput);
+    const energy = Number(energyInput);
+
+    const result = document.getElementById("exerciseResult");
+    const history = document.getElementById("exerciseHistory");
+
+    if (durationInput === "" || !Number.isInteger(duration) || duration <= 0) {
+        result.textContent = "Enter a valid exercise duration.";
+        return;
+    }
+
+    if (intensityInput === "" || !Number.isInteger(intensity) ||
+        intensity < 1 || intensity > 10) {
+        result.textContent = "Enter an effort level between 1 and 10.";
+        return;
+    }
+
+    if (energyInput === "" || !Number.isInteger(energy) ||
+        energy < 1 || energy > 10) {
+        result.textContent = "Enter an energy level between 1 and 10.";
+        return;
+    }
+
+    const session = {
+        type: type,
+        duration: duration,
+        intensity: intensity,
+        energy: energy,
+        recovery: recovery,
+        date: new Date().toLocaleString()
+    };
+
+    exerciseSessions.unshift(session);
+
+    result.textContent =
+        "Exercise session saved successfully.\n" +
+        "Activity: " + type + "\n" +
+        "Duration: " + duration + " minutes\n" +
+        "Effort level: " + intensity + "/10\n" +
+        "Energy level: " + energy + "/10\n" +
+        "Recovery: " + recovery;
+
+    history.textContent = exerciseSessions.map((item, index) =>
+        (index + 1) + ". " + item.date +
+        "\nActivity: " + item.type +
+        " | Duration: " + item.duration + " min" +
+        "\nEffort: " + item.intensity + "/10" +
+        " | Energy: " + item.energy + "/10" +
+        "\nRecovery: " + item.recovery
+    ).join("\n\n");
 }
 /* NAVIGATION */
 function showView(viewName) {
