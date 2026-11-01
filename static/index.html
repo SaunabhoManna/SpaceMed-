@@ -386,6 +386,23 @@ h2 {font-size:16px;margin:0 0 14px}
 #boneResult {
     border-left: 3px solid #56d9ff;
 }
+/* BALANCE & COORDINATION */
+
+#balanceHistory,
+#balanceResult,
+#coordinationResult,
+#coordinationPrompt {
+    white-space: pre-line;
+    line-height: 1.8;
+}
+
+#coordinationButton {
+    min-width: 130px;
+}
+
+#balanceTimer {
+    color: #56d9ff;
+}
 </style>
 </head>
 
@@ -777,9 +794,43 @@ h2 {font-size:16px;margin:0 0 14px}
 </div>
 
     <div class="card">
-        <h2>Balance & Coordination</h2>
-        <p class="muted">Assess balance, stability and coordination.</p>
+    <h2>Balance & Coordination</h2>
+    <p class="muted">Record balance and visual coordination activities.</p>
+
+    <h3>Balance Timer</h3>
+    <p class="muted">Use a safe, comfortable standing position near a stable support.</p>
+
+    <div id="balanceTimer" class="timer-display">00:00</div>
+
+    <button class="btn accent" onclick="startBalanceTimer()">Start</button>
+    <button class="btn" onclick="stopBalanceTimer()">Stop & Save</button>
+    <button class="btn" onclick="resetBalanceTimer()">Reset</button>
+
+    <div id="balanceResult" class="result">
+        No balance session recorded.
     </div>
+
+    <h3>Coordination Reaction Test</h3>
+    <p class="muted">Tap the button when the prompt appears.</p>
+
+    <div id="coordinationPrompt" class="result">
+        Ready to begin?
+    </div>
+
+    <button class="btn accent" id="coordinationButton"
+            onclick="handleCoordinationTap()"
+        Start Test
+    </button>
+
+    <div id="coordinationResult" class="result">
+        No test completed.
+    </div>
+
+    <h3>Session History</h3>
+    <div id="balanceHistory" class="result">
+        No previous sessions.
+    </div>
+</div>
 
     <div class="card">
         <h2>Exercise Performance & Recovery</h2>
@@ -1007,6 +1058,137 @@ function saveBoneAssessment() {
         "\nCalcium: " + item.calcium +
         " | Vitamin D: " + item.vitaminD
     ).join("\n\n");
+}
+/* BALANCE & COORDINATION */
+
+let balanceSeconds = 0;
+let balanceInterval = null;
+let balanceSessions = [];
+
+function updateBalanceTimer() {
+    const minutes = Math.floor(balanceSeconds / 60);
+    const seconds = balanceSeconds % 60;
+
+    document.getElementById("balanceTimer").textContent =
+        String(minutes).padStart(2, "0") + ":" +
+        String(seconds).padStart(2, "0");
+}
+
+function startBalanceTimer() {
+    if (balanceInterval !== null) return;
+
+    balanceInterval = setInterval(() => {
+        balanceSeconds++;
+        updateBalanceTimer();
+    }, 1000);
+}
+
+function stopBalanceTimer() {
+    if (balanceInterval === null) return;
+
+    clearInterval(balanceInterval);
+    balanceInterval = null;
+
+    if (balanceSeconds > 0) {
+        balanceSessions.unshift({
+            duration: balanceSeconds,
+            date: new Date().toLocaleString()
+        });
+
+        document.getElementById("balanceResult").textContent =
+            "Balance session recorded: " +
+            balanceSeconds + " seconds.";
+
+        updateBalanceHistory();
+    }
+}
+
+function resetBalanceTimer() {
+    clearInterval(balanceInterval);
+    balanceInterval = null;
+    balanceSeconds = 0;
+    updateBalanceTimer();
+}
+
+function updateBalanceHistory() {
+    document.getElementById("balanceHistory").textContent =
+        balanceSessions.map((item, index) =>
+            (index + 1) + ". " + item.date +
+            " | Duration: " + item.duration + " seconds"
+        ).join("\n");
+}
+
+/* COORDINATION REACTION TEST */
+
+let coordinationStart = 0;
+let coordinationTimeout = null;
+let coordinationWaiting = false;
+let coordinationActive = false;
+let coordinationResults = [];
+
+function startCoordinationTest() {
+    if (coordinationActive) return;
+
+    coordinationActive = true;
+    coordinationWaiting = false;
+
+    const prompt = document.getElementById("coordinationPrompt");
+    const button = document.getElementById("coordinationButton");
+    const result = document.getElementById("coordinationResult");
+
+    prompt.textContent = "Wait for the signal...";
+    button.textContent = "Waiting...";
+    result.textContent = "Test in progress.";
+
+    const delay = 1500 + Math.random() * 2500;
+
+    coordinationTimeout = setTimeout(() => {
+        coordinationStart = performance.now();
+        coordinationWaiting = true;
+
+        prompt.textContent = "TAP NOW!";
+        button.textContent = "TAP NOW!";
+    }, delay);
+}
+
+function handleCoordinationTap() {
+    if (!coordinationActive || !coordinationWaiting) return;
+
+    const reactionTime = Math.round(
+        performance.now() - coordinationStart
+    );
+
+    coordinationActive = false;
+    coordinationWaiting = false;
+
+    const prompt = document.getElementById("coordinationPrompt");
+    const button = document.getElementById("coordinationButton");
+    const result = document.getElementById("coordinationResult");
+
+    prompt.textContent = "Test completed!";
+    button.textContent = "Start Again";
+
+    result.textContent =
+        "Recorded reaction time: " + reactionTime + " ms";
+
+    coordinationResults.unshift({
+        time: reactionTime,
+        date: new Date().toLocaleString()
+    });
+    document.getElementById("balanceHistory").textContent +=
+    "\nReaction test: " + reactionTime + " ms";
+}
+
+function cancelCoordinationTest() {
+    clearTimeout(coordinationTimeout);
+    coordinationActive = false;
+    coordinationWaiting = false;
+
+    document.getElementById("coordinationPrompt").textContent =
+        "Test cancelled.";
+
+    document.getElementById("coordinationButton").textContent =
+        "Start Test";
 }
 /* NAVIGATION */
 function showView(viewName) {
