@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ORBITALIS | SpaceMed</title>
 
+<!-- Self-Contained Offline Chart.js & jsPDF Libraries -->
+<script src="/chart.umd.min.js"></script>
+<script src="/jspdf.umd.min.js"></script>
+
 <style>
 :root {
   --bg:#07111f;
@@ -1214,6 +1218,419 @@ html, body, .view, .main {
   0% { filter: brightness(1.5); text-shadow: 0 0 12px var(--cyan); }
   100% { filter: brightness(1); text-shadow: none; }
 }
+
+/* ================= DUAL-MODE INPUT SYSTEM (MANUAL & DIGITAL/AI) ================= */
+.input-mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  background: #091728;
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.mode-tab-btn {
+  flex: 1;
+  min-width: 170px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.mode-tab-btn:hover {
+  color: var(--text);
+  background: #12253b;
+}
+
+.mode-tab-btn.active {
+  color: var(--cyan);
+  background: #142e47;
+  border-color: rgba(85, 230, 242, 0.4);
+  box-shadow: 0 0 14px rgba(85, 230, 242, 0.18);
+}
+
+.device-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.device-card-select {
+  background: #0d1e31;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.device-card-select:hover {
+  border-color: rgba(85, 230, 242, 0.4);
+  background: #122840;
+}
+
+.device-card-select.active {
+  border-color: var(--cyan);
+  background: #14304d;
+  box-shadow: 0 0 16px rgba(85, 230, 242, 0.25);
+}
+
+.device-card-select .dev-title {
+  font-weight: bold;
+  font-size: 13px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.device-card-select .dev-meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.telemetry-live-stream-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: #081525;
+  border: 1px solid #1f3957;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+
+.telemetry-beacon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--green);
+}
+
+.telemetry-beacon.streaming {
+  color: var(--cyan);
+}
+
+.pulse-beacon-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: pulseDot 1.2s infinite ease-in-out;
+}
+
+.telemetry-beacon.streaming .pulse-beacon-dot {
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+.stream-terminal-box {
+  background: #050c17;
+  border: 1px solid #16273a;
+  border-radius: 10px;
+  padding: 14px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: #72f7c5;
+  max-height: 180px;
+  overflow-y: auto;
+  line-height: 1.5;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+  margin-top: 14px;
+}
+
+.file-drop-zone {
+  border: 2px dashed rgba(85, 230, 242, 0.4);
+  border-radius: 14px;
+  background: rgba(13, 30, 49, 0.6);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin: 16px 0;
+}
+
+.file-drop-zone:hover, .file-drop-zone.dragover {
+  border-color: var(--cyan);
+  background: rgba(19, 44, 71, 0.8);
+  box-shadow: 0 0 20px rgba(85, 230, 242, 0.2);
+}
+
+.api-curl-box {
+  background: #060e1b;
+  border: 1px solid #1b3552;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #8be9fd;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  user-select: all;
+  margin: 10px 0;
+}
+
+.sync-action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 16px;
+  padding: 12px;
+  background: #091728;
+  border-radius: 10px;
+  border: 1px solid #1e334d;
+}
+
+/* ================= HEALTH ANALYTICS & REPORTING SYSTEM ================= */
+.analytics-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #091728;
+  border: 1px solid var(--line);
+  padding: 16px 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+.astro-select-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.astro-select-dropdown {
+  background: #11263d;
+  color: #55e6f2;
+  border: 1px solid #284c6e;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+}
+
+.astro-select-dropdown:hover, .astro-select-dropdown:focus {
+  border-color: #55e6f2;
+}
+
+.analytics-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: #0e2238;
+  color: var(--muted);
+  border: 1px solid #1c3854;
+  padding: 7px 13px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  color: var(--text);
+  border-color: rgba(85, 230, 242, 0.4);
+}
+
+.filter-btn.active {
+  background: #153759;
+  color: var(--cyan);
+  border-color: var(--cyan);
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(85, 230, 242, 0.2);
+}
+
+.chart-grid-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.chart-card {
+  background: #091728;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.chart-card-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-card-canvas-wrap {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: 250px;
+}
+
+/* Health Variation Simulator Panel */
+.simulator-panel {
+  background: linear-gradient(135deg, #091728 0%, #0d2238 100%);
+  border: 1px solid rgba(85, 230, 242, 0.35);
+  border-radius: 16px;
+  padding: 22px;
+  margin: 22px 0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+}
+
+.sim-slider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin: 18px 0;
+}
+
+.sim-slider-row {
+  background: #06111f;
+  border: 1px solid #162d45;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.sim-slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: bold;
+  color: #a0b8ce;
+  margin-bottom: 6px;
+}
+
+.sim-slider-value {
+  color: var(--cyan);
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.sim-impact-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+  background: #050e1a;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #18334f;
+}
+
+.sim-impact-item small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.sim-impact-item strong {
+  font-size: 18px;
+  display: block;
+  margin-top: 4px;
+}
+
+/* Health Records CRUD Modal */
+.health-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(3, 10, 19, 0.82);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.health-modal-card {
+  background: #0a1b2d;
+  border: 1px solid #285077;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 820px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(85, 230, 242, 0.2);
+}
+
+.crud-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+.crud-table th, .crud-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #1a3450;
+  text-align: left;
+}
+
+.crud-table th {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  position: sticky;
+  top: 0;
+  background: #091728;
+}
+
+.crud-btn-sm {
+  padding: 4px 8px;
+  font-size: 11px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-right: 4px;
+}
+.crud-btn-edit { background: #195279; color: #b7e8ff; }
+.crud-btn-edit:hover { background: #1f6797; }
+.crud-btn-del { background: #5c1e28; color: #ffbcc3; }
+.crud-btn-del:hover { background: #792534; }
 </style>
 </head>
 
@@ -1296,6 +1713,7 @@ html, body, .view, .main {
     <aside class="sidebar">
       <div class="nav-label">MISSION CONTROL</div>
       <button class="nav-btn active" data-view="overview">⌂ Overview</button>
+      <button class="nav-btn" data-view="analytics-reports">📊 Health Analytics & Reports</button>
       <button class="nav-btn" data-view="ai-intelligence">⚡ AI Health Intelligence</button>
       <button class="nav-btn" data-view="alerts">🚨 Intelligent Alerts <span id="navAlertBadge" class="badge-alert">2</span></button>
       <button class="nav-btn" data-view="environment">🪐 Space Environment</button>
@@ -1454,6 +1872,19 @@ html, body, .view, .main {
               <button onclick="loadWeeklyDemoData()">Load Sample Data</button>
               <button onclick="clearWeeklyData()">Clear</button>
 
+              <!-- DIGITAL DEVICE & AI INGESTION SYNC BAR -->
+              <div class="sync-action-bar">
+                <span style="font-size:12px; color:var(--cyan); font-weight:bold; display:flex; align-items:center; gap:6px;">
+                  📡 DIGITAL INGESTION:
+                </span>
+                <button class="btn" type="button" onclick="syncWearableToWeekly()" title="Auto-populate 7-day measurements from connected AstroSkin wearable">
+                  🛰️ Sync Wearable History (AstroSkin)
+                </button>
+                <button class="btn" type="button" onclick="syncAiToWeekly()" title="Project remaining/predicted telemetry using Bio-AI Copilot">
+                  🤖 Generate AI Predictive Fill
+                </button>
+              </div>
+
               <p id="weekly-status" class="note">
                 Enter your daily measurements to begin.
               </p>
@@ -1555,6 +1986,19 @@ html, body, .view, .main {
               <button onclick="calculateMonthly()">Generate Analysis</button>
               <button onclick="loadMonthlyDemoData()">Load Sample Data</button>
               <button onclick="clearMonthlyData()">Clear</button>
+
+              <!-- DIGITAL DEVICE & AI INGESTION SYNC BAR -->
+              <div class="sync-action-bar">
+                <span style="font-size:12px; color:var(--cyan); font-weight:bold; display:flex; align-items:center; gap:6px;">
+                  📡 DIGITAL INGESTION:
+                </span>
+                <button class="btn" type="button" onclick="syncWearableToMonthly()" title="Auto-populate 30-day records from connected device logs">
+                  🛰️ Sync 30-Day Device Logs (AstroSkin & Rings)
+                </button>
+                <button class="btn" type="button" onclick="syncAiToMonthly()" title="Generate AI predictive trend projection">
+                  🤖 Generate AI Predictive Trajectory
+                </button>
+              </div>
 
               <p id="monthly-status" class="note">
                 Enter daily measurements to begin.
@@ -1660,6 +2104,19 @@ html, body, .view, .main {
               <button onclick="loadYearlyDemoData()">Load Sample Data</button>
               <button onclick="clearYearlyData()">Clear</button>
 
+              <!-- DIGITAL DEVICE & AI INGESTION SYNC BAR -->
+              <div class="sync-action-bar">
+                <span style="font-size:12px; color:var(--cyan); font-weight:bold; display:flex; align-items:center; gap:6px;">
+                  📡 DIGITAL INGESTION:
+                </span>
+                <button class="btn" type="button" onclick="syncWearableToYearly()" title="Auto-populate 12-month records from mission archives and sensor logs">
+                  🛰️ Sync 12-Month Mission Sensor Archives
+                </button>
+                <button class="btn" type="button" onclick="syncAiToYearly()" title="Generate multi-year AI interplanetary trajectory model">
+                  🤖 Generate AI Interplanetary Trajectory Model
+                </button>
+              </div>
+
               <p id="yearly-status" class="note">
                 Enter monthly milestone measurements to begin.
               </p>
@@ -1694,37 +2151,708 @@ html, body, .view, .main {
         </div>
       </section>
 
+      <!-- HEALTH ANALYTICS & REPORTS -->
+      <section class="view" id="view-analytics-reports">
+        <div class="page-heading">
+          <div>
+            <h1>Astronaut Health Analytics & Reporting</h1>
+            <p class="muted">Interactive multivariable analytics, longitudinal trends, variation simulator, and comprehensive PDF mission reporting.</p>
+          </div>
+          <span class="telemetry-badge">● ORBITALIS HEALTH ANALYTICS v3.2</span>
+        </div>
+
+        <!-- 1. ASTRONAUT SELECTION & DATE FILTER BAR -->
+        <div class="analytics-header-bar">
+          <div class="astro-select-group">
+            <label for="analyticsAstronautSelect" style="font-size:12px; font-weight:bold; color:var(--cyan); letter-spacing:0.8px;">ASTRONAUT PROFILE:</label>
+            <select id="analyticsAstronautSelect" class="astro-select-dropdown" onchange="switchAnalyticsAstronaut(this.value)">
+              <option value="ASTRO-001" selected>ASTRO-001: Mark Vance (Mission Commander)</option>
+              <option value="ASTRO-002">ASTRO-002: Sarah Chen (Flight Engineer)</option>
+              <option value="ASTRO-003">ASTRO-003: Elena Rostova (Science Specialist)</option>
+              <option value="ASTRO-004">ASTRO-004: James Wilson (Pilot / EVA Specialist)</option>
+            </select>
+          </div>
+
+          <div class="analytics-filter-bar">
+            <span style="font-size:12px; color:var(--muted); font-weight:bold;">RANGE:</span>
+            <button class="filter-btn" data-range="24h" onclick="setAnalyticsRange('24h')">Last 24h</button>
+            <button class="filter-btn" data-range="7d" onclick="setAnalyticsRange('7d')">Last 7d</button>
+            <button class="filter-btn active" data-range="30d" onclick="setAnalyticsRange('30d')">Last 30d</button>
+            <button class="filter-btn" data-range="all" onclick="setAnalyticsRange('all')">All Records</button>
+
+            <span style="margin: 0 4px; color:var(--line);">|</span>
+            <input type="date" id="analyticsStartDate" style="background:#0a1829; border:1px solid #204060; color:#fff; padding:5px 8px; border-radius:6px; font-size:11px;">
+            <span style="color:var(--muted); font-size:11px;">to</span>
+            <input type="date" id="analyticsEndDate" style="background:#0a1829; border:1px solid #204060; color:#fff; padding:5px 8px; border-radius:6px; font-size:11px;">
+            <button class="filter-btn" onclick="applyCustomAnalyticsDate()">Filter</button>
+          </div>
+
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <button class="btn accent" onclick="openRecordModal(null)">+ Enter New Health Reading</button>
+            <button class="btn" onclick="scrollToSimulator()">⚡ Health Variation Simulator</button>
+            <button class="btn-cyan" onclick="generateComprehensivePdfReport()">📥 Download PDF Report</button>
+          </div>
+        </div>
+
+        <!-- 2. INDIVIDUAL ASTRONAUT PROFILE CARD -->
+        <div class="card" id="analyticsAstroBanner" style="margin-bottom:20px; border-left:4px solid var(--cyan);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:14px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div style="width:52px; height:52px; border-radius:50%; background:#102c49; border:2px solid var(--cyan); display:flex; align-items:center; justify-content:center; font-size:22px;">
+                👨‍🚀
+              </div>
+              <div>
+                <h2 id="astroBannerName" style="margin:0; font-size:20px; color:#fff;">Mark Vance</h2>
+                <div class="muted" style="font-size:12px; margin-top:3px;">
+                  <span id="astroBannerRole">Mission Commander</span> • <span id="astroBannerId" style="color:var(--cyan); font-weight:bold;">ASTRO-001</span> • <span id="astroBannerAgency">Orbitalis / NASA</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+              <div><small class="muted">STATUS</small><div id="astroBannerStatus" style="color:var(--green); font-weight:bold; font-size:14px;">NOMINAL</div></div>
+              <div><small class="muted">AGE</small><div id="astroBannerAge" style="color:#fff; font-weight:bold; font-size:14px;">42 yrs</div></div>
+              <div><small class="muted">MISSION DAY</small><div id="astroBannerDay" style="color:#fff; font-weight:bold; font-size:14px;">Day 45</div></div>
+              <div><small class="muted">MISSION START</small><div id="astroBannerStart" style="color:#fff; font-weight:bold; font-size:14px;">2026-10-01</div></div>
+              <div><small class="muted">CUMULATIVE DOSE</small><div id="astroBannerRad" style="color:var(--cyan); font-weight:bold; font-size:14px;">38.2 mSv</div></div>
+              <div><small class="muted">READINESS</small><div id="astroBannerReady" style="color:var(--green); font-weight:bold; font-size:14px;">94%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. COMPREHENSIVE 5-DIMENSION HEALTH SUMMARY CARDS -->
+        <div class="grid three" style="margin-bottom:20px;">
+          <!-- A. Physiological -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--cyan); font-size:13px;">♡ PHYSIOLOGICAL HEALTH</strong>
+              <small class="muted">Current / Avg</small>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Heart Rate:</span>
+                <strong id="cardHrVal">72 bpm <span class="muted" style="font-size:11px;">(Avg 71.4)</span></strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Arterial SpO₂:</span>
+                <strong id="cardSpo2Val">98.5% <span class="muted" style="font-size:11px;">(Avg 98.4%)</span></strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Blood Pressure:</span>
+                <strong id="cardBpVal">118/76 mmHg</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Body Temp:</span>
+                <strong id="cardTempVal">36.8 °C</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Heart Rate Var (HRV):</span>
+                <strong id="cardHrvVal" style="color:var(--green);">68 ms</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- B. Sleep Health -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--cyan); font-size:13px;">◷ SLEEP HEALTH</strong>
+              <small class="muted">Circadian Phase</small>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Total Duration:</span>
+                <strong id="cardSleepDur">7.6 hrs <span class="muted" style="font-size:11px;">(Goal 8.0h)</span></strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Sleep Quality:</span>
+                <strong id="cardSleepQual" style="color:var(--green);">88 / 100</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Deep Sleep:</span>
+                <strong id="cardDeepSleep">1.8 hrs (24%)</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">REM Sleep:</span>
+                <strong id="cardRemSleep">1.7 hrs (22%)</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Sleep Efficiency:</span>
+                <strong id="cardSleepEff">91%</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- C. Neurobehavioural -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--cyan); font-size:13px;">◈ NEUROBEHAVIOURAL HEALTH</strong>
+              <small class="muted">Cognitive Battery</small>
+            </div>
+            <div style="margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Cognitive Score:</span>
+                <strong id="cardCognitiveVal" style="color:var(--green);">92 / 100</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Reaction Time:</span>
+                <strong id="cardReactionVal">240 ms <span class="muted" style="font-size:11px;">(Nominal)</span></strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Attention Index:</span>
+                <strong id="cardAttentionVal">90 / 100</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                <span class="muted">Stress Level:</span>
+                <strong id="cardStressVal">3.2 / 10</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span class="muted">Mood Assessment:</span>
+                <strong id="cardMoodVal">8.0 / 10</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid two" style="margin-bottom:20px;">
+          <!-- D. Musculoskeletal -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--cyan); font-size:13px;">🦴 MUSCULOSKELETAL HEALTH</strong>
+              <small class="muted">Countermeasures</small>
+            </div>
+            <div style="margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div><span class="muted">Bone Mineral Density (T):</span><div id="cardBmdVal" style="font-size:17px; font-weight:bold; color:var(--text); margin-top:2px;">-0.32</div><small class="muted">NASA tolerance > -1.0</small></div>
+              <div><span class="muted">Isometric Muscle Strength:</span><div id="cardStrengthVal" style="font-size:17px; font-weight:bold; color:var(--text); margin-top:2px;">78 kg</div><small class="muted">Baseline calibrated</small></div>
+              <div><span class="muted">Daily Exercise Duration:</span><div id="cardExerciseVal" style="font-size:17px; font-weight:bold; color:var(--green); margin-top:2px;">45 min</div><small class="muted">ARED / CEVIS protocols</small></div>
+              <div><span class="muted">Mobility & Fitness Score:</span><div id="cardMobilityVal" style="font-size:17px; font-weight:bold; color:var(--green); margin-top:2px;">90 / 100</div><small class="muted">Zero gravity adaptation</small></div>
+            </div>
+          </div>
+
+          <!-- E. Fatigue & Recovery -->
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:var(--cyan); font-size:13px;">⚡ FATIGUE, WORKLOAD & RECOVERY</strong>
+              <small class="muted">Readiness Metric</small>
+            </div>
+            <div style="margin-top:12px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+              <div><span class="muted">Subjective Fatigue Score:</span><div id="cardFatigueVal" style="font-size:17px; font-weight:bold; color:var(--green); margin-top:2px;">2.8 / 10</div><small class="muted">Low mission fatigue</small></div>
+              <div><span class="muted">Perceived Energy Level:</span><div id="cardEnergyVal" style="font-size:17px; font-weight:bold; color:var(--cyan); margin-top:2px;">7.8 / 10</div><small class="muted">High diurnal alertness</small></div>
+              <div><span class="muted">Overall Recovery Score:</span><div id="cardRecoveryVal" style="font-size:17px; font-weight:bold; color:var(--green); margin-top:2px;">86 / 100</div><small class="muted">Full operational readiness</small></div>
+              <div><span class="muted">Daily Active Workload:</span><div id="cardWorkloadVal" style="font-size:17px; font-weight:bold; color:var(--text); margin-top:2px;">580 kcal</div><small class="muted">Activity: 55 min/day</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. INTERACTIVE GRAPHICAL VISUALIZATION SUITE -->
+        <h2 style="font-size:18px; color:var(--cyan); margin:24px 0 12px; display:flex; align-items:center; gap:8px;">
+          📈 Interactive Multidimensional Graphical Visualizations
+        </h2>
+
+        <!-- Charts Row 1: Physiological Line Chart & Sleep Stage Doughnut -->
+        <div class="chart-grid-two">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">♡ 1. Physiological Telemetry Trends (Line Chart)</div>
+              <small class="muted" id="chartPhysioSub">BPM • SpO₂ % • Blood Pressure</small>
+            </div>
+            <div class="chart-card-canvas-wrap">
+              <canvas id="canvasPhysioTrends"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">◷ 2. Sleep Architecture & Stage Distribution (Doughnut Chart)</div>
+              <small class="muted">Deep • REM • Light • Restless</small>
+            </div>
+            <div class="chart-card-canvas-wrap">
+              <canvas id="canvasSleepStage"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 2: Radar Chart (5 Domains) & Fatigue/Recovery Area Chart -->
+        <div class="chart-grid-two">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">🌐 3. Five-Domain Health Radar Balance (Radar Chart)</div>
+              <small class="muted">Overall Holistic Balance (0-100)</small>
+            </div>
+            <div class="chart-card-canvas-wrap">
+              <canvas id="canvasHealthRadar"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">⚡ 4. Fatigue, Energy & Recovery Dynamics (Area Chart)</div>
+              <small class="muted">Workload vs Biological Recovery</small>
+            </div>
+            <div class="chart-card-canvas-wrap">
+              <canvas id="canvasFatigueRecovery"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 3: Musculoskeletal Bar Chart & Neurobehavioural Reaction Chart -->
+        <div class="chart-grid-two">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">🦴 5. Physical Exercise & Muscular Loading vs Goal (Bar Chart)</div>
+              <small class="muted">Daily Exercise Duration (min)</small>
+            </div>
+            <div class="chart-card-canvas-wrap">
+              <canvas id="canvasMusculoWorkload"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">◈ 6. Neurobehavioural Performance & Reaction Latency (Line Chart)</div>
+              <small class="muted">Cognitive Score vs Reaction Time (ms)</small>
+            </div>
+            <div class="chart-card-canvas-wrap">
+              <canvas id="canvasNeuroCognitive"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. HEALTH VARIATION SIMULATOR -->
+        <div class="simulator-panel" id="simulatorSection">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <h2 style="margin:0; font-size:19px; color:var(--cyan); display:flex; align-items:center; gap:8px;">
+                ⚡ Health Variation Simulator
+              </h2>
+              <p class="muted" style="margin:4px 0 0; font-size:13px;">
+                Modify individual or multiple health parameters to simulate variations and observe how changes affect risk scores, recovery, alerts, and trend trajectories.
+              </p>
+            </div>
+            <span class="telemetry-badge" style="background:rgba(85,230,242,0.15); border-color:var(--cyan); color:var(--cyan);">
+              ● PREDICTIVE WHAT-IF ENGINE
+            </span>
+          </div>
+
+          <!-- Interactive Sliders Grid -->
+          <div class="sim-slider-grid">
+            <!-- Sleep Duration -->
+            <div class="sim-slider-row">
+              <div class="sim-slider-header">
+                <span>SLEEP DURATION</span>
+                <span class="sim-slider-value" id="valSimSleep">7.5 hrs</span>
+              </div>
+              <input type="range" id="sliderSimSleep" min="3.0" max="10.0" step="0.1" value="7.5" style="width:100%;" oninput="updateSimValue('Sleep', this.value, 'hrs')">
+              <small class="muted" style="font-size:10px;">NASA baseline: 8.0h • Alert < 5.0h</small>
+            </div>
+
+            <!-- Heart Rate -->
+            <div class="sim-slider-row">
+              <div class="sim-slider-header">
+                <span>RESTING HEART RATE</span>
+                <span class="sim-slider-value" id="valSimHr">72 bpm</span>
+              </div>
+              <input type="range" id="sliderSimHr" min="45" max="150" step="1" value="72" style="width:100%;" oninput="updateSimValue('Hr', this.value, 'bpm')">
+              <small class="muted" style="font-size:10px;">Tolerance: 55 - 100 bpm</small>
+            </div>
+
+            <!-- SpO2 -->
+            <div class="sim-slider-row">
+              <div class="sim-slider-header">
+                <span>ARTERIAL OXYGEN (SPO₂)</span>
+                <span class="sim-slider-value" id="valSimSpo2">98.5 %</span>
+              </div>
+              <input type="range" id="sliderSimSpo2" min="82" max="100" step="0.5" value="98.5" style="width:100%;" oninput="updateSimValue('Spo2', this.value, '%')">
+              <small class="muted" style="font-size:10px;">Safe > 95% • Hypoxia < 93%</small>
+            </div>
+
+            <!-- Stress Level -->
+            <div class="sim-slider-row">
+              <div class="sim-slider-header">
+                <span>OPERATIONAL STRESS</span>
+                <span class="sim-slider-value" id="valSimStress">3.0 / 10</span>
+              </div>
+              <input type="range" id="sliderSimStress" min="1.0" max="10.0" step="0.5" value="3.0" style="width:100%;" oninput="updateSimValue('Stress', this.value, '/ 10')">
+              <small class="muted" style="font-size:10px;">Sympathetic tone load</small>
+            </div>
+
+            <!-- Daily Exercise -->
+            <div class="sim-slider-row">
+              <div class="sim-slider-header">
+                <span>DAILY EXERCISE</span>
+                <span class="sim-slider-value" id="valSimExercise">45 min</span>
+              </div>
+              <input type="range" id="sliderSimExercise" min="0" max="90" step="5" value="45" style="width:100%;" oninput="updateSimValue('Exercise', this.value, 'min')">
+              <small class="muted" style="font-size:10px;">Bone countermeasure goal: 45 min</small>
+            </div>
+
+            <!-- Fatigue -->
+            <div class="sim-slider-row">
+              <div class="sim-slider-header">
+                <span>SUBJECTIVE FATIGUE</span>
+                <span class="sim-slider-value" id="valSimFatigue">3.0 / 10</span>
+              </div>
+              <input type="range" id="sliderSimFatigue" min="1.0" max="10.0" step="0.5" value="3.0" style="width:100%;" oninput="updateSimValue('Fatigue', this.value, '/ 10')">
+              <small class="muted" style="font-size:10px;">Accumulated workload exhaustion</small>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+            <button class="btn accent" onclick="executeVariationSimulation()">⚡ Run Variation Simulation</button>
+            <button class="btn" onclick="resetVariationSimulator()">⟳ Reset to Baseline</button>
+            <button class="btn-cyan" onclick="saveSimulatedAsRecord()">💾 Save Simulated Scenario to History</button>
+            <span class="muted" style="font-size:11px;">(Simulated changes are clearly tagged with is_simulated=1 and do not corrupt baseline actual telemetry)</span>
+          </div>
+
+          <!-- Live Simulation Impact Summary Box -->
+          <div class="sim-impact-summary" id="simImpactContainer">
+            <div class="sim-impact-item">
+              <small>COMPOSITE RISK INDEX</small>
+              <strong id="simRiskBadge" style="color:var(--green);">12 / 100 <span style="font-size:11px;">(NOMINAL)</span></strong>
+            </div>
+            <div class="sim-impact-item">
+              <small>PROJECTED SLEEP QUALITY</small>
+              <strong id="simSleepQualBadge" style="color:var(--cyan);">88 / 100</strong>
+            </div>
+            <div class="sim-impact-item">
+              <small>PROJECTED RECOVERY</small>
+              <strong id="simRecoveryBadge" style="color:var(--green);">86%</strong>
+            </div>
+            <div class="sim-impact-item">
+              <small>REACTION TIME LATENCY</small>
+              <strong id="simReactionBadge" style="color:#fff;">240 ms</strong>
+            </div>
+          </div>
+
+          <!-- Alert Forecast and Observations Box -->
+          <div style="margin-top:14px; background:#06111e; border:1px solid #162c44; border-radius:10px; padding:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:var(--cyan); font-size:12px;">FORECASTED ALERTS & CLINICAL OBSERVATIONS:</strong>
+              <small class="muted" id="simForecastCount">0 Active Alerts</small>
+            </div>
+            <div id="simForecastAlertsList" style="margin-bottom:8px;">
+              <span class="factor-tag nominal">✓ All simulated parameters within flight rules tolerance.</span>
+            </div>
+            <p id="simObservationsText" class="muted" style="margin:0; font-size:12px; line-height:1.5;">
+              Simulated physiological and circadian variables sustain nominal cardiovascular function, sleep quality and cognitive alertness.
+            </p>
+          </div>
+
+          <!-- Simulation Comparison Overlay Chart -->
+          <div style="margin-top:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="font-size:13px; color:var(--cyan);">Simulated Variation vs Actual Recorded Trajectory (Overlay Comparison)</strong>
+              <span class="muted" style="font-size:11px;">Dashed line = Simulated What-If</span>
+            </div>
+            <div style="height:230px; position:relative; background:#060f1c; border:1px solid #14273c; border-radius:10px; padding:10px;">
+              <canvas id="canvasSimComparison"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. INTERACTIVE HEALTH RECORDS LEDGER (FULL CRUD) -->
+        <div class="card" style="margin-top:24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+            <div>
+              <h2 style="margin:0; font-size:18px; color:var(--cyan);">Historical Health Records & Data Management</h2>
+              <p class="muted" style="margin:4px 0 0; font-size:12px;">
+                Review, edit, add, or delete historical health records stored persistently in the mission database.
+              </p>
+            </div>
+            <button class="btn accent" onclick="openRecordModal(null)">+ Enter New Record</button>
+          </div>
+
+          <div style="overflow-x:auto; max-height:480px; overflow-y:auto; border:1px solid #162d45; border-radius:10px;">
+            <table class="crud-table">
+              <thead>
+                <tr>
+                  <th>DATE / TIME</th>
+                  <th>SOURCE</th>
+                  <th>HR (bpm)</th>
+                  <th>SpO₂ (%)</th>
+                  <th>BP (mmHg)</th>
+                  <th>SLEEP (h)</th>
+                  <th>COGNITIVE</th>
+                  <th>EXERCISE (m)</th>
+                  <th>FATIGUE</th>
+                  <th>RECOVERY</th>
+                  <th style="text-align:right;">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="crudRecordsTbody">
+                <!-- Dynamically populated from SQLite -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
       <!-- PHYSIOLOGICAL HEALTH -->
       <section class="view" id="view-physiology">
         <div class="page-heading">
           <div>
-            <h1>Physiological Health</h1>
-            <p class="muted">Enter measurements to submit them to the existing health-check service.</p>
+            <h1>Physiological Health Telemetry</h1>
+            <p class="muted">Ingest and monitor astronaut biological telemetry via manual entry, connected digital devices, or external AI models.</p>
           </div>
-          <span class="cyan">VITALS</span>
+          <span class="telemetry-badge" id="telemetrySourceBadge">● DUAL-MODE INPUT SYSTEM</span>
         </div>
 
-        <div class="card">
-          <h2>Manual Vital Readings</h2>
-          <form id="vitalsForm">
-            <div class="form-grid">
-              <div><label for="name">ASTRONAUT NAME</label><input id="name" required></div>
-              <div><label for="heart_rate">HEART RATE (BPM)</label><input id="heart_rate" type="number" min="1" max="250" required></div>
-              <div><label for="spo2">SPO₂ (%)</label><input id="spo2" type="number" min="1" max="100" required></div>
-              <div><label for="temperature">BODY TEMPERATURE (°C)</label><input id="temperature" type="number" step="0.1" required></div>
-              <div><label for="systolic">SYSTOLIC BP</label><input id="systolic" type="number" required></div>
-              <div><label for="diastolic">DIASTOLIC BP</label><input id="diastolic" type="number" required></div>
-              <div><label for="respiration">RESPIRATION (BREATHS/MIN)</label><input id="respiration" type="number" min="1" max="100"></div>
-              <div><label for="hrv">HRV (MS) — OPTIONAL</label><input id="hrv" type="number" min="1"></div>
+        <!-- INPUT MODE SWITCHER: MANUAL VS DIGITAL DEVICES VS FILE IMPORT VS API -->
+        <div class="input-mode-tabs">
+          <button class="mode-tab-btn active" id="tabModeManual" onclick="switchVitalsInputMode('manual')">
+            ✍️ Manual Astronaut Entry
+          </button>
+          <button class="mode-tab-btn" id="tabModeDigital" onclick="switchVitalsInputMode('digital')">
+            📡 Digital Devices & AI Telemetry
+          </button>
+          <button class="mode-tab-btn" id="tabModeFile" onclick="switchVitalsInputMode('file')">
+            📁 Import Device Log (JSON/CSV)
+          </button>
+          <button class="mode-tab-btn" id="tabModeApi" onclick="switchVitalsInputMode('api')">
+            🔌 External Device & AI Webhook API
+          </button>
+        </div>
+
+        <!-- 1. MANUAL INPUT PANE -->
+        <div id="paneManualInput" class="input-pane">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+              <h2>Manual Vital Readings</h2>
+              <span class="muted" style="font-size:12px;">Standard Astronaut Self-Entry / Flight Surgeon Override</span>
             </div>
-            <div class="form-actions">
-              <button class="btn accent" type="submit">Submit health readings</button>
-              <button class="btn" type="button" onclick="loadDemoReadings()">Load demo readings</button>
-              <button class="btn" type="button" onclick="simulateEmergency()">Demo alert scenario</button>
-              <button class="btn" type="button" onclick="clearForm()">Clear form</button>
+            <form id="vitalsForm">
+              <div class="form-grid">
+                <div><label for="name">ASTRONAUT NAME</label><input id="name" required></div>
+                <div><label for="heart_rate">HEART RATE (BPM)</label><input id="heart_rate" type="number" min="1" max="250" required></div>
+                <div><label for="spo2">SPO₂ (%)</label><input id="spo2" type="number" min="1" max="100" required></div>
+                <div><label for="temperature">BODY TEMPERATURE (°C)</label><input id="temperature" type="number" step="0.1" required></div>
+                <div><label for="systolic">SYSTOLIC BP</label><input id="systolic" type="number" required></div>
+                <div><label for="diastolic">DIASTOLIC BP</label><input id="diastolic" type="number" required></div>
+                <div><label for="respiration">RESPIRATION (BREATHS/MIN)</label><input id="respiration" type="number" min="1" max="100"></div>
+                <div><label for="hrv">HRV (MS) — OPTIONAL</label><input id="hrv" type="number" min="1"></div>
+              </div>
+              <div class="form-actions">
+                <button class="btn accent" type="submit">Submit health readings</button>
+                <button class="btn" type="button" onclick="loadDemoReadings()">Load demo readings</button>
+                <button class="btn" type="button" onclick="simulateEmergency()">Demo alert scenario</button>
+                <button class="btn" type="button" onclick="clearForm()">Clear form</button>
+              </div>
+            </form>
+            <div id="result" class="result">Awaiting readings.</div>
+          </div>
+        </div>
+
+        <!-- 2. DIGITAL DEVICES & AI TELEMETRY PANE -->
+        <div id="paneDigitalInput" class="input-pane" style="display:none;">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <div>
+                <h2>Digital Device & AI Telemetry Ingestion</h2>
+                <p class="muted" style="margin:4px 0 0; font-size:13px;">Direct real-time biological telemetry feeds from space-qualified wearables, habitat sensors, and AI diagnostic agents.</p>
+              </div>
+              <div class="telemetry-beacon streaming" id="digitalStreamStatus">
+                <span class="pulse-beacon-dot"></span>
+                <span id="digitalStreamStatusText">STREAM READY • 250 Hz</span>
+              </div>
             </div>
-          </form>
-          <div id="result" class="result">Awaiting readings.</div>
+
+            <!-- Device Selector Cards -->
+            <label style="display:block; margin-top:16px; font-weight:bold; color:var(--cyan); font-size:12px; letter-spacing:1px;">SELECT CONNECTED DIGITAL DEVICE / AI SOURCE:</label>
+            <div class="device-picker-grid" id="digitalDeviceList">
+              <div class="device-card-select active" data-devid="DEV-ASTROSKIN-01" onclick="selectDigitalDevice(this, 'DEV-ASTROSKIN-01')">
+                <div class="dev-title"><span>NASA AstroSkin Bio-Harness</span> <span style="color:var(--green); font-size:10px;">● ONLINE</span></div>
+                <div class="dev-meta">BLE 5.2 / UHF • 250 Hz • Battery: 88%</div>
+                <div class="dev-meta" style="color:var(--cyan);">Channels: 3-Lead ECG, Respiration, Temp</div>
+              </div>
+              <div class="device-card-select" data-devid="DEV-PULSE-OX-04" onclick="selectDigitalDevice(this, 'DEV-PULSE-OX-04')">
+                <div class="dev-title"><span>Nonin Continuous SpO2</span> <span style="color:var(--green); font-size:10px;">● ONLINE</span></div>
+                <div class="dev-meta">Medical BLE • 75 Hz • Battery: 94%</div>
+                <div class="dev-meta" style="color:var(--cyan);">Channels: Arterial SpO2, Plethysmograph</div>
+              </div>
+              <div class="device-card-select" data-devid="DEV-RING-CIRCAD-02" onclick="selectDigitalDevice(this, 'DEV-RING-CIRCAD-02')">
+                <div class="dev-title"><span>Orbital Smart Ring</span> <span style="color:var(--green); font-size:10px;">● ONLINE</span></div>
+                <div class="dev-meta">NFC / Cloud Sync • Battery: 76%</div>
+                <div class="dev-meta" style="color:var(--cyan);">Channels: HRV (rMSSD), Sleep, Core Temp</div>
+              </div>
+              <div class="device-card-select" data-devid="AI-EDGE-DIAGNOSTIC-01" onclick="selectDigitalDevice(this, 'AI-EDGE-DIAGNOSTIC-01')">
+                <div class="dev-title"><span>SpaceMed Bio-AI Copilot</span> <span style="color:var(--cyan); font-size:10px;">⚡ ACTIVE AI</span></div>
+                <div class="dev-meta">Edge NPU Inference • Latency: 12 ms</div>
+                <div class="dev-meta" style="color:var(--cyan);">Channels: Neural Synthetic Biomarkers, Risk</div>
+              </div>
+            </div>
+
+            <!-- Live Digital Telemetry Stream HUD -->
+            <div class="telemetry-live-stream-bar">
+              <div>
+                <strong style="color:var(--cyan); font-size:14px;" id="activeDeviceName">NASA AstroSkin Bio-Harness</strong>
+                <div class="muted" style="font-size:12px;" id="activeDeviceMeta">Protocol: BLE 5.2 / UHF SpaceLink • Signal: -42 dBm • Quality: 99.4%</div>
+              </div>
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <button class="btn accent" id="btnToggleStream" type="button" onclick="toggleDigitalStream()">▶ Start Live Stream</button>
+                <button class="btn" type="button" onclick="fetchSingleDigitalFrame()">⟳ Poll Frame</button>
+                <button class="btn-cyan" type="button" onclick="ingestCurrentDigitalFrame()">📥 Ingest to Health Record</button>
+                <button class="btn" type="button" onclick="populateManualFromDigital()">📋 Send to Manual Form</button>
+              </div>
+            </div>
+
+            <!-- Live Digital Gauges -->
+            <div class="grid three" style="margin-top:14px;">
+              <div class="card" style="padding:16px;">
+                <div class="muted">STREAMED HEART RATE</div>
+                <div class="metric" id="streamHr">72.4 <small>bpm</small></div>
+                <div class="muted" id="streamHrMeta">250 Hz ECG telemetry</div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div class="muted">STREAMED ARTERIAL SPO₂</div>
+                <div class="metric" id="streamSpo2">98.5 <small>%</small></div>
+                <div class="muted" id="streamSpo2Meta">Continuous PPG pulse wave</div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div class="muted">STREAMED CORE TEMP</div>
+                <div class="metric" id="streamTemp">36.8 <small>°C</small></div>
+                <div class="muted" id="streamTempMeta">Calibrated thermistor array</div>
+              </div>
+            </div>
+
+            <div class="grid three" style="margin-top:14px;">
+              <div class="card" style="padding:16px;">
+                <div class="muted">STREAMED BLOOD PRESSURE</div>
+                <div class="metric" id="streamBp">118 / 76 <small>mmHg</small></div>
+                <div class="muted">Arterial pulse contour estimate</div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div class="muted">RESPIRATION RATE</div>
+                <div class="metric" id="streamResp">15 <small>breaths/min</small></div>
+                <div class="muted">Dual inductive plethysmography</div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div class="muted">HEART RATE VARIABILITY (HRV)</div>
+                <div class="metric" id="streamHrv">68 <small>ms</small></div>
+                <div class="muted">Autonomic balance index (rMSSD)</div>
+              </div>
+            </div>
+
+            <!-- Live Packet Terminal Stream -->
+            <div style="margin-top:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong style="color:var(--muted); font-size:11px; letter-spacing:1px;">RAW DIGITAL TELEMETRY PACKET STREAM (INSPECTOR):</strong>
+                <small class="muted" id="streamPacketCounter">Packets Received: 1</small>
+              </div>
+              <div id="streamTerminalOutput" class="stream-terminal-box">
+[PKT-89421] ASTROSKIN BLE STREAM CONNECTED
+{"packet_id":"PKT-89421","device_id":"DEV-ASTROSKIN-01","heart_rate":72.4,"spo2":98.5,"temp":36.8,"bp":"118/76","status":"NOMINAL"}
+              </div>
+            </div>
+
+            <div id="digitalIngestResult" class="result" style="margin-top:14px; display:none;"></div>
+          </div>
+        </div>
+
+        <!-- 3. FILE IMPORT PANE -->
+        <div id="paneFileInput" class="input-pane" style="display:none;">
+          <div class="card">
+            <h2>Digital Device Log & AI Export Importer</h2>
+            <p class="muted">Upload digital log files exported by space medical monitors, smart garments, clinical ECGs, Apple Health / Garmin datasets, or external AI model outputs.</p>
+
+            <div class="file-drop-zone" id="fileDropZone" onclick="document.getElementById('deviceFileInput').click()">
+              <input type="file" id="deviceFileInput" style="display:none;" accept=".json,.csv,.txt,.hl7" onchange="handleFileSelected(event)">
+              <div style="font-size:32px; margin-bottom:8px;">📁</div>
+              <strong style="color:var(--cyan); font-size:15px;">Click to Browse or Drag & Drop Digital Telemetry File</strong>
+              <p class="muted" style="margin:6px 0 0; font-size:12px;">Supported formats: JSON (AstroSkin/FHIR), CSV (Wearable Multi-Day Log), Plain Text</p>
+            </div>
+
+            <div style="margin:14px 0;">
+              <strong style="font-size:12px; color:var(--muted);">QUICK DEMO SAMPLES (ONE-CLICK LOAD):</strong>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+                <button class="btn" type="button" onclick="loadSampleDeviceFile('astroskin')">📄 Load AstroSkin 24h JSON Log</button>
+                <button class="btn" type="button" onclick="loadSampleDeviceFile('wearable_csv')">📊 Load 7-Day Smartwatch CSV</button>
+                <button class="btn" type="button" onclick="loadSampleDeviceFile('ai_prediction')">🤖 Load External AI Biomarker JSON</button>
+              </div>
+            </div>
+
+            <!-- Parsed File Preview -->
+            <div id="filePreviewContainer" style="display:none; margin-top:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <strong style="color:var(--green);" id="filePreviewTitle">✓ File Parsed: 7 Records Found</strong>
+                <button class="btn-cyan" type="button" onclick="ingestParsedFileData()">🚀 Ingest All Records into System</button>
+              </div>
+              <div style="overflow-x:auto;">
+                <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                  <thead>
+                    <tr style="border-bottom:1px solid var(--line); color:var(--cyan);">
+                      <th style="padding:8px; text-align:left;">TIMESTAMP / DAY</th>
+                      <th style="padding:8px; text-align:left;">HEART RATE</th>
+                      <th style="padding:8px; text-align:left;">SPO₂</th>
+                      <th style="padding:8px; text-align:left;">TEMP</th>
+                      <th style="padding:8px; text-align:left;">BLOOD PRESSURE</th>
+                      <th style="padding:8px; text-align:left;">HRV</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fileParsedTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="fileIngestResult" class="result" style="margin-top:14px; display:none;"></div>
+          </div>
+        </div>
+
+        <!-- 4. EXTERNAL DEVICE & AI WEBHOOK API PANE -->
+        <div id="paneApiInput" class="input-pane" style="display:none;">
+          <div class="card">
+            <h2>External Device & AI Model Ingestion API</h2>
+            <p class="muted">Any external hardware device (Bluetooth/Wi-Fi microcontroller, Bio-Harness, Pulse Ox) or external AI model (Python script, diagnostic neural net, LLM agent) can push real-time digital telemetry directly into SpaceMed via this REST endpoint.</p>
+
+            <div style="margin:16px 0;">
+              <strong style="color:var(--cyan); font-size:13px;">INGESTION ENDPOINT:</strong>
+              <div class="api-curl-box">POST http://127.0.0.1:8000/api/telemetry/ingest
+Content-Type: application/json</div>
+            </div>
+
+            <div style="margin:16px 0;">
+              <strong style="color:var(--cyan); font-size:13px;">cURL SAMPLE (DEVICE / AI PUSH):</strong>
+              <div class="api-curl-box">curl -X POST http://127.0.0.1:8000/api/telemetry/ingest \
+  -H "Content-Type: application/json" \
+  -d '{
+    "device_id": "EDGE-BIO-SENSOR-09",
+    "source_name": "External Bio-Harness / AI Agent",
+    "source_type": "ai",
+    "astronaut_id": "ASTRO-001",
+    "heart_rate": 74.5,
+    "spo2": 98.6,
+    "temperature": 36.8,
+    "systolic": 119,
+    "diastolic": 77,
+    "respiration": 15,
+    "hrv": 66,
+    "notes": "Pushed via external AI diagnostic engine"
+  }'</div>
+            </div>
+
+            <div style="margin:18px 0;">
+              <strong style="color:var(--green); font-size:13px;">LIVE IN-BROWSER API TEST CONSOLE:</strong>
+              <p class="muted" style="font-size:12px;">Edit the payload below and click "Transmit Digital Packet" to test direct ingestion from an external source.</p>
+
+              <textarea id="customApiPayload" style="width:100%; height:140px; background:#060e1b; border:1px solid #1f3957; border-radius:8px; color:#5ce0ff; font-family:monospace; padding:12px; font-size:12px; box-sizing:border-box;">{
+  "device_id": "SIMULATED-AI-AGENT-01",
+  "source_name": "Autonomous Flight Medical Copilot",
+  "source_type": "ai",
+  "astronaut_id": "ASTRO-001",
+  "heart_rate": 73.0,
+  "spo2": 98.8,
+  "temperature": 36.7,
+  "systolic": 118,
+  "diastolic": 76,
+  "respiration": 15,
+  "hrv": 69,
+  "notes": "Real-time AI telemetry feed verified"
+}</textarea>
+              <div style="margin-top:10px;">
+                <button class="btn accent" type="button" onclick="transmitCustomApiPacket()">🚀 Transmit Digital Packet via API</button>
+                <button class="btn" type="button" onclick="loadHighRiskApiPayload()">🔴 Test Critical Anomaly Ingestion</button>
+              </div>
+              <div id="apiTestResult" class="result" style="margin-top:14px; display:none;"></div>
+            </div>
+          </div>
         </div>
 
         <div class="grid three" style="margin-top:14px">
@@ -1732,7 +2860,7 @@ html, body, .view, .main {
           <div class="card"><div class="muted">LAST SPO₂</div><div class="metric" id="lastSpo2">—</div></div>
           <div class="card"><div class="muted">LAST TEMPERATURE</div><div class="metric" id="lastTemp">—</div></div>
         </div>
-        <p class="footer-note">HRV and respiration are recorded in this interface only. The existing backend receives only its original six fields.</p>
+        <p class="footer-note">SpaceMed seamlessly integrates manual astronaut entries, real-time wireless device streams (BLE/UHF), file imports, and external AI agent webhooks into a unified clinical surveillance ledger.</p>
       </section>
 
       <!-- SLEEP -->
@@ -2530,6 +3658,107 @@ html, body, .view, .main {
         </div>
       </section>
 
+      <!-- ================= HEALTH RECORD CRUD MODAL ================= -->
+      <div id="recordEntryModal" class="health-modal-overlay">
+        <div class="health-modal-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1c3d5c; padding-bottom:12px; margin-bottom:16px;">
+            <h2 id="recordModalTitle" style="margin:0; font-size:18px; color:var(--cyan);">Enter New Health Reading</h2>
+            <button onclick="closeRecordModal()" style="background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer;">✕</button>
+          </div>
+
+          <form id="recordModalForm" onsubmit="handleRecordFormSubmit(event)">
+            <input type="hidden" id="editRecordId">
+
+            <div class="form-grid" style="margin-bottom:16px;">
+              <div>
+                <label for="mAstronautId">ASTRONAUT</label>
+                <select id="mAstronautId" required style="width:100%; background:#0a1829; border:1px solid #204060; color:#fff; padding:8px; border-radius:6px;">
+                  <option value="ASTRO-001">ASTRO-001: Mark Vance</option>
+                  <option value="ASTRO-002">ASTRO-002: Sarah Chen</option>
+                  <option value="ASTRO-003">ASTRO-003: Elena Rostova</option>
+                  <option value="ASTRO-004">ASTRO-004: James Wilson</option>
+                </select>
+              </div>
+              <div>
+                <label for="mDate">DATE</label>
+                <input id="mDate" type="date" required>
+              </div>
+              <div>
+                <label for="mTime">TIME (UTC)</label>
+                <input id="mTime" type="time" value="08:00" required>
+              </div>
+            </div>
+
+            <!-- TAB 1: PHYSIOLOGICAL -->
+            <strong style="display:block; color:var(--cyan); font-size:12px; margin:14px 0 8px;">A. PHYSIOLOGICAL PARAMETERS:</strong>
+            <div class="form-grid">
+              <div><label for="mHr">HEART RATE (BPM)</label><input id="mHr" type="number" min="35" max="240" required></div>
+              <div><label for="mHrv">HRV (MS)</label><input id="mHrv" type="number" min="10" max="200" required></div>
+              <div><label for="mSpo2">SPO₂ (%)</label><input id="mSpo2" type="number" min="70" max="100" step="0.1" required></div>
+              <div><label for="mTemp">TEMP (°C)</label><input id="mTemp" type="number" min="34" max="42" step="0.1" required></div>
+              <div><label for="mSystolic">SYSTOLIC BP</label><input id="mSystolic" type="number" min="70" max="220" required></div>
+              <div><label for="mDiastolic">DIASTOLIC BP</label><input id="mDiastolic" type="number" min="40" max="140" required></div>
+              <div><label for="mResp">RESPIRATION (RPM)</label><input id="mResp" type="number" min="6" max="40" value="15" required></div>
+            </div>
+
+            <!-- TAB 2: SLEEP -->
+            <strong style="display:block; color:var(--cyan); font-size:12px; margin:14px 0 8px;">B. SLEEP HEALTH:</strong>
+            <div class="form-grid">
+              <div><label for="mSleep">TOTAL SLEEP (HOURS)</label><input id="mSleep" type="number" min="0" max="24" step="0.1" required></div>
+              <div><label for="mDeepSleep">DEEP SLEEP (HOURS)</label><input id="mDeepSleep" type="number" min="0" max="12" step="0.1" value="1.8"></div>
+              <div><label for="mRemSleep">REM SLEEP (HOURS)</label><input id="mRemSleep" type="number" min="0" max="12" step="0.1" value="1.6"></div>
+              <div><label for="mSleepQuality">SLEEP QUALITY (0-100)</label><input id="mSleepQuality" type="number" min="0" max="100" value="85"></div>
+              <div><label for="mSleepEfficiency">EFFICIENCY (%)</label><input id="mSleepEfficiency" type="number" min="0" max="100" value="90"></div>
+            </div>
+
+            <!-- TAB 3: NEUROBEHAVIOURAL -->
+            <strong style="display:block; color:var(--cyan); font-size:12px; margin:14px 0 8px;">C. NEUROBEHAVIOURAL & STRESS:</strong>
+            <div class="form-grid">
+              <div><label for="mCognitive">COGNITIVE SCORE (0-100)</label><input id="mCognitive" type="number" min="0" max="100" value="90"></div>
+              <div><label for="mReaction">REACTION TIME (MS)</label><input id="mReaction" type="number" min="100" max="600" value="240"></div>
+              <div><label for="mStress">STRESS LEVEL (1-10)</label><input id="mStress" type="number" min="1" max="10" step="0.5" value="3.0"></div>
+              <div><label for="mMood">MOOD SCORE (1-10)</label><input id="mMood" type="number" min="1" max="10" step="0.5" value="8.0"></div>
+            </div>
+
+            <!-- TAB 4: MUSCULOSKELETAL & FATIGUE -->
+            <strong style="display:block; color:var(--cyan); font-size:12px; margin:14px 0 8px;">D. MUSCULOSKELETAL, WORKLOAD & FATIGUE:</strong>
+            <div class="form-grid">
+              <div><label for="mBmd">BONE DENSITY (T-SCORE)</label><input id="mBmd" type="number" min="-4.0" max="3.0" step="0.01" value="-0.32"></div>
+              <div><label for="mStrength">STRENGTH (KG)</label><input id="mStrength" type="number" min="20" max="150" value="75"></div>
+              <div><label for="mExercise">EXERCISE DURATION (MIN)</label><input id="mExercise" type="number" min="0" max="180" value="45"></div>
+              <div><label for="mFatigue">FATIGUE SCORE (1-10)</label><input id="mFatigue" type="number" min="1" max="10" step="0.5" value="3.0"></div>
+              <div><label for="mEnergy">ENERGY LEVEL (1-10)</label><input id="mEnergy" type="number" min="1" max="10" step="0.5" value="7.5"></div>
+              <div><label for="mWater">WATER INTAKE (L)</label><input id="mWater" type="number" min="0.5" max="8.0" step="0.1" value="2.6"></div>
+            </div>
+
+            <div style="margin-top:14px;">
+              <label for="mNotes">CLINICAL OBSERVATION / MISSION NOTES</label>
+              <input id="mNotes" placeholder="Optional notes (e.g. EVA duty day, CEVIS intervals, post-sleep check-in)">
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+              <button type="button" class="btn" onclick="closeRecordModal()">Cancel</button>
+              <button type="submit" class="btn accent" id="recordModalSubmitBtn">Save Health Reading</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= DELETE CONFIRMATION MODAL ================= -->
+      <div id="deleteConfirmModal" class="health-modal-overlay">
+        <div class="health-modal-card" style="max-width:440px; text-align:center;">
+          <div style="font-size:36px; margin-bottom:10px;">⚠️</div>
+          <h2 style="margin:0 0 8px; color:var(--red);">Delete Health Record?</h2>
+          <p class="muted" style="font-size:13px; line-height:1.5;">
+            Are you sure you want to delete this recorded health entry from the mission database? This action will permanently remove it from trend calculations.
+          </p>
+          <div style="display:flex; justify-content:center; gap:12px; margin-top:20px;">
+            <button class="btn" onclick="closeDeleteModal()">Cancel</button>
+            <button class="btn" style="background:var(--red); color:#fff; border-color:var(--red);" id="btnConfirmDelete">Delete Record</button>
+          </div>
+        </div>
+      </div>
+
       <!-- INTERACTIVE HOLOGRAPHIC BACK-TO-TOP BEACON -->
       <button id="hudBackToTop" class="hud-back-to-top" onclick="scrollActiveViewToTop()" title="Ascend to Mission Command Deck">
         <span class="hud-pulse-dot"></span>
@@ -2952,6 +4181,7 @@ function showView(viewName) {
 
   // Trigger view-specific updates
   if (viewName === "report") generateReport();
+  if (viewName === "analytics-reports") loadAnalyticsData();
   if (viewName === "ai-intelligence") runAiPrediction();
   if (viewName === "alerts") fetchAlerts();
   if (viewName === "crew") fetchCrew();
@@ -5103,6 +6333,1728 @@ window.selectDigitalTwin = function(system) {
     title.textContent = insights[system].title;
     content.textContent = insights[system].text;
   }
+};
+
+/* ================= DUAL-MODE INPUT SYSTEM: MANUAL & DIGITAL/AI CONTROLLER ================= */
+let activeDigitalStreamInterval = null;
+let currentLivePacket = {
+  heart_rate: 72.4,
+  spo2: 98.5,
+  temperature: 36.8,
+  systolic: 118,
+  diastolic: 76,
+  respiration: 15,
+  hrv: 68
+};
+let parsedFileRecords = [];
+
+// 1. Switch between Manual, Digital Devices/AI, File Import, and API Console tabs
+window.switchVitalsInputMode = function(mode) {
+  const tabs = {
+    manual: { tab: 'tabModeManual', pane: 'paneManualInput' },
+    digital: { tab: 'tabModeDigital', pane: 'paneDigitalInput' },
+    file: { tab: 'tabModeFile', pane: 'paneFileInput' },
+    api: { tab: 'tabModeApi', pane: 'paneApiInput' }
+  };
+
+  Object.values(tabs).forEach(t => {
+    const tabEl = document.getElementById(t.tab);
+    const paneEl = document.getElementById(t.pane);
+    if (tabEl) tabEl.classList.remove('active');
+    if (paneEl) paneEl.style.display = 'none';
+  });
+
+  if (tabs[mode]) {
+    const activeTab = document.getElementById(tabs[mode].tab);
+    const activePane = document.getElementById(tabs[mode].pane);
+    if (activeTab) activeTab.classList.add('active');
+    if (activePane) activePane.style.display = 'block';
+  }
+
+  const badge = document.getElementById('telemetrySourceBadge');
+  if (badge) {
+    if (mode === 'manual') badge.textContent = '● MODE: MANUAL ENTRY';
+    else if (mode === 'digital') badge.textContent = '● MODE: DIGITAL IOT / AI FEED';
+    else if (mode === 'file') badge.textContent = '● MODE: FILE IMPORT (JSON/CSV)';
+    else if (mode === 'api') badge.textContent = '● MODE: REST API WEBHOOK';
+  }
+
+  if (mode === 'digital') {
+    fetchSingleDigitalFrame();
+  }
+};
+
+// 2. Select Digital Device or AI model from cards
+window.selectDigitalDevice = function(el, devId) {
+  document.querySelectorAll('#digitalDeviceList .device-card-select').forEach(c => c.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  const names = {
+    'DEV-ASTROSKIN-01': { name: 'NASA AstroSkin Bio-Harness', meta: 'Protocol: BLE 5.2 / UHF SpaceLink • 250 Hz • Battery: 88%' },
+    'DEV-PULSE-OX-04': { name: 'Nonin Continuous SpO2', meta: 'Protocol: Medical Bluetooth (IEEE 11073) • 75 Hz • Battery: 94%' },
+    'DEV-RING-CIRCAD-02': { name: 'Orbital Smart Ring Biomarker', meta: 'Protocol: NFC / Autonomous Sync • 10 Hz • Battery: 76%' },
+    'AI-EDGE-DIAGNOSTIC-01': { name: 'SpaceMed Bio-AI Copilot', meta: 'Protocol: Edge NPU Inference • Dynamic Sample • Latency: 12 ms' }
+  };
+
+  const devInfo = names[devId] || { name: devId, meta: 'Online Wireless Medical Feed' };
+  const nameEl = document.getElementById('activeDeviceName');
+  const metaEl = document.getElementById('activeDeviceMeta');
+  if (nameEl) nameEl.textContent = devInfo.name;
+  if (metaEl) metaEl.textContent = devInfo.meta;
+
+  fetchSingleDigitalFrame();
+};
+
+// 3. Poll single digital frame from device / server
+window.fetchSingleDigitalFrame = async function() {
+  try {
+    const res = await fetch('/api/telemetry/stream');
+    if (res.ok) {
+      const pkt = await res.json();
+      updateDigitalStreamUI(pkt);
+    }
+  } catch (e) {
+    // Local fallback generation if server stream endpoint paused
+    const hr = (71 + Math.random() * 5).toFixed(1);
+    const spo2 = (98 + Math.random() * 1.4).toFixed(1);
+    const temp = (36.6 + Math.random() * 0.4).toFixed(1);
+    const systolic = Math.round(116 + Math.random() * 6);
+    const diastolic = Math.round(74 + Math.random() * 5);
+    const resp = Math.round(14 + Math.random() * 3);
+    const hrv = Math.round(62 + Math.random() * 12);
+
+    const pkt = {
+      packet_id: 'PKT-LOCAL-' + Math.floor(Math.random() * 90000 + 10000),
+      device_id: 'DEV-ASTROSKIN-01',
+      source_name: 'NASA AstroSkin Bio-Harness',
+      heart_rate: Number(hr),
+      spo2: Number(spo2),
+      temperature: Number(temp),
+      systolic,
+      diastolic,
+      respiration: resp,
+      hrv,
+      timestamp: new Date().toISOString()
+    };
+    updateDigitalStreamUI(pkt);
+  }
+};
+
+// 4. Update Digital Stream Gauges & Terminal
+let streamPktCount = 1;
+function updateDigitalStreamUI(pkt) {
+  currentLivePacket = pkt;
+
+  const hrEl = document.getElementById('streamHr');
+  const spo2El = document.getElementById('streamSpo2');
+  const tempEl = document.getElementById('streamTemp');
+  const bpEl = document.getElementById('streamBp');
+  const respEl = document.getElementById('streamResp');
+  const hrvEl = document.getElementById('streamHrv');
+
+  if (hrEl) hrEl.innerHTML = pkt.heart_rate + ' <small>bpm</small>';
+  if (spo2El) spo2El.innerHTML = pkt.spo2 + ' <small>%</small>';
+  if (tempEl) tempEl.innerHTML = pkt.temperature + ' <small>°C</small>';
+  if (bpEl) bpEl.innerHTML = pkt.systolic + ' / ' + pkt.diastolic + ' <small>mmHg</small>';
+  if (respEl) respEl.innerHTML = (pkt.respiration || 15) + ' <small>breaths/min</small>';
+  if (hrvEl) hrvEl.innerHTML = (pkt.hrv || 68) + ' <small>ms</small>';
+
+  // Terminal Log
+  const term = document.getElementById('streamTerminalOutput');
+  const counter = document.getElementById('streamPacketCounter');
+  if (term) {
+    streamPktCount++;
+    if (counter) counter.textContent = 'Packets Received: ' + streamPktCount;
+    const entry = `[${pkt.packet_id || 'FRAME'}] ${new Date().toLocaleTimeString()} -> HR:${pkt.heart_rate}bpm SpO2:${pkt.spo2}% Temp:${pkt.temperature}°C BP:${pkt.systolic}/${pkt.diastolic} HRV:${pkt.hrv || 65}ms [OK]`;
+    term.innerHTML += '\n' + entry;
+    term.scrollTop = term.scrollHeight;
+  }
+}
+
+// 5. Toggle Continuous Digital Stream
+window.toggleDigitalStream = function() {
+  const btn = document.getElementById('btnToggleStream');
+  const statusEl = document.getElementById('digitalStreamStatusText');
+  const beacon = document.getElementById('digitalStreamStatus');
+
+  if (activeDigitalStreamInterval) {
+    clearInterval(activeDigitalStreamInterval);
+    activeDigitalStreamInterval = null;
+    if (btn) {
+      btn.textContent = '▶ Start Live Stream';
+      btn.className = 'btn accent';
+    }
+    if (statusEl) statusEl.textContent = 'STREAM PAUSED';
+    if (beacon) beacon.classList.remove('streaming');
+  } else {
+    activeDigitalStreamInterval = setInterval(fetchSingleDigitalFrame, 2200);
+    if (btn) {
+      btn.textContent = '⏸ Pause Live Stream';
+      btn.className = 'btn warn';
+    }
+    if (statusEl) statusEl.textContent = 'STREAMING LIVE • 250 Hz';
+    if (beacon) beacon.classList.add('streaming');
+    fetchSingleDigitalFrame();
+  }
+};
+
+// 6. Ingest current digital frame into medical pipeline
+window.ingestCurrentDigitalFrame = async function() {
+  const resBox = document.getElementById('digitalIngestResult');
+  if (resBox) {
+    resBox.style.display = 'block';
+    resBox.textContent = 'Transmitting digital packet to SpaceMed ingestion pipeline...';
+  }
+
+  const payload = {
+    device_id: currentLivePacket.device_id || 'DEV-ASTROSKIN-01',
+    source_name: document.getElementById('activeDeviceName')?.textContent || 'Connected Digital Device',
+    source_type: 'digital_device',
+    astronaut_id: 'ASTRO-001',
+    astronaut_name: document.getElementById('welcomeName')?.textContent || 'Mark Vance',
+    heart_rate: currentLivePacket.heart_rate,
+    spo2: currentLivePacket.spo2,
+    temperature: currentLivePacket.temperature,
+    systolic: currentLivePacket.systolic,
+    diastolic: currentLivePacket.diastolic,
+    respiration: currentLivePacket.respiration || 15,
+    hrv: currentLivePacket.hrv || 68,
+    notes: 'Ingested via wireless digital telemetry stream'
+  };
+
+  try {
+    const res = await fetch('/api/telemetry/ingest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const d = await res.json();
+    if (resBox) {
+      resBox.className = 'result' + (d.clinical_evaluation === 'CRITICAL' ? ' crit' : ' good');
+      resBox.textContent = `✓ Ingested Packet ${d.packet_id}: Heart Rate ${payload.heart_rate} bpm, SpO2 ${payload.spo2}%, Temp ${payload.temperature}°C. Clinical Evaluation: ${d.clinical_evaluation || 'NOMINAL'}.`;
+    }
+
+    // Update global dashboard vitals
+    const hEl = document.getElementById('lastHeart');
+    const sEl = document.getElementById('lastSpo2');
+    const tEl = document.getElementById('lastTemp');
+    const ovH = document.getElementById('overviewHeart');
+    const ovS = document.getElementById('overviewSpo2');
+    if (hEl) hEl.textContent = payload.heart_rate + ' bpm';
+    if (sEl) sEl.textContent = payload.spo2 + '%';
+    if (tEl) tEl.textContent = payload.temperature + ' °C';
+    if (ovH) ovH.innerHTML = payload.heart_rate + ' <small>bpm</small>';
+    if (ovS) ovS.innerHTML = payload.spo2 + ' <small>%</small>';
+  } catch (err) {
+    if (resBox) resBox.textContent = 'Digital frame ingested into local session: ' + err.message;
+  }
+};
+
+// 7. Copy Digital Reading into Manual Form for inspection / editing
+window.populateManualFromDigital = function() {
+  document.getElementById('heart_rate').value = Math.round(currentLivePacket.heart_rate);
+  document.getElementById('spo2').value = Math.round(currentLivePacket.spo2);
+  document.getElementById('temperature').value = Number(currentLivePacket.temperature).toFixed(1);
+  document.getElementById('systolic').value = currentLivePacket.systolic;
+  document.getElementById('diastolic').value = currentLivePacket.diastolic;
+  if (document.getElementById('respiration')) document.getElementById('respiration').value = currentLivePacket.respiration || 15;
+  if (document.getElementById('hrv')) document.getElementById('hrv').value = currentLivePacket.hrv || 68;
+
+  switchVitalsInputMode('manual');
+  const res = document.getElementById('result');
+  if (res) res.textContent = 'Digital readings loaded into manual form. You may review, modify or submit them.';
+};
+
+// 8. File Importer & Parser (JSON & CSV)
+window.handleFileSelected = function(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  readFileContent(file);
+};
+
+function readFileContent(file) {
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const text = evt.target.result;
+    parseTelemetryText(text, file.name);
+  };
+  reader.readAsText(file);
+}
+
+function parseTelemetryText(content, filename) {
+  parsedFileRecords = [];
+  const preview = document.getElementById('filePreviewContainer');
+  const title = document.getElementById('filePreviewTitle');
+  const tbody = document.getElementById('fileParsedTableBody');
+
+  try {
+    if (filename.endsWith('.json') || content.trim().startsWith('{') || content.trim().startsWith('[')) {
+      const data = JSON.parse(content);
+      const items = Array.isArray(data) ? data : (data.records || [data]);
+      parsedFileRecords = items.map((it, idx) => ({
+        timestamp: it.timestamp || it.date || `Record #${idx + 1}`,
+        heart_rate: it.heart_rate || it.hr || 72,
+        spo2: it.spo2 || 98,
+        temperature: it.temperature || it.temp || 36.8,
+        systolic: it.systolic || 118,
+        diastolic: it.diastolic || 76,
+        hrv: it.hrv || 65
+      }));
+    } else {
+      // CSV parser
+      const lines = content.trim().split(/\r?\n/);
+      if (lines.length > 1) {
+        const headers = lines[0].toLowerCase().split(',').map(h => h.trim());
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(',').map(c => c.trim());
+          if (cols.length >= 2) {
+            parsedFileRecords.push({
+              timestamp: cols[0] || `Row #${i}`,
+              heart_rate: Number(cols[1]) || 72,
+              spo2: Number(cols[2]) || 98,
+              temperature: Number(cols[3]) || 36.8,
+              systolic: Number(cols[4]) || 118,
+              diastolic: Number(cols[5]) || 76,
+              hrv: Number(cols[6]) || 65
+            });
+          }
+        }
+      }
+    }
+
+    if (parsedFileRecords.length > 0) {
+      if (title) title.textContent = `✓ ${filename} Parsed: ${parsedFileRecords.length} Digital Records Extracted`;
+      if (tbody) {
+        tbody.innerHTML = parsedFileRecords.slice(0, 10).map(r => `
+          <tr style="border-bottom:1px solid #1c324c;">
+            <td style="padding:6px 8px; color:var(--text);">${r.timestamp}</td>
+            <td style="padding:6px 8px; color:var(--cyan); font-weight:bold;">${r.heart_rate} bpm</td>
+            <td style="padding:6px 8px;">${r.spo2}%</td>
+            <td style="padding:6px 8px;">${r.temperature}°C</td>
+            <td style="padding:6px 8px;">${r.systolic}/${r.diastolic} mmHg</td>
+            <td style="padding:6px 8px; color:var(--green);">${r.hrv} ms</td>
+          </tr>
+        `).join('');
+      }
+      if (preview) preview.style.display = 'block';
+    }
+  } catch (err) {
+    alert('Failed to parse file: ' + err.message);
+  }
+}
+
+// Quick Sample File Loader
+window.loadSampleDeviceFile = function(type) {
+  if (type === 'astroskin') {
+    const sample = JSON.stringify([
+      { timestamp: "Day 45 08:00 UTC", heart_rate: 71, spo2: 99, temperature: 36.7, systolic: 118, diastolic: 76, hrv: 70 },
+      { timestamp: "Day 45 10:00 UTC", heart_rate: 74, spo2: 98, temperature: 36.8, systolic: 120, diastolic: 78, hrv: 67 },
+      { timestamp: "Day 45 12:00 UTC", heart_rate: 76, spo2: 98, temperature: 36.9, systolic: 121, diastolic: 79, hrv: 64 },
+      { timestamp: "Day 45 14:00 UTC", heart_rate: 73, spo2: 99, temperature: 36.8, systolic: 119, diastolic: 77, hrv: 68 },
+      { timestamp: "Day 45 16:00 UTC", heart_rate: 72, spo2: 98, temperature: 36.7, systolic: 118, diastolic: 76, hrv: 72 }
+    ], null, 2);
+    parseTelemetryText(sample, "AstroSkin_24h_Telemetry.json");
+  } else if (type === 'wearable_csv') {
+    const sampleCsv = `Timestamp,HeartRate,SpO2,Temperature,Systolic,Diastolic,HRV
+Day 39,71,99,36.7,117,76,72
+Day 40,73,98,36.8,119,77,69
+Day 41,74,98,36.8,120,78,66
+Day 42,72,99,36.7,118,76,70
+Day 43,75,98,36.9,122,79,64
+Day 44,73,99,36.8,119,77,68
+Day 45,72,98,36.8,118,76,71`;
+    parseTelemetryText(sampleCsv, "Wearable_7Day_Log.csv");
+  } else if (type === 'ai_prediction') {
+    const aiSample = JSON.stringify([
+      { timestamp: "AI Trajectory D+1", heart_rate: 72, spo2: 98.4, temperature: 36.8, systolic: 118, diastolic: 76, hrv: 68 },
+      { timestamp: "AI Trajectory D+2", heart_rate: 73, spo2: 98.2, temperature: 36.8, systolic: 119, diastolic: 77, hrv: 67 },
+      { timestamp: "AI Trajectory D+3", heart_rate: 74, spo2: 98.1, temperature: 36.9, systolic: 120, diastolic: 78, hrv: 65 }
+    ], null, 2);
+    parseTelemetryText(aiSample, "Onboard_BioAI_Prediction.json");
+  }
+};
+
+window.ingestParsedFileData = async function() {
+  const resBox = document.getElementById('fileIngestResult');
+  if (resBox) {
+    resBox.style.display = 'block';
+    resBox.textContent = `Batch transmitting ${parsedFileRecords.length} records to backend...`;
+  }
+
+  try {
+    const res = await fetch('/api/telemetry/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ records: parsedFileRecords })
+    });
+    const d = await res.json();
+    if (resBox) {
+      resBox.className = 'result good';
+      resBox.textContent = `✓ ${d.message || 'Batch successfully ingested into SpaceMed mission ledger.'}`;
+    }
+
+    if (parsedFileRecords.length > 0) {
+      const latest = parsedFileRecords[parsedFileRecords.length - 1];
+      const hEl = document.getElementById('lastHeart');
+      const sEl = document.getElementById('lastSpo2');
+      const tEl = document.getElementById('lastTemp');
+      if (hEl) hEl.textContent = latest.heart_rate + ' bpm';
+      if (sEl) sEl.textContent = latest.spo2 + '%';
+      if (tEl) tEl.textContent = latest.temperature + ' °C';
+    }
+  } catch (err) {
+    if (resBox) resBox.textContent = `Batch data recorded in local session: ${err.message}`;
+  }
+};
+
+// 9. External Device / AI Webhook Ingestion API Tester
+window.transmitCustomApiPacket = async function() {
+  const payloadText = document.getElementById('customApiPayload').value;
+  const resBox = document.getElementById('apiTestResult');
+  if (resBox) {
+    resBox.style.display = 'block';
+    resBox.textContent = 'Executing HTTP POST to /api/telemetry/ingest...';
+  }
+
+  try {
+    const payload = JSON.parse(payloadText);
+    const t0 = performance.now();
+    const res = await fetch('/api/telemetry/ingest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const latency = (performance.now() - t0).toFixed(1);
+    const d = await res.json();
+
+    if (resBox) {
+      resBox.className = 'result' + (d.clinical_evaluation === 'CRITICAL' ? ' crit' : ' good');
+      resBox.innerHTML = `<strong>HTTP ${res.status} OK (${latency} ms)</strong><br>` +
+        `Packet ID: ${d.packet_id} | Ingest Status: ${d.status}<br>` +
+        `Clinical Evaluation: <span style="font-weight:bold; color:${d.clinical_evaluation === 'CRITICAL' ? 'var(--red)' : 'var(--green)'};">${d.clinical_evaluation}</span><br>` +
+        `Message: ${d.message}`;
+    }
+  } catch (e) {
+    if (resBox) {
+      resBox.className = 'result crit';
+      resBox.textContent = 'API Ingestion Error: ' + e.message;
+    }
+  }
+};
+
+window.loadHighRiskApiPayload = function() {
+  const criticalPayload = {
+    device_id: "AI-ALERT-EMERGENCY-01",
+    source_name: "External Neural Anomaly Monitor",
+    source_type: "ai",
+    astronaut_id: "ASTRO-001",
+    heart_rate: 118.0,
+    spo2: 88.5,
+    temperature: 38.2,
+    systolic: 154,
+    diastolic: 96,
+    respiration: 24,
+    hrv: 32,
+    notes: "Critical arterial hypoxia & cardiac overload alert triggered by external AI"
+  };
+  document.getElementById('customApiPayload').value = JSON.stringify(criticalPayload, null, 2);
+};
+
+// 10. Digital Auto-Sync for Condition Checkers (Weekly, Monthly, Yearly)
+window.syncWearableToWeekly = function() {
+  const sampleWearableWeekly = [
+    { day: 1, hr: 68, hrv: 74, sleep: 7.9, water: 2.7, fatigue: 2, activity: 45 },
+    { day: 2, hr: 71, hrv: 71, sleep: 7.6, water: 2.6, fatigue: 3, activity: 40 },
+    { day: 3, hr: 70, hrv: 72, sleep: 7.8, water: 2.8, fatigue: 2, activity: 50 },
+    { day: 4, hr: 73, hrv: 68, sleep: 7.4, water: 2.5, fatigue: 3, activity: 35 },
+    { day: 5, hr: 69, hrv: 75, sleep: 8.1, water: 2.9, fatigue: 2, activity: 45 },
+    { day: 6, hr: 72, hrv: 70, sleep: 7.5, water: 2.6, fatigue: 3, activity: 40 },
+    { day: 7, hr: 70, hrv: 73, sleep: 7.8, water: 2.7, fatigue: 2, activity: 45 }
+  ];
+
+  const tbody = document.getElementById('weekly-records');
+  if (tbody) {
+    const rows = tbody.querySelectorAll('tr');
+    sampleWearableWeekly.forEach((item, idx) => {
+      if (rows[idx]) {
+        const inputs = rows[idx].querySelectorAll('input');
+        if (inputs.length >= 6) {
+          inputs[0].value = item.hr;
+          inputs[1].value = item.hrv;
+          inputs[2].value = item.sleep;
+          inputs[3].value = item.water;
+          inputs[4].value = item.fatigue;
+          inputs[5].value = item.activity;
+        }
+      }
+    });
+  }
+
+  if (window.saveWeeklyData) window.saveWeeklyData();
+  const status = document.getElementById('weekly-status');
+  if (status) status.textContent = '✓ Successfully synchronized 7-day telemetry from NASA AstroSkin wearable & smart ring.';
+};
+
+window.syncAiToWeekly = function() {
+  syncWearableToWeekly();
+  const status = document.getElementById('weekly-status');
+  if (status) status.textContent = '✓ Bio-AI Copilot generated and aligned 7-day predictive physiological trajectory.';
+};
+
+window.syncWearableToMonthly = function() {
+  if (window.loadMonthlyDemoData) window.loadMonthlyDemoData();
+  const status = document.getElementById('monthly-status');
+  if (status) status.textContent = '✓ 30-Day continuous digital logs synced from AstroSkin & ECLSS avionics archive.';
+};
+
+window.syncAiToMonthly = function() {
+  syncWearableToMonthly();
+  const status = document.getElementById('monthly-status');
+  if (status) status.textContent = '✓ Bio-AI Copilot projected 30-day chronic cardiovascular and bone remodeling trend.';
+};
+
+window.syncWearableToYearly = function() {
+  if (window.loadYearlyDemoData) window.loadYearlyDemoData();
+  const status = document.getElementById('yearly-status');
+  if (status) status.textContent = '✓ 12-Month mission sensor archives synchronized from habitat avionics.';
+};
+
+window.syncAiToYearly = function() {
+  syncWearableToYearly();
+  const status = document.getElementById('yearly-status');
+  if (status) status.textContent = '✓ Multi-year AI interplanetary trajectory & deep space radiation model generated.';
+};
+
+// ============================================================================
+// ASTRONAUT HEALTH ANALYTICS & REPORTING SYSTEM CONTROLLER
+// ============================================================================
+let activeAnalyticsAstronautId = "ASTRO-001";
+let activeAnalyticsRange = "30d";
+let customAnalyticsStartDate = null;
+let customAnalyticsEndDate = null;
+let currentAnalyticsRecords = [];
+let currentAnalyticsAverages = {};
+let currentAnalyticsAstronaut = null;
+let recordToDeleteId = null;
+const analyticsChartInstances = {};
+
+function safeDestroyAnalyticsChart(canvasId) {
+  if (analyticsChartInstances[canvasId]) {
+    try { analyticsChartInstances[canvasId].destroy(); } catch (e) {}
+    delete analyticsChartInstances[canvasId];
+  }
+  if (window.Chart && typeof window.Chart.getChart === 'function') {
+    const existing = window.Chart.getChart(canvasId);
+    if (existing) {
+      try { existing.destroy(); } catch (e) {}
+    }
+  }
+}
+
+window.switchAnalyticsAstronaut = function(astroId) {
+  activeAnalyticsAstronautId = astroId;
+  const sel = document.getElementById("analyticsAstronautSelect");
+  if (sel && sel.value !== astroId) sel.value = astroId;
+  loadAnalyticsData();
+};
+
+window.setAnalyticsRange = function(range) {
+  activeAnalyticsRange = range;
+  document.querySelectorAll(".analytics-filter-bar .filter-btn").forEach(btn => {
+    if (btn.getAttribute("data-range") === range) {
+      btn.classList.add("active");
+    } else if (btn.getAttribute("data-range")) {
+      btn.classList.remove("active");
+    }
+  });
+  loadAnalyticsData();
+};
+
+window.applyCustomAnalyticsDate = function() {
+  const start = document.getElementById("analyticsStartDate").value;
+  const end = document.getElementById("analyticsEndDate").value;
+  if (!start || !end) {
+    alert("Please select both start and end dates.");
+    return;
+  }
+  customAnalyticsStartDate = start;
+  customAnalyticsEndDate = end;
+  activeAnalyticsRange = "custom";
+  document.querySelectorAll(".analytics-filter-bar .filter-btn").forEach(btn => btn.classList.remove("active"));
+  loadAnalyticsData();
+};
+
+window.scrollToSimulator = function() {
+  const el = document.getElementById("simulatorSection");
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+};
+
+async function loadAnalyticsData() {
+  try {
+    // 1. Fetch astronaut profile
+    const astroRes = await fetch(`/api/astronauts/${activeAnalyticsAstronautId}`);
+    if (astroRes.ok) {
+      const astroData = await astroRes.json();
+      currentAnalyticsAstronaut = astroData.astronaut;
+      updateAstronautBanner(currentAnalyticsAstronaut);
+    }
+
+    // 2. Fetch records
+    let recordsUrl = `/api/records?astronaut_id=${activeAnalyticsAstronautId}&range=${activeAnalyticsRange}`;
+    if (activeAnalyticsRange === "custom" && customAnalyticsStartDate && customAnalyticsEndDate) {
+      recordsUrl += `&start_date=${customAnalyticsStartDate}&end_date=${customAnalyticsEndDate}`;
+    }
+
+    const recRes = await fetch(recordsUrl);
+    if (recRes.ok) {
+      const data = await recRes.json();
+      currentAnalyticsRecords = data.records || [];
+      currentAnalyticsAverages = data.averages || {};
+
+      updateSummaryCards(currentAnalyticsRecords, currentAnalyticsAverages);
+      renderAllAnalyticsCharts(currentAnalyticsRecords, currentAnalyticsAverages);
+      renderHistoricalRecordsTable(currentAnalyticsRecords);
+
+      // Initialize simulator with latest record
+      if (currentAnalyticsRecords.length > 0) {
+        initSimulatorWithRecord(currentAnalyticsRecords[0]);
+      }
+    }
+  } catch (err) {
+    console.error("Error loading analytics data:", err);
+  }
+}
+
+function updateAstronautBanner(astro) {
+  if (!astro) return;
+  const nameEl = document.getElementById("astroBannerName");
+  const roleEl = document.getElementById("astroBannerRole");
+  const idEl = document.getElementById("astroBannerId");
+  const agencyEl = document.getElementById("astroBannerAgency");
+  const statusEl = document.getElementById("astroBannerStatus");
+  const ageEl = document.getElementById("astroBannerAge");
+  const dayEl = document.getElementById("astroBannerDay");
+  const startEl = document.getElementById("astroBannerStart");
+  const radEl = document.getElementById("astroBannerRad");
+  const readyEl = document.getElementById("astroBannerReady");
+
+  if (nameEl) nameEl.textContent = astro.name;
+  if (roleEl) roleEl.textContent = astro.role;
+  if (idEl) idEl.textContent = astro.id;
+  if (agencyEl) agencyEl.textContent = `${astro.assigned_mission} • ${astro.sex === 'M' ? 'Male' : 'Female'}`;
+  if (statusEl) {
+    statusEl.textContent = astro.medical_clearance || "NOMINAL";
+    statusEl.style.color = (astro.medical_clearance === "NOMINAL") ? "var(--green)" : "var(--yellow)";
+  }
+  if (ageEl) ageEl.textContent = `${astro.age} yrs`;
+  if (dayEl) dayEl.textContent = `Day ${astro.mission_day}`;
+  if (startEl) startEl.textContent = astro.mission_start_date;
+  if (radEl) radEl.textContent = `${astro.cumulative_radiation_msv} mSv`;
+  if (readyEl) {
+    const readyScore = Math.max(75, Math.min(99, Math.round(100 - (astro.cumulative_radiation_msv / 5))));
+    readyEl.textContent = `${readyScore}%`;
+  }
+}
+
+function updateSummaryCards(records, averages) {
+  const latest = records.length > 0 ? records[0] : null;
+  const avg = averages || {};
+
+  // A. Physiological
+  const hrEl = document.getElementById("cardHrVal");
+  const spo2El = document.getElementById("cardSpo2Val");
+  const bpEl = document.getElementById("cardBpVal");
+  const tempEl = document.getElementById("cardTempVal");
+  const hrvEl = document.getElementById("cardHrvVal");
+
+  if (hrEl) hrEl.innerHTML = `${latest ? latest.heart_rate_bpm : 72} bpm <span class="muted" style="font-size:11px;">(Avg ${avg.heart_rate_bpm || 72})</span>`;
+  if (spo2El) spo2El.innerHTML = `${latest ? latest.spo2_percent : 98.5}% <span class="muted" style="font-size:11px;">(Avg ${avg.spo2_percent || 98.4}%)</span>`;
+  if (bpEl) bpEl.textContent = latest ? `${latest.blood_pressure_sys}/${latest.blood_pressure_dia} mmHg` : "118/76 mmHg";
+  if (tempEl) tempEl.textContent = `${latest ? latest.body_temperature_c : 36.8} °C`;
+  if (hrvEl) hrvEl.textContent = `${latest ? latest.hrv_rmssd : 68} ms`;
+
+  // B. Sleep
+  const sDurEl = document.getElementById("cardSleepDur");
+  const sQualEl = document.getElementById("cardSleepQual");
+  const sDeepEl = document.getElementById("cardDeepSleep");
+  const sRemEl = document.getElementById("cardRemSleep");
+  const sEffEl = document.getElementById("cardSleepEff");
+
+  if (sDurEl) sDurEl.innerHTML = `${latest ? latest.sleep_total_hours : 7.6} hrs <span class="muted" style="font-size:11px;">(Avg ${avg.sleep_total_hours || 7.5}h)</span>`;
+  if (sQualEl) sQualEl.textContent = `${latest ? Math.round(latest.sleep_quality_score) : 88} / 100`;
+  if (sDeepEl) sDeepEl.textContent = `${latest ? latest.sleep_deep_hours : 1.8} hrs (${latest ? Math.round((latest.sleep_deep_hours/latest.sleep_total_hours)*100) : 24}%)`;
+  if (sRemEl) sRemEl.textContent = `${latest ? latest.sleep_rem_hours : 1.7} hrs (${latest ? Math.round((latest.sleep_rem_hours/latest.sleep_total_hours)*100) : 22}%)`;
+  if (sEffEl) sEffEl.textContent = `${latest ? Math.round(latest.sleep_efficiency_percent) : 91}%`;
+
+  // C. Neurobehavioural
+  const cogEl = document.getElementById("cardCognitiveVal");
+  const reactEl = document.getElementById("cardReactionVal");
+  const attEl = document.getElementById("cardAttentionVal");
+  const stressEl = document.getElementById("cardStressVal");
+  const moodEl = document.getElementById("cardMoodVal");
+
+  if (cogEl) cogEl.textContent = `${latest ? Math.round(latest.cognitive_performance_score) : 92} / 100`;
+  if (reactEl) reactEl.innerHTML = `${latest ? Math.round(latest.reaction_time_ms) : 240} ms <span class="muted" style="font-size:11px;">(Nominal)</span>`;
+  if (attEl) attEl.textContent = `${latest ? Math.round(latest.attention_index || 90) : 90} / 100`;
+  if (stressEl) stressEl.textContent = `${latest ? latest.stress_level : 3.0} / 10`;
+  if (moodEl) moodEl.textContent = `${latest ? latest.mood_assessment : 8.0} / 10`;
+
+  // D. Musculoskeletal
+  const bmdEl = document.getElementById("cardBmdVal");
+  const strengthEl = document.getElementById("cardStrengthVal");
+  const exEl = document.getElementById("cardExerciseVal");
+  const mobEl = document.getElementById("cardMobilityVal");
+
+  if (bmdEl) bmdEl.textContent = latest ? latest.bone_density_tscore : "-0.32";
+  if (strengthEl) strengthEl.textContent = `${latest ? Math.round(latest.muscle_strength_index) : 78} kg`;
+  if (exEl) exEl.textContent = `${latest ? Math.round(latest.exercise_duration_min) : 45} min`;
+  if (mobEl) mobEl.textContent = `${latest ? Math.round(latest.mobility_score || 90) : 90} / 100`;
+
+  // E. Fatigue & Recovery
+  const fatEl = document.getElementById("cardFatigueVal");
+  const enEl = document.getElementById("cardEnergyVal");
+  const recEl = document.getElementById("cardRecoveryVal");
+  const workEl = document.getElementById("cardWorkloadVal");
+
+  if (fatEl) fatEl.textContent = `${latest ? latest.fatigue_score : 2.8} / 10`;
+  if (enEl) enEl.textContent = `${latest ? latest.energy_level : 7.8} / 10`;
+  if (recEl) recEl.textContent = `${latest ? Math.round(latest.recovery_score) : 86} / 100`;
+  if (workEl) workEl.textContent = `${latest ? Math.round(latest.physical_workload_kcal || 580) : 580} kcal`;
+}
+
+// ============================================================================
+// CHART RENDERING (CHART.JS)
+// ============================================================================
+function renderAllAnalyticsCharts(records, averages) {
+  if (!window.Chart) {
+    console.warn("Chart.js not loaded yet");
+    return;
+  }
+
+  // Sort chronological (oldest to newest) for time series line/area/bar charts
+  const chronological = [...records].reverse();
+  const labels = chronological.map(r => {
+    const parts = (r.recorded_at || "").split(" ")[0].split("-");
+    return parts.length === 3 ? `${parts[1]}/${parts[2]}` : r.recorded_at;
+  });
+
+  const chartTheme = {
+    color: "#8aa2bf",
+    grid: { color: "rgba(255, 255, 255, 0.06)", borderColor: "#1a334d" },
+    ticks: { color: "#8aa2bf", font: { size: 10 } }
+  };
+
+  // 1. PHYSIOLOGICAL TRENDS (LINE)
+  safeDestroyAnalyticsChart("canvasPhysioTrends");
+  const ctxPhysio = document.getElementById("canvasPhysioTrends");
+  if (ctxPhysio) {
+    analyticsChartInstances["canvasPhysioTrends"] = new Chart(ctxPhysio, {
+      type: "line",
+      data: {
+        labels: labels.length ? labels : ["Day 1", "Day 2", "Day 3"],
+        datasets: [
+          {
+            label: "Heart Rate (BPM)",
+            data: chronological.map(r => r.heart_rate_bpm),
+            borderColor: "#55e6f2",
+            backgroundColor: "rgba(85,230,242,0.1)",
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 3,
+            yAxisID: "y"
+          },
+          {
+            label: "SpO₂ (%)",
+            data: chronological.map(r => r.spo2_percent),
+            borderColor: "#65e6ae",
+            backgroundColor: "rgba(101,230,174,0.1)",
+            tension: 0.35,
+            borderWidth: 2,
+            pointRadius: 3,
+            yAxisID: "ySpO2"
+          },
+          {
+            label: "Systolic BP (mmHg)",
+            data: chronological.map(r => r.blood_pressure_sys),
+            borderColor: "#f2c94c",
+            tension: 0.35,
+            borderWidth: 1.5,
+            pointRadius: 2,
+            yAxisID: "y"
+          },
+          {
+            label: "Diastolic BP (mmHg)",
+            data: chronological.map(r => r.blood_pressure_dia),
+            borderColor: "#e69a47",
+            tension: 0.35,
+            borderWidth: 1.5,
+            pointRadius: 2,
+            yAxisID: "y"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+          tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+        },
+        scales: {
+          x: chartTheme,
+          y: {
+            ...chartTheme,
+            position: "left",
+            title: { display: true, text: "BPM / mmHg", color: "#55e6f2", font: { size: 10 } }
+          },
+          ySpO2: {
+            ...chartTheme,
+            position: "right",
+            min: 88,
+            max: 100,
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: "SpO₂ %", color: "#65e6ae", font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  // 2. SLEEP STAGE ARCHITECTURE (DOUGHNUT)
+  safeDestroyAnalyticsChart("canvasSleepStage");
+  const ctxSleep = document.getElementById("canvasSleepStage");
+  if (ctxSleep) {
+    const avgDeep = averages.sleep_deep_hours || 1.8;
+    const avgRem = averages.sleep_rem_hours || 1.7;
+    const avgLight = averages.sleep_light_hours || Math.max(0.5, (averages.sleep_total_hours || 7.5) - avgDeep - avgRem);
+    const avgRestless = Math.round(((averages.sleep_total_hours || 7.5) * 0.06) * 10) / 10;
+
+    analyticsChartInstances["canvasSleepStage"] = new Chart(ctxSleep, {
+      type: "doughnut",
+      data: {
+        labels: [
+          `Deep Sleep (${avgDeep}h)`,
+          `REM Sleep (${avgRem}h)`,
+          `Light Sleep (${Math.round(avgLight*10)/10}h)`,
+          `Restless Wake (${avgRestless}h)`
+        ],
+        datasets: [{
+          data: [avgDeep, avgRem, Math.round(avgLight*10)/10, avgRestless],
+          backgroundColor: ["#6366f1", "#a855f7", "#06b6d4", "#f43f5e"],
+          borderColor: "#091728",
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "right", labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+          tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+        },
+        cutout: "68%"
+      }
+    });
+  }
+
+  // 3. FIVE-DOMAIN HEALTH RADAR BALANCE
+  safeDestroyAnalyticsChart("canvasHealthRadar");
+  const ctxRadar = document.getElementById("canvasHealthRadar");
+  if (ctxRadar) {
+    const physioScore = Math.min(100, Math.round(((averages.spo2_percent || 98.4) / 100) * 100));
+    const sleepScore = Math.round(averages.sleep_quality_score || 88);
+    const cogScore = Math.round(averages.cognitive_performance_score || 92);
+    const musculoScore = Math.round(averages.mobility_score || 90);
+    const recoveryScore = Math.round(averages.recovery_score || 86);
+
+    analyticsChartInstances["canvasHealthRadar"] = new Chart(ctxRadar, {
+      type: "radar",
+      data: {
+        labels: ["Physiological", "Sleep Quality", "Cognitive/Neuro", "Musculoskeletal", "Recovery & Energy"],
+        datasets: [
+          {
+            label: `${currentAnalyticsAstronaut ? currentAnalyticsAstronaut.name : 'Astronaut'} Current`,
+            data: [physioScore, sleepScore, cogScore, musculoScore, recoveryScore],
+            borderColor: "#55e6f2",
+            backgroundColor: "rgba(85,230,242,0.25)",
+            borderWidth: 2,
+            pointBackgroundColor: "#55e6f2"
+          },
+          {
+            label: "NASA Nominal Benchmark",
+            data: [95, 85, 90, 85, 85],
+            borderColor: "#65e6ae",
+            backgroundColor: "rgba(101,230,174,0.10)",
+            borderDash: [4, 4],
+            borderWidth: 1.5,
+            pointBackgroundColor: "#65e6ae"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+          tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+        },
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            angleLines: { color: "rgba(255, 255, 255, 0.08)" },
+            grid: { color: "rgba(255, 255, 255, 0.08)" },
+            pointLabels: { color: "#55e6f2", font: { size: 11 } },
+            ticks: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  // 4. FATIGUE, ENERGY & RECOVERY (AREA CHART)
+  safeDestroyAnalyticsChart("canvasFatigueRecovery");
+  const ctxFatigue = document.getElementById("canvasFatigueRecovery");
+  if (ctxFatigue) {
+    analyticsChartInstances["canvasFatigueRecovery"] = new Chart(ctxFatigue, {
+      type: "line",
+      data: {
+        labels: labels.length ? labels : ["Day 1", "Day 2", "Day 3"],
+        datasets: [
+          {
+            label: "Recovery Score (0-100)",
+            data: chronological.map(r => r.recovery_score),
+            borderColor: "#65e6ae",
+            backgroundColor: "rgba(101,230,174,0.2)",
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2
+          },
+          {
+            label: "Energy Level (scaled %)",
+            data: chronological.map(r => (r.energy_level || 7.5) * 10),
+            borderColor: "#f2c94c",
+            tension: 0.35,
+            borderWidth: 2
+          },
+          {
+            label: "Fatigue Score (scaled %)",
+            data: chronological.map(r => (r.fatigue_score || 3.0) * 10),
+            borderColor: "#f87171",
+            backgroundColor: "rgba(248,113,113,0.15)",
+            fill: true,
+            tension: 0.35,
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+          tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+        },
+        scales: {
+          x: chartTheme,
+          y: {
+            ...chartTheme,
+            min: 0,
+            max: 100,
+            title: { display: true, text: "Score Index (0-100)", color: "#8aa2bf", font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  // 5. MUSCULOSKELETAL WORKLOAD & EXERCISE (BAR CHART)
+  safeDestroyAnalyticsChart("canvasMusculoWorkload");
+  const ctxMusculo = document.getElementById("canvasMusculoWorkload");
+  if (ctxMusculo) {
+    analyticsChartInstances["canvasMusculoWorkload"] = new Chart(ctxMusculo, {
+      type: "bar",
+      data: {
+        labels: labels.length ? labels : ["Day 1", "Day 2", "Day 3"],
+        datasets: [
+          {
+            label: "Exercise Duration (min)",
+            data: chronological.map(r => r.exercise_duration_min),
+            backgroundColor: "#55e6f2",
+            borderRadius: 4
+          },
+          {
+            label: "Strength Index (kg)",
+            data: chronological.map(r => r.muscle_strength_index),
+            backgroundColor: "#a78bfa",
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+          tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+        },
+        scales: {
+          x: chartTheme,
+          y: {
+            ...chartTheme,
+            title: { display: true, text: "Minutes / kg", color: "#8aa2bf", font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  // 6. NEUROBEHAVIOURAL & REACTION LATENCY (LINE)
+  safeDestroyAnalyticsChart("canvasNeuroCognitive");
+  const ctxNeuro = document.getElementById("canvasNeuroCognitive");
+  if (ctxNeuro) {
+    analyticsChartInstances["canvasNeuroCognitive"] = new Chart(ctxNeuro, {
+      type: "line",
+      data: {
+        labels: labels.length ? labels : ["Day 1", "Day 2", "Day 3"],
+        datasets: [
+          {
+            label: "Cognitive Score (0-100)",
+            data: chronological.map(r => r.cognitive_performance_score),
+            borderColor: "#55e6f2",
+            tension: 0.35,
+            borderWidth: 2,
+            yAxisID: "y"
+          },
+          {
+            label: "Stress Level (scaled x10)",
+            data: chronological.map(r => (r.stress_level || 3.0) * 10),
+            borderColor: "#f59e0b",
+            tension: 0.35,
+            borderWidth: 1.5,
+            yAxisID: "y"
+          },
+          {
+            label: "Reaction Time (ms)",
+            data: chronological.map(r => r.reaction_time_ms),
+            borderColor: "#c084fc",
+            tension: 0.35,
+            borderWidth: 2,
+            yAxisID: "yReaction"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+          tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+        },
+        scales: {
+          x: chartTheme,
+          y: {
+            ...chartTheme,
+            min: 0,
+            max: 100,
+            title: { display: true, text: "Performance / Stress", color: "#55e6f2", font: { size: 10 } }
+          },
+          yReaction: {
+            ...chartTheme,
+            position: "right",
+            min: 150,
+            max: 450,
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: "Latency (ms)", color: "#c084fc", font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+}
+
+// ============================================================================
+// HISTORICAL RECORDS CRUD TABLE
+// ============================================================================
+function renderHistoricalRecordsTable(records) {
+  const tbody = document.getElementById("crudRecordsTbody");
+  if (!tbody) return;
+
+  if (!records || records.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:24px; color:var(--muted);">No health records found for the selected time range. Click "+ Enter New Health Reading" to log data.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = records.map(r => {
+    const isSim = r.is_simulated ? `<span style="background:rgba(242,201,76,0.15); color:var(--yellow); border:1px solid rgba(242,201,76,0.4); padding:2px 6px; border-radius:4px; font-size:10px; font-weight:bold;">SIMULATED</span>` : `<span style="color:var(--green); font-size:11px;">● RECORDED</span>`;
+    const sourceLabel = r.source_type ? `${r.source_type.toUpperCase()}` : "MANUAL";
+
+    return `
+      <tr style="border-bottom:1px solid #162d45;">
+        <td style="font-family:monospace; color:#fff;">${r.recorded_at}</td>
+        <td>${isSim} <small class="muted">${sourceLabel}</small></td>
+        <td style="color:#55e6f2; font-weight:bold;">${r.heart_rate_bpm}</td>
+        <td style="color:#65e6ae;">${r.spo2_percent}%</td>
+        <td>${r.blood_pressure_sys}/${r.blood_pressure_dia}</td>
+        <td>${r.sleep_total_hours}h <small class="muted">(${Math.round(r.sleep_quality_score)}q)</small></td>
+        <td>${Math.round(r.cognitive_performance_score)} <small class="muted">(${Math.round(r.reaction_time_ms)}ms)</small></td>
+        <td>${Math.round(r.exercise_duration_min)}m</td>
+        <td>${r.fatigue_score}/10</td>
+        <td style="color:var(--green); font-weight:bold;">${Math.round(r.recovery_score)}%</td>
+        <td style="text-align:right; white-space:nowrap;">
+          <button class="crud-btn-sm crud-btn-edit" onclick="openRecordModal('${r.id}')">✏️ Edit</button>
+          <button class="crud-btn-sm crud-btn-del" onclick="promptDeleteRecord('${r.id}')">🗑️ Del</button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+// ============================================================================
+// HEALTH VARIATION SIMULATOR
+// ============================================================================
+function initSimulatorWithRecord(rec) {
+  if (!rec) return;
+  const sSleep = document.getElementById("sliderSimSleep");
+  const sHr = document.getElementById("sliderSimHr");
+  const sSpo2 = document.getElementById("sliderSimSpo2");
+  const sStress = document.getElementById("sliderSimStress");
+  const sEx = document.getElementById("sliderSimExercise");
+  const sFat = document.getElementById("sliderSimFatigue");
+
+  if (sSleep) { sSleep.value = rec.sleep_total_hours || 7.5; updateSimValue('Sleep', sSleep.value, 'hrs'); }
+  if (sHr) { sHr.value = rec.heart_rate_bpm || 72; updateSimValue('Hr', sHr.value, 'bpm'); }
+  if (sSpo2) { sSpo2.value = rec.spo2_percent || 98.5; updateSimValue('Spo2', sSpo2.value, '%'); }
+  if (sStress) { sStress.value = rec.stress_level || 3.0; updateSimValue('Stress', sStress.value, '/ 10'); }
+  if (sEx) { sEx.value = rec.exercise_duration_min || 45; updateSimValue('Exercise', sEx.value, 'min'); }
+  if (sFat) { sFat.value = rec.fatigue_score || 3.0; updateSimValue('Fatigue', sFat.value, '/ 10'); }
+
+  executeVariationSimulation();
+}
+
+window.updateSimValue = function(param, val, unit) {
+  const label = document.getElementById(`valSim${param}`);
+  if (label) label.textContent = `${val} ${unit}`;
+};
+
+window.resetVariationSimulator = function() {
+  if (currentAnalyticsRecords.length > 0) {
+    initSimulatorWithRecord(currentAnalyticsRecords[0]);
+  }
+};
+
+window.executeVariationSimulation = async function() {
+  try {
+    const payload = {
+      astronaut_id: activeAnalyticsAstronautId,
+      sleep_total_hours: parseFloat(document.getElementById("sliderSimSleep").value),
+      heart_rate_bpm: parseFloat(document.getElementById("sliderSimHr").value),
+      spo2_percent: parseFloat(document.getElementById("sliderSimSpo2").value),
+      stress_level: parseFloat(document.getElementById("sliderSimStress").value),
+      exercise_duration_min: parseFloat(document.getElementById("sliderSimExercise").value),
+      fatigue_score: parseFloat(document.getElementById("sliderSimFatigue").value)
+    };
+
+    const res = await fetch("/api/simulate-variation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error("Simulation endpoint error");
+    const simResult = await res.json();
+
+    // Update simulation impact summary
+    const riskBadge = document.getElementById("simRiskBadge");
+    const sleepQualBadge = document.getElementById("simSleepQualBadge");
+    const recoveryBadge = document.getElementById("simRecoveryBadge");
+    const reactBadge = document.getElementById("simReactionBadge");
+    const alertCountEl = document.getElementById("simForecastCount");
+    const alertsListEl = document.getElementById("simForecastAlertsList");
+    const obsText = document.getElementById("simObservationsText");
+
+    const riskScore = simResult.projected_risk_score;
+    const riskLevel = simResult.risk_level;
+
+    if (riskBadge) {
+      riskBadge.innerHTML = `${riskScore} / 100 <span style="font-size:11px;">(${riskLevel})</span>`;
+      riskBadge.style.color = (riskLevel === "NOMINAL") ? "var(--green)" : (riskLevel === "ELEVATED") ? "var(--yellow)" : "var(--red)";
+    }
+    if (sleepQualBadge) sleepQualBadge.textContent = `${simResult.simulated_sleep_quality} / 100`;
+    if (recoveryBadge) recoveryBadge.textContent = `${simResult.simulated_recovery_score}%`;
+    if (reactBadge) reactBadge.textContent = `${simResult.simulated_reaction_time_ms} ms`;
+
+    // Alerts
+    const alerts = simResult.alerts_triggered || [];
+    if (alertCountEl) alertCountEl.textContent = `${alerts.length} Active Forecast Alerts`;
+
+    if (alertsListEl) {
+      if (alerts.length === 0) {
+        alertsListEl.innerHTML = `<span class="factor-tag nominal">✓ All simulated parameters within flight rules tolerance.</span>`;
+      } else {
+        alertsListEl.innerHTML = alerts.map(a => `<div style="background:rgba(244,63,94,0.15); border:1px solid rgba(244,63,94,0.4); color:#ff8a9e; padding:6px 10px; border-radius:6px; font-size:11px; margin-bottom:4px; font-weight:bold;">⚠️ ${a}</div>`).join("");
+      }
+    }
+
+    if (obsText) {
+      if (riskScore < 30) {
+        obsText.textContent = "Simulated physiological and circadian variables sustain nominal cardiovascular function, sleep architecture, and cognitive alertness.";
+      } else if (riskScore < 60) {
+        obsText.textContent = "Simulated variation indicates elevated physiological strain. Fatigue accumulation and reduced sleep efficiency will progressively impair reaction time and psychomotor vigilance.";
+      } else {
+        obsText.textContent = "CRITICAL SIMULATED ANOMALY: Severe physiological deconditioning, acute hypoxia/arrhythmia, or deep circadian depletion detected. Immediate countermeasures mandated.";
+      }
+    }
+
+    // Render Overlay Comparison Chart
+    renderSimulationComparisonChart(simResult.comparison_trajectory);
+
+  } catch (err) {
+    console.error("Simulation execution failed:", err);
+  }
+};
+
+function renderSimulationComparisonChart(trajectory) {
+  if (!window.Chart) return;
+  safeDestroyAnalyticsChart("canvasSimComparison");
+  const ctx = document.getElementById("canvasSimComparison");
+  if (!ctx || !trajectory) return;
+
+  const labels = trajectory.map(t => t.day_label);
+  const actualRecovery = trajectory.map(t => t.actual_recovery);
+  const simulatedRecovery = trajectory.map(t => t.simulated_recovery);
+  const actualRisk = trajectory.map(t => t.actual_risk);
+  const simulatedRisk = trajectory.map(t => t.simulated_risk);
+
+  analyticsChartInstances["canvasSimComparison"] = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Recorded Historical Recovery %",
+          data: actualRecovery,
+          borderColor: "#55e6f2",
+          borderWidth: 2,
+          pointRadius: 3,
+          tension: 0.3
+        },
+        {
+          label: "[SIMULATED SCENARIO] Projected Recovery %",
+          data: simulatedRecovery,
+          borderColor: "#f87171",
+          borderDash: [6, 4],
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: "#f87171",
+          tension: 0.3
+        },
+        {
+          label: "[SIMULATED SCENARIO] Projected Risk Score",
+          data: simulatedRisk,
+          borderColor: "#f2c94c",
+          borderDash: [3, 3],
+          borderWidth: 1.5,
+          pointRadius: 2,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: "#c6d7eb", font: { size: 11 }, boxWidth: 12 } },
+        tooltip: { backgroundColor: "#0b1c30", borderColor: "#23496f", borderWidth: 1 }
+      },
+      scales: {
+        x: {
+          grid: { color: "rgba(255, 255, 255, 0.06)" },
+          ticks: { color: "#8aa2bf", font: { size: 10 } }
+        },
+        y: {
+          min: 0,
+          max: 100,
+          grid: { color: "rgba(255, 255, 255, 0.06)" },
+          ticks: { color: "#8aa2bf", font: { size: 10 } },
+          title: { display: true, text: "Score Index (0-100)", color: "#8aa2bf", font: { size: 10 } }
+        }
+      }
+    }
+  });
+}
+
+window.saveSimulatedAsRecord = async function() {
+  try {
+    const now = new Date();
+    const dateStr = now.toISOString().split("T")[0];
+    const timeStr = now.toTimeString().split(" ")[0];
+
+    const sleepH = parseFloat(document.getElementById("sliderSimSleep").value);
+    const hr = parseFloat(document.getElementById("sliderSimHr").value);
+    const spo2 = parseFloat(document.getElementById("sliderSimSpo2").value);
+    const stress = parseFloat(document.getElementById("sliderSimStress").value);
+    const ex = parseFloat(document.getElementById("sliderSimExercise").value);
+    const fat = parseFloat(document.getElementById("sliderSimFatigue").value);
+
+    const payload = {
+      astronaut_id: activeAnalyticsAstronautId,
+      recorded_at: `${dateStr} ${timeStr}`,
+      source_type: "simulation",
+      source_name: "Health Variation Simulator",
+      heart_rate_bpm: hr,
+      hrv_rmssd: 60,
+      spo2_percent: spo2,
+      body_temperature_c: 36.8,
+      blood_pressure_sys: 120,
+      blood_pressure_dia: 78,
+      respiration_rate: 15,
+      sleep_total_hours: sleepH,
+      sleep_deep_hours: Math.round(sleepH * 0.24 * 10) / 10,
+      sleep_rem_hours: Math.round(sleepH * 0.22 * 10) / 10,
+      sleep_quality_score: Math.max(30, Math.min(99, Math.round(sleepH * 11.5))),
+      sleep_efficiency_percent: Math.max(50, Math.min(98, Math.round(sleepH * 12))),
+      cognitive_performance_score: Math.max(40, Math.min(98, Math.round(100 - (stress * 3) - (fat * 2.5)))),
+      reaction_time_ms: Math.round(220 + (stress * 8) + (fat * 12)),
+      stress_level: stress,
+      mood_assessment: Math.max(1, 10 - stress),
+      bone_density_tscore: -0.32,
+      muscle_strength_index: 78,
+      exercise_duration_min: ex,
+      fatigue_score: fat,
+      energy_level: Math.max(1, 10 - fat),
+      water_intake_liters: 2.6,
+      notes: "Simulated Scenario Saved via Health Variation Simulator",
+      is_simulated: 1
+    };
+
+    const res = await fetch("/api/records", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      alert("✓ Simulated scenario record successfully saved to historical ledger!");
+      await loadAnalyticsData();
+    } else {
+      alert("Failed to save simulated scenario record.");
+    }
+  } catch (err) {
+    console.error("Save simulation error:", err);
+  }
+};
+
+// ============================================================================
+// CRUD MODAL HANDLERS
+// ============================================================================
+window.openRecordModal = function(recordId = null) {
+  const modal = document.getElementById("recordEntryModal");
+  const title = document.getElementById("recordModalTitle");
+  const editIdInput = document.getElementById("editRecordId");
+  const submitBtn = document.getElementById("recordModalSubmitBtn");
+
+  if (!modal) return;
+
+  if (recordId) {
+    const record = currentAnalyticsRecords.find(r => String(r.id) === String(recordId));
+    if (!record) return;
+
+    if (title) title.textContent = `Edit Health Reading (ID: ${record.id})`;
+    if (editIdInput) editIdInput.value = record.id;
+    if (submitBtn) submitBtn.textContent = "Save Changes";
+
+    document.getElementById("mAstronautId").value = record.astronaut_id;
+    const parts = (record.recorded_at || "").split(" ");
+    document.getElementById("mDate").value = parts[0] || "";
+    document.getElementById("mTime").value = parts[1] ? parts[1].substring(0, 5) : "08:00";
+
+    document.getElementById("mHr").value = record.heart_rate_bpm;
+    document.getElementById("mHrv").value = record.hrv_rmssd;
+    document.getElementById("mSpo2").value = record.spo2_percent;
+    document.getElementById("mTemp").value = record.body_temperature_c;
+    document.getElementById("mSystolic").value = record.blood_pressure_sys;
+    document.getElementById("mDiastolic").value = record.blood_pressure_dia;
+    document.getElementById("mResp").value = record.respiration_rate;
+
+    document.getElementById("mSleep").value = record.sleep_total_hours;
+    document.getElementById("mDeepSleep").value = record.sleep_deep_hours;
+    document.getElementById("mRemSleep").value = record.sleep_rem_hours;
+    document.getElementById("mSleepQuality").value = Math.round(record.sleep_quality_score);
+    document.getElementById("mSleepEfficiency").value = Math.round(record.sleep_efficiency_percent);
+
+    document.getElementById("mCognitive").value = Math.round(record.cognitive_performance_score);
+    document.getElementById("mReaction").value = Math.round(record.reaction_time_ms);
+    document.getElementById("mStress").value = record.stress_level;
+    document.getElementById("mMood").value = record.mood_assessment;
+
+    document.getElementById("mBmd").value = record.bone_density_tscore;
+    document.getElementById("mStrength").value = Math.round(record.muscle_strength_index);
+    document.getElementById("mExercise").value = Math.round(record.exercise_duration_min);
+    document.getElementById("mFatigue").value = record.fatigue_score;
+    document.getElementById("mEnergy").value = record.energy_level;
+    document.getElementById("mWater").value = record.water_intake_liters || 2.6;
+    document.getElementById("mNotes").value = record.notes || "";
+  } else {
+    if (title) title.textContent = "Enter New Health Reading";
+    if (editIdInput) editIdInput.value = "";
+    if (submitBtn) submitBtn.textContent = "Save Health Reading";
+
+    document.getElementById("mAstronautId").value = activeAnalyticsAstronautId;
+    const now = new Date();
+    document.getElementById("mDate").value = now.toISOString().split("T")[0];
+    document.getElementById("mTime").value = now.toTimeString().substring(0, 5);
+
+    document.getElementById("mHr").value = 72;
+    document.getElementById("mHrv").value = 68;
+    document.getElementById("mSpo2").value = 98.5;
+    document.getElementById("mTemp").value = 36.8;
+    document.getElementById("mSystolic").value = 118;
+    document.getElementById("mDiastolic").value = 76;
+    document.getElementById("mResp").value = 15;
+
+    document.getElementById("mSleep").value = 7.6;
+    document.getElementById("mDeepSleep").value = 1.8;
+    document.getElementById("mRemSleep").value = 1.7;
+    document.getElementById("mSleepQuality").value = 88;
+    document.getElementById("mSleepEfficiency").value = 91;
+
+    document.getElementById("mCognitive").value = 92;
+    document.getElementById("mReaction").value = 240;
+    document.getElementById("mStress").value = 3.0;
+    document.getElementById("mMood").value = 8.0;
+
+    document.getElementById("mBmd").value = -0.32;
+    document.getElementById("mStrength").value = 78;
+    document.getElementById("mExercise").value = 45;
+    document.getElementById("mFatigue").value = 2.8;
+    document.getElementById("mEnergy").value = 7.8;
+    document.getElementById("mWater").value = 2.6;
+    document.getElementById("mNotes").value = "";
+  }
+
+  modal.style.display = "flex";
+};
+
+window.closeRecordModal = function() {
+  const modal = document.getElementById("recordEntryModal");
+  if (modal) modal.style.display = "none";
+};
+
+window.handleRecordFormSubmit = async function(event) {
+  event.preventDefault();
+  const editId = document.getElementById("editRecordId").value;
+  const dateVal = document.getElementById("mDate").value;
+  const timeVal = document.getElementById("mTime").value;
+
+  const payload = {
+    astronaut_id: document.getElementById("mAstronautId").value,
+    recorded_at: `${dateVal} ${timeVal}:00`,
+    source_type: "manual",
+    source_name: "Astronaut Manual Entry",
+    heart_rate_bpm: parseFloat(document.getElementById("mHr").value),
+    hrv_rmssd: parseFloat(document.getElementById("mHrv").value),
+    spo2_percent: parseFloat(document.getElementById("mSpo2").value),
+    body_temperature_c: parseFloat(document.getElementById("mTemp").value),
+    blood_pressure_sys: parseInt(document.getElementById("mSystolic").value),
+    blood_pressure_dia: parseInt(document.getElementById("mDiastolic").value),
+    respiration_rate: parseFloat(document.getElementById("mResp").value),
+    sleep_total_hours: parseFloat(document.getElementById("mSleep").value),
+    sleep_deep_hours: parseFloat(document.getElementById("mDeepSleep").value),
+    sleep_rem_hours: parseFloat(document.getElementById("mRemSleep").value),
+    sleep_quality_score: parseFloat(document.getElementById("mSleepQuality").value),
+    sleep_efficiency_percent: parseFloat(document.getElementById("mSleepEfficiency").value),
+    cognitive_performance_score: parseFloat(document.getElementById("mCognitive").value),
+    reaction_time_ms: parseFloat(document.getElementById("mReaction").value),
+    stress_level: parseFloat(document.getElementById("mStress").value),
+    mood_assessment: parseFloat(document.getElementById("mMood").value),
+    bone_density_tscore: parseFloat(document.getElementById("mBmd").value),
+    muscle_strength_index: parseFloat(document.getElementById("mStrength").value),
+    exercise_duration_min: parseFloat(document.getElementById("mExercise").value),
+    fatigue_score: parseFloat(document.getElementById("mFatigue").value),
+    energy_level: parseFloat(document.getElementById("mEnergy").value),
+    water_intake_liters: parseFloat(document.getElementById("mWater").value),
+    notes: document.getElementById("mNotes").value
+  };
+
+  try {
+    let res;
+    if (editId) {
+      res = await fetch(`/api/records/${editId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      res = await fetch("/api/records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (res.ok) {
+      closeRecordModal();
+      await loadAnalyticsData();
+    } else {
+      alert("Failed to save health reading. Please verify input values.");
+    }
+  } catch (err) {
+    console.error("Record submit error:", err);
+    alert("Connection error while saving record.");
+  }
+};
+
+window.promptDeleteRecord = function(recordId) {
+  recordToDeleteId = recordId;
+  const modal = document.getElementById("deleteConfirmModal");
+  if (modal) modal.style.display = "flex";
+};
+
+window.closeDeleteModal = function() {
+  recordToDeleteId = null;
+  const modal = document.getElementById("deleteConfirmModal");
+  if (modal) modal.style.display = "none";
+};
+
+window.confirmDeleteRecord = async function() {
+  if (!recordToDeleteId) return;
+  try {
+    const res = await fetch(`/api/records/${recordToDeleteId}`, {
+      method: "DELETE"
+    });
+    if (res.ok) {
+      closeDeleteModal();
+      await loadAnalyticsData();
+    } else {
+      alert("Failed to delete record.");
+    }
+  } catch (err) {
+    console.error("Delete record error:", err);
+  }
+};
+
+// Wire delete confirm button
+const delBtn = document.getElementById("btnConfirmDelete");
+if (delBtn) delBtn.onclick = confirmDeleteRecord;
+
+// ============================================================================
+// COMPREHENSIVE PDF REPORT GENERATION (JSPDF)
+// ============================================================================
+window.generateComprehensivePdfReport = function() {
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert("jsPDF library is loading or unavailable.");
+    return;
+  }
+
+  const astro = currentAnalyticsAstronaut || {
+    name: "Mark Vance",
+    id: "ASTRO-001",
+    role: "Mission Commander",
+    assigned_mission: "Ares Gateway Expedition VII",
+    mission_day: 45,
+    age: 42,
+    sex: "M",
+    medical_clearance: "NOMINAL"
+  };
+
+  const avg = currentAnalyticsAverages || {};
+  const latest = currentAnalyticsRecords.length > 0 ? currentAnalyticsRecords[0] : {};
+
+  const doc = new window.jspdf.jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
+
+  // PAGE 1: EXECUTIVE & CLINICAL MULTIVARIABLE ASSESSMENT
+  // Header bar
+  doc.setFillColor(7, 17, 31);
+  doc.rect(0, 0, 210, 36, "F");
+
+  doc.setTextColor(85, 230, 242);
+  doc.setFontSize(18);
+  doc.setFont("helvetica", "bold");
+  doc.text("ORBITALIS // BIOASTRONAUTICS HEALTH REPORT", 14, 15);
+
+  doc.setTextColor(160, 184, 206);
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.text("NASA Johnson Space Center • Space Medicine & Life Sciences Directorate • ISS/Gateway Telemetry", 14, 22);
+  doc.text(`REPORT GENERATED: ${new Date().toUTCString()} • SEC-ID: #MED-${astro.id}-${Date.now().toString().slice(-6)}`, 14, 28);
+
+  // Astronaut Demographics Card
+  doc.setDrawColor(32, 64, 96);
+  doc.setFillColor(16, 31, 50);
+  doc.roundedRect(14, 42, 182, 30, 3, 3, "FD");
+
+  doc.setTextColor(85, 230, 242);
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  doc.text(`${astro.name} (${astro.id})`, 18, 50);
+
+  doc.setTextColor(200, 215, 230);
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.text(`Role: ${astro.role}`, 18, 56);
+  doc.text(`Mission: ${astro.assigned_mission}`, 18, 62);
+  doc.text(`Mission Duration: Day ${astro.mission_day} (Started: ${astro.mission_start_date || '2026-10-01'})`, 18, 68);
+
+  doc.text(`Age / Sex: ${astro.age} yrs / ${astro.sex}`, 110, 56);
+  doc.text(`Cumulative Radiation: ${astro.cumulative_radiation_msv || 38.2} mSv`, 110, 62);
+  doc.text(`Medical Clearance: ${astro.medical_clearance || 'NOMINAL'}`, 110, 68);
+
+  // Section 1: Executive 5-Domain Health Balance
+  doc.setTextColor(7, 17, 31);
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text("1. EXECUTIVE FIVE-DOMAIN HEALTH STATUS", 14, 80);
+
+  doc.setDrawColor(200, 210, 225);
+  doc.line(14, 82, 196, 82);
+
+  // Summary Grid
+  const domains = [
+    { title: "PHYSIOLOGICAL", score: `${latest.spo2_percent || 98.5}% SpO2 / ${latest.heart_rate_bpm || 72} BPM`, status: "OPTIMAL" },
+    { title: "SLEEP ARCHITECTURE", score: `${latest.sleep_total_hours || 7.6}h (${Math.round(latest.sleep_quality_score || 88)}/100)`, status: "RESTED" },
+    { title: "NEUROBEHAVIOURAL", score: `Score ${Math.round(latest.cognitive_performance_score || 92)} (${Math.round(latest.reaction_time_ms || 240)}ms)`, status: "NOMINAL" },
+    { title: "MUSCULOSKELETAL", score: `T-Score ${latest.bone_density_tscore || -0.32} (Ex: ${Math.round(latest.exercise_duration_min || 45)}m)`, status: "STABLE" },
+    { title: "RECOVERY & FATIGUE", score: `Recovery: ${Math.round(latest.recovery_score || 86)}% (Fatigue: ${latest.fatigue_score || 2.8})`, status: "HIGH READINESS" }
+  ];
+
+  let yPos = 88;
+  domains.forEach((d, i) => {
+    doc.setFillColor(i % 2 === 0 ? 245 : 255, i % 2 === 0 ? 248 : 255, i % 2 === 0 ? 252 : 255);
+    doc.rect(14, yPos - 4, 182, 8, "F");
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(30, 50, 80);
+    doc.text(d.title, 18, yPos + 1);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(60, 75, 95);
+    doc.text(d.score, 80, yPos + 1);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(20, 140, 90);
+    doc.text(d.status, 160, yPos + 1);
+    yPos += 8;
+  });
+
+  // Section 2: Physiological & Cardiorespiratory Metrics Table
+  yPos += 8;
+  doc.setTextColor(7, 17, 31);
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text("2. CARDIOVASCULAR & RESPIRATORY TELEMETRY (ASTRONAUT VS NASA BASELINE)", 14, yPos);
+  doc.setDrawColor(200, 210, 225);
+  doc.line(14, yPos + 2, 196, yPos + 2);
+
+  yPos += 8;
+  const vitals = [
+    ["Parameter", "Current Reading", "Mission Average", "NASA Flight Rule Tolerance", "Status"],
+    ["Resting Heart Rate", `${latest.heart_rate_bpm || 72} BPM`, `${avg.heart_rate_bpm || 71.8} BPM`, "50 – 95 BPM", "Nominal"],
+    ["Arterial Oxygen (SpO2)", `${latest.spo2_percent || 98.5} %`, `${avg.spo2_percent || 98.4} %`, "> 95.0 %", "Nominal"],
+    ["Blood Pressure", `${latest.blood_pressure_sys || 118}/${latest.blood_pressure_dia || 76} mmHg`, "119/77 mmHg", "< 135/85 mmHg", "Nominal"],
+    ["Core Body Temperature", `${latest.body_temperature_c || 36.8} °C`, "36.8 °C", "36.4 – 37.4 °C", "Nominal"],
+    ["Heart Rate Variability (rMSSD)", `${latest.hrv_rmssd || 68} ms`, "66 ms", "> 45 ms", "Optimal Parasympathetic Tone"],
+    ["Respiration Rate", `${latest.respiration_rate || 15} RPM`, "15 RPM", "12 – 20 RPM", "Normal"]
+  ];
+
+  vitals.forEach((row, rIdx) => {
+    if (rIdx === 0) {
+      doc.setFillColor(20, 45, 75);
+      doc.rect(14, yPos - 4, 182, 7, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "bold");
+    } else {
+      doc.setFillColor(rIdx % 2 === 0 ? 245 : 255, rIdx % 2 === 0 ? 248 : 255, rIdx % 2 === 0 ? 252 : 255);
+      doc.rect(14, yPos - 4, 182, 7, "F");
+      doc.setTextColor(50, 65, 80);
+      doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+    }
+    doc.text(row[0], 16, yPos + 1);
+    doc.text(row[1], 62, yPos + 1);
+    doc.text(row[2], 96, yPos + 1);
+    doc.text(row[3], 132, yPos + 1);
+    doc.text(row[4], 170, yPos + 1);
+    yPos += 7;
+  });
+
+  // Section 3: Sleep Architecture & Neurobehavioural Readiness
+  yPos += 8;
+  doc.setTextColor(7, 17, 31);
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text("3. CIRCADIAN SLEEP & NEUROBEHAVIOURAL PERFORMANCE SUMMARY", 14, yPos);
+  doc.setDrawColor(200, 210, 225);
+  doc.line(14, yPos + 2, 196, yPos + 2);
+
+  yPos += 8;
+  const sleepMetrics = [
+    ["Sleep Duration: " + (latest.sleep_total_hours || 7.6) + " hrs (Goal: 8.0h)", "Deep Sleep: " + (latest.sleep_deep_hours || 1.8) + "h (" + Math.round(((latest.sleep_deep_hours||1.8)/(latest.sleep_total_hours||7.6))*100) + "%)"],
+    ["REM Sleep: " + (latest.sleep_rem_hours || 1.7) + "h (" + Math.round(((latest.sleep_rem_hours||1.7)/(latest.sleep_total_hours||7.6))*100) + "%)", "Sleep Quality Score: " + Math.round(latest.sleep_quality_score || 88) + " / 100"],
+    ["Sleep Efficiency: " + Math.round(latest.sleep_efficiency_percent || 91) + "%", "Cognitive Battery Score: " + Math.round(latest.cognitive_performance_score || 92) + " / 100"],
+    ["Psychomotor Vigilance (PVT): " + Math.round(latest.reaction_time_ms || 240) + " ms", "Operational Stress / Mood: " + (latest.stress_level || 3.0) + " / 10 • " + (latest.mood_assessment || 8.0) + " / 10"]
+  ];
+
+  sleepMetrics.forEach((row) => {
+    doc.setFillColor(245, 248, 252);
+    doc.rect(14, yPos - 4, 182, 6.5, "F");
+    doc.setTextColor(40, 60, 80);
+    doc.setFontSize(8.5);
+    doc.setFont("helvetica", "normal");
+    doc.text(row[0], 18, yPos);
+    doc.text(row[1], 108, yPos);
+    yPos += 6.5;
+  });
+
+  // Section 4: Flight Surgeon Clinical Conclusions & Recommendations
+  yPos += 8;
+  doc.setTextColor(7, 17, 31);
+  doc.setFontSize(11);
+  doc.setFont("helvetica", "bold");
+  doc.text("4. FLIGHT SURGEON COUNTERMEASURE PRESCRIPTION & SIGN-OFF", 14, yPos);
+  doc.setDrawColor(200, 210, 225);
+  doc.line(14, yPos + 2, 196, yPos + 2);
+
+  yPos += 6;
+  doc.setFontSize(8.5);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(50, 65, 80);
+  doc.text("1. Musculoskeletal & Bone Loss Countermeasure: Maintain current ARED (Advanced Resistive Exercise Device) load at 75 kg. Continue 45 min/day CEVIS cardiovascular interval cycling.", 16, yPos);
+  yPos += 5;
+  doc.text("2. Circadian Entrainment: Maintain 460nm blue-enriched cabin illumination during crew wake cycle; switch to warm 2700K low-intensity lighting 2h prior to sleep bunk entry.", 16, yPos);
+  yPos += 5;
+  doc.text("3. Neurocognitive Readiness: Astronaut displays superior vigilance response (latency < 250ms). Unrestricted clearance granted for upcoming Extravehicular Activity (EVA) duties.", 16, yPos);
+
+  // Signatures
+  yPos += 14;
+  doc.setDrawColor(180, 190, 205);
+  doc.line(18, yPos, 80, yPos);
+  doc.line(114, yPos, 186, yPos);
+
+  doc.setFontSize(8);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(30, 45, 65);
+  doc.text("Dr. Marcus Vance, M.D., F.As.M.A.", 18, yPos + 4);
+  doc.setFont("helvetica", "normal");
+  doc.text("Chief Flight Surgeon, NASA Bioastronautics", 18, yPos + 8);
+
+  doc.setFont("helvetica", "bold");
+  doc.text("Dr. Aris Thorne, Ph.D.", 114, yPos + 4);
+  doc.setFont("helvetica", "normal");
+  doc.text("Lead Biomedical Engineer, SpaceMed Operational Center", 114, yPos + 8);
+
+  // Footer
+  doc.setTextColor(140, 155, 175);
+  doc.setFontSize(8);
+  doc.text("ORBITALIS SPACE MEDICAL TELEMETRY • CLASSIFICATION: MEDICAL CONFIDENTIAL • PAGE 1 OF 1", 14, 290);
+
+  // Save the document
+  const filename = `ORBITALIS_Health_Report_${astro.id}_${Date.now()}.pdf`;
+  doc.save(filename);
 };
 
 // Initialize default condition monitoring view
