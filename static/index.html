@@ -419,6 +419,312 @@ h2 {font-size:16px;margin:0 0 14px}
 #exerciseResult {
     border-left: 3px solid #56d9ff;
 }
+
+/* ================= SPACEMED CONDITION CHECKER THEME ================= */
+#spacemed-condition-checker {
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Dropdown Control Bar (Top Right Corner) */
+.spacemed-selector-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0d1e32;
+  border: 1px solid rgba(85, 230, 242, 0.35);
+  padding: 8px 14px;
+  border-radius: 12px;
+  color: #edf7ff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.spacemed-selector-bar label {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--cyan);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+
+.spacemed-dropdown {
+  background: #13273e;
+  color: #edf7ff;
+  border: 1px solid #284462;
+  padding: 8px 34px 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2355e6f2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spacemed-dropdown:hover,
+.spacemed-dropdown:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px rgba(85, 230, 242, 0.3);
+}
+
+/* ================= SECTION COMMON STYLES ================= */
+#spacemed-weekly,
+#spacemed-monthly,
+#spacemed-yearly {
+  color: #e7edf7;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 22px;
+  background: linear-gradient(145deg, var(--panel), #0c1b2c);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#spacemed-weekly h2,
+#spacemed-monthly h2,
+#spacemed-yearly h2 {
+  font-size: 24px;
+  margin-bottom: 6px;
+  color: #edf7ff;
+}
+
+#spacemed-weekly .subtitle,
+#spacemed-monthly .sub,
+#spacemed-yearly .sub {
+  color: var(--muted);
+  margin-bottom: 22px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.weekly-grid,
+.month-grid,
+.year-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+#spacemed-weekly .metric-box,
+#spacemed-monthly .metric-box,
+#spacemed-yearly .metric-box {
+  background: #0d1e32;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+#spacemed-weekly .metric-box:hover,
+#spacemed-monthly .metric-box:hover,
+#spacemed-yearly .metric-box:hover {
+  border-color: rgba(85, 230, 242, 0.3);
+  transform: translateY(-2px);
+}
+
+#spacemed-weekly .metric-box small,
+#spacemed-monthly .metric-box small,
+#spacemed-yearly .metric-box small {
+  color: #9eb1ca;
+  font-size: 12px;
+  display: block;
+}
+
+#spacemed-weekly .metric-box h3,
+#spacemed-monthly .metric-box h3,
+#spacemed-yearly .metric-box h3 {
+  font-size: 26px;
+  margin: 10px 0 4px;
+  color: var(--cyan);
+  font-weight: bold;
+}
+
+#spacemed-weekly .panel,
+#spacemed-monthly .panel,
+#spacemed-yearly .panel {
+  background: #0d1e32;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+#spacemed-weekly .panel h3,
+#spacemed-monthly .panel h3,
+#spacemed-yearly .panel h3 {
+  font-size: 16px;
+  margin: 0 0 8px;
+  color: #edf7ff;
+}
+
+#spacemed-weekly table,
+#spacemed-monthly table,
+#spacemed-yearly table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 660px;
+}
+
+#spacemed-weekly th, #spacemed-weekly td,
+#spacemed-monthly th, #spacemed-monthly td,
+#spacemed-yearly th, #spacemed-yearly td {
+  padding: 11px 8px;
+  border-bottom: 1px solid #1f3752;
+  text-align: left;
+  font-size: 13px;
+}
+
+#spacemed-weekly th,
+#spacemed-monthly th,
+#spacemed-yearly th {
+  color: var(--cyan);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#spacemed-weekly input,
+#spacemed-monthly input,
+#spacemed-yearly input {
+  width: 72px;
+  padding: 7px 8px;
+  border: 1px solid #284462;
+  border-radius: 6px;
+  background: #091728;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+}
+
+#spacemed-weekly input:focus,
+#spacemed-monthly input:focus,
+#spacemed-yearly input:focus {
+  border-color: var(--cyan);
+}
+
+#spacemed-weekly button,
+#spacemed-monthly button,
+#spacemed-yearly button {
+  background: #17344d;
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 6px 6px 6px 0;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+#spacemed-weekly button:hover,
+#spacemed-monthly button:hover,
+#spacemed-yearly button:hover {
+  background: #204566;
+  border-color: rgba(85, 230, 242, 0.4);
+  color: var(--cyan);
+}
+
+#spacemed-weekly button.btn-cyan,
+#spacemed-monthly button.btn-cyan,
+#spacemed-yearly button.btn-cyan {
+  background: var(--cyan);
+  color: #04121e;
+  border: 0;
+  font-weight: bold;
+}
+
+#spacemed-weekly button.btn-cyan:hover,
+#spacemed-monthly button.btn-cyan:hover,
+#spacemed-yearly button.btn-cyan:hover {
+  filter: brightness(1.1);
+  color: #04121e;
+}
+
+.bar {
+  height: 9px;
+  background: #182e46;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 6px;
+  margin-bottom: 14px;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #1b85b8, var(--cyan));
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+.note {
+  color: #8fa6bd;
+  font-size: 12px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.summary,
+.report {
+  line-height: 1.8;
+  color: #c5d5e9;
+  font-size: 13px;
+  background: #091728;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+
+.trend {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid #1f3752;
+  font-size: 13px;
+}
+
+.trend strong {
+  color: var(--cyan);
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 130px;
+  padding: 12px 8px 6px;
+  background: #091728;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  margin: 10px 0 14px;
+}
+
+.chart-bar {
+  flex: 1;
+  min-width: 4px;
+  background: linear-gradient(180deg, var(--cyan), #176591);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.chart-bar:hover {
+  background: #7ae4ff;
+  filter: brightness(1.2);
+}
 </style>
 </head>
 
@@ -509,42 +815,368 @@ h2 {font-size:16px;margin:0 0 14px}
             <h1>Mission Overview</h1>
             <p class="muted">Welcome back, <span id="welcomeName">Astronaut</span>.</p>
           </div>
-          <span class="cyan">MISSION CONSOLE</span>
-        </div>
-
-        <div class="grid three">
-          <div class="card">
-            <div class="muted">HEART RATE</div>
-            <div class="metric" id="overviewHeart">— <small>bpm</small></div>
-            <div class="muted">Latest submitted reading</div>
-          </div>
-          <div class="card">
-            <div class="muted">OXYGEN SATURATION</div>
-            <div class="metric" id="overviewSpo2">— <small>%</small></div>
-            <div class="muted">Latest submitted reading</div>
-          </div>
-          <div class="card">
-            <div class="muted">SLEEP LOG</div>
-            <div class="metric" id="overviewSleep">— <small>hours</small></div>
-            <div class="muted">Latest session entry</div>
+          <!-- DROPDOWN BAR AT TOP RIGHT CORNER -->
+          <div class="spacemed-selector-bar">
+            <label for="condition-period-select">Condition Monitoring View:</label>
+            <select id="condition-period-select" class="spacemed-dropdown" onchange="switchConditionView(this.value)">
+              <option value="weekly" selected>Weekly Condition Check (7-Day)</option>
+              <option value="monthly">Monthly Condition Check (30-Day)</option>
+              <option value="yearly">Yearly Condition Check (12-Month)</option>
+              <option value="overview">Overview Dashboard</option>
+            </select>
           </div>
         </div>
 
-        <div class="grid" style="margin-top:14px">
-          <div class="card">
-            <h2>Astronaut Profile</h2>
-            <div class="profile-line"><span class="muted">Astronaut</span><strong id="profileName">—</strong></div>
-            <div class="profile-line"><span class="muted">ID</span><strong id="profileId">—</strong></div>
-            <div class="profile-line"><span class="muted">Agency</span><strong id="profileAgency">—</strong></div>
-            <div class="profile-line"><span class="muted">Mission phase</span><strong id="profilePhase">—</strong></div>
+        <!-- OVERVIEW DASHBOARD CONTENT -->
+        <div id="overview-dashboard-content" style="display:none;">
+          <div class="grid three">
+            <div class="card">
+              <div class="muted">HEART RATE</div>
+              <div class="metric" id="overviewHeart">— <small>bpm</small></div>
+              <div class="muted">Latest submitted reading</div>
+            </div>
+            <div class="card">
+              <div class="muted">OXYGEN SATURATION</div>
+              <div class="metric" id="overviewSpo2">— <small>%</small></div>
+              <div class="muted">Latest submitted reading</div>
+            </div>
+            <div class="card">
+              <div class="muted">SLEEP LOG</div>
+              <div class="metric" id="overviewSleep">— <small>hours</small></div>
+              <div class="muted">Latest session entry</div>
+            </div>
           </div>
-          <div class="card">
-            <h2>Mission Modules</h2>
-            <p class="muted">Use the navigation bar to open each monitoring module. Enter readings manually or use clearly labelled demonstration data.</p>
-            <button class="btn accent" onclick="showView('physiology')">Open health monitor →</button>
+
+          <div class="grid" style="margin-top:14px">
+            <div class="card">
+              <h2>Astronaut Profile</h2>
+              <div class="profile-line"><span class="muted">Astronaut</span><strong id="profileName">—</strong></div>
+              <div class="profile-line"><span class="muted">ID</span><strong id="profileId">—</strong></div>
+              <div class="profile-line"><span class="muted">Agency</span><strong id="profileAgency">—</strong></div>
+              <div class="profile-line"><span class="muted">Mission phase</span><strong id="profilePhase">—</strong></div>
+            </div>
+            <div class="card">
+              <h2>Periodic Condition Monitoring</h2>
+              <p class="muted">Access multi-day physiological, metabolic and neurobehavioral health reports using the dropdown at the top right, or jump directly:</p>
+              <button class="btn accent" onclick="switchConditionView('weekly')">Weekly Report (7-Day) →</button>
+              <button class="btn" onclick="switchConditionView('monthly')">Monthly Report (30-Day) →</button>
+              <button class="btn" onclick="switchConditionView('yearly')">Yearly Report (12-Month) →</button>
+            </div>
           </div>
+          <div class="notice">This is an educational prototype, not a medical device. It does not replace professional medical assessment or a mission medical team.</div>
         </div>
-        <div class="notice">This is an educational prototype, not a medical device. It does not replace professional medical assessment or a mission medical team.</div>
+
+        <!-- SPACEMED CONDITION CHECKER (WEEKLY, MONTHLY, YEARLY) -->
+        <div id="spacemed-condition-checker">
+          <!-- ================= WEEKLY SECTION ================= -->
+          <section id="spacemed-weekly">
+            <h2>Weekly Health Monitoring</h2>
+            <p class="subtitle">
+              Seven-day physiological, metabolic and neurobehavioral assessment.
+            </p>
+
+            <div class="weekly-grid">
+              <div class="metric-box">
+                <small>Average Heart Rate</small>
+                <h3 id="w-hr">-- bpm</h3>
+                <small>Seven-day average</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average HRV</small>
+                <h3 id="w-hrv">-- ms</h3>
+                <small>Heart rate variability</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Sleep</small>
+                <h3 id="w-sleep">-- hrs</h3>
+                <small>Sleep duration per day</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Hydration</small>
+                <h3 id="w-water">-- L</h3>
+                <small>Daily recorded intake</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Fatigue</small>
+                <h3 id="w-fatigue">-- /10</h3>
+                <small>Self-reported score</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Physical Activity</small>
+                <h3 id="w-activity">-- min</h3>
+                <small>Daily average</small>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>Seven-Day Health Records</h3>
+              <p class="note">
+                Enter recorded measurements for each day. Blank fields are excluded from averages.
+              </p>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>HR (bpm)</th>
+                    <th>HRV (ms)</th>
+                    <th>Sleep (hrs)</th>
+                    <th>Water (L)</th>
+                    <th>Fatigue (1-10)</th>
+                    <th>Activity (min)</th>
+                  </tr>
+                </thead>
+                <tbody id="weekly-records"></tbody>
+              </table>
+
+              <button class="btn-cyan" onclick="saveWeeklyData()">Save Weekly Records</button>
+              <button onclick="calculateWeekly()">Update Analysis</button>
+              <button onclick="loadWeeklyDemoData()">Load Sample Data</button>
+              <button onclick="clearWeeklyData()">Clear</button>
+
+              <p id="weekly-status" class="note">
+                Enter your daily measurements to begin.
+              </p>
+            </div>
+
+            <div class="panel">
+              <h3>Weekly Performance Overview</h3>
+
+              <p>Sleep duration (Target: 8.0 hrs)</p>
+              <div class="bar"><span id="sleep-bar"></span></div>
+
+              <p>Hydration intake (Target: 2.5 L)</p>
+              <div class="bar"><span id="water-bar"></span></div>
+
+              <p>Physical activity (Target: 30 min)</p>
+              <div class="bar"><span id="activity-bar"></span></div>
+
+              <p class="note">
+                Progress indicators use illustrative reference targets and are not medical thresholds.
+              </p>
+            </div>
+
+            <div class="panel">
+              <h3>Weekly Health Summary</h3>
+              <div id="weekly-summary" class="summary">
+                Your weekly analysis will appear here after recording measurements.
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= MONTHLY SECTION ================= -->
+          <section id="spacemed-monthly" style="display:none;">
+            <h2>Monthly Health Monitoring</h2>
+            <p class="sub">
+              30-day physiological, metabolic and cognitive health assessment.
+            </p>
+
+            <div class="month-grid">
+              <div class="metric-box">
+                <small>30-Day Average HR</small>
+                <h3 id="m-hr">-- bpm</h3>
+                <small>Resting heart rate</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average HRV</small>
+                <h3 id="m-hrv">-- ms</h3>
+                <small>Heart rate variability</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Sleep</small>
+                <h3 id="m-sleep">-- hrs</h3>
+                <small>Daily sleep duration</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Fatigue</small>
+                <h3 id="m-fatigue">-- /10</h3>
+                <small>Self-reported fatigue</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Cognitive Score</small>
+                <h3 id="m-cognitive">-- /100</h3>
+                <small>Recorded assessment score</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Body Mass</small>
+                <h3 id="m-mass">-- kg</h3>
+                <small>Average recorded mass</small>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>30-Day Health Records</h3>
+              <p class="note">
+                Enter recorded measurements. Missing values are excluded from calculations.
+              </p>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>HR</th>
+                    <th>HRV</th>
+                    <th>Sleep</th>
+                    <th>Fatigue</th>
+                    <th>Cognitive</th>
+                    <th>Mass (kg)</th>
+                    <th>Water (L)</th>
+                  </tr>
+                </thead>
+                <tbody id="monthly-records"></tbody>
+              </table>
+
+              <button class="btn-cyan" onclick="saveMonthlyData()">Save Monthly Records</button>
+              <button onclick="calculateMonthly()">Generate Analysis</button>
+              <button onclick="loadMonthlyDemoData()">Load Sample Data</button>
+              <button onclick="clearMonthlyData()">Clear</button>
+
+              <p id="monthly-status" class="note">
+                Enter daily measurements to begin.
+              </p>
+            </div>
+
+            <div class="panel">
+              <h3>Long-Term Physiological Trends</h3>
+
+              <p class="note">Daily resting heart rate over 30 days (bpm)</p>
+              <div id="monthly-hr-chart" class="chart"></div>
+              <p class="note">Each bar represents one recorded day's resting heart rate.</p>
+
+              <p class="note" style="margin-top:16px;">Daily sleep duration over 30 days (hours)</p>
+              <div id="monthly-sleep-chart" class="chart"></div>
+              <p class="note">Each bar represents one recorded day's sleep duration.</p>
+            </div>
+
+            <div class="panel">
+              <h3>Monthly Comparative Analysis</h3>
+              <div id="monthly-trends"></div>
+            </div>
+
+            <div class="panel">
+              <h3>Monthly Health Report</h3>
+              <div id="monthly-report" class="report">
+                Your monthly health report will appear here after sufficient measurements are recorded.
+              </div>
+              <button class="btn-cyan" onclick="printMonthlyReport()">Print Monthly Report</button>
+            </div>
+          </section>
+
+          <!-- ================= YEARLY SECTION ================= -->
+          <section id="spacemed-yearly" style="display:none;">
+            <h2>Yearly Health Monitoring</h2>
+            <p class="sub">
+              12-month long-term physiological, metabolic, and spaceflight adaptation assessment.
+            </p>
+
+            <div class="year-grid">
+              <div class="metric-box">
+                <small>12-Month Average HR</small>
+                <h3 id="y-hr">-- bpm</h3>
+                <small>Annual resting heart rate</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average HRV</small>
+                <h3 id="y-hrv">-- ms</h3>
+                <small>Autonomic stability</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Sleep</small>
+                <h3 id="y-sleep">-- hrs</h3>
+                <small>Circadian adaptation</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Average Fatigue</small>
+                <h3 id="y-fatigue">-- /10</h3>
+                <small>Cumulative fatigue score</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Cognitive Score</small>
+                <h3 id="y-cognitive">-- /100</h3>
+                <small>Annual neurocognitive index</small>
+              </div>
+
+              <div class="metric-box">
+                <small>Body Mass</small>
+                <h3 id="y-mass">-- kg</h3>
+                <small>Microgravity mass retention</small>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>12-Month Health Records (Monthly Milestones)</h3>
+              <p class="note">
+                Enter recorded measurements for each mission month. Blank fields are excluded from annual calculations.
+              </p>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>HR (bpm)</th>
+                    <th>HRV (ms)</th>
+                    <th>Sleep (hrs)</th>
+                    <th>Fatigue (1-10)</th>
+                    <th>Cognitive (0-100)</th>
+                    <th>Mass (kg)</th>
+                    <th>Activity (hrs/wk)</th>
+                    <th>Radiation (mSv)</th>
+                  </tr>
+                </thead>
+                <tbody id="yearly-records"></tbody>
+              </table>
+
+              <button class="btn-cyan" onclick="saveYearlyData()">Save Yearly Records</button>
+              <button onclick="calculateYearly()">Generate Annual Analysis</button>
+              <button onclick="loadYearlyDemoData()">Load Sample Data</button>
+              <button onclick="clearYearlyData()">Clear</button>
+
+              <p id="yearly-status" class="note">
+                Enter monthly milestone measurements to begin.
+              </p>
+            </div>
+
+            <div class="panel">
+              <h3>Yearly Physiological Trends & Adaptation</h3>
+
+              <p class="note">Monthly resting heart rate over 12 months (bpm)</p>
+              <div id="yearly-hr-chart" class="chart"></div>
+
+              <p class="note" style="margin-top:16px;">Monthly sleep duration over 12 months (hours)</p>
+              <div id="yearly-sleep-chart" class="chart"></div>
+
+              <p class="note" style="margin-top:16px;">Monthly cognitive assessment score over 12 months (/100)</p>
+              <div id="yearly-cognitive-chart" class="chart"></div>
+            </div>
+
+            <div class="panel">
+              <h3>Annual Comparative Analysis</h3>
+              <div id="yearly-trends"></div>
+            </div>
+
+            <div class="panel">
+              <h3>Annual Space Mission Health Report</h3>
+              <div id="yearly-report" class="report">
+                Your annual health assessment report will appear here after sufficient records are saved.
+              </div>
+              <button class="btn-cyan" onclick="printYearlyReport()">Print Yearly Report</button>
+            </div>
+          </section>
+        </div>
       </section>
 
       <!-- PHYSIOLOGICAL HEALTH -->
@@ -1331,6 +1963,10 @@ function showView(viewName) {
   if (activeButton) activeButton.classList.add("active");
 
   if (viewName === "report") generateReport();
+  if (viewName === "overview" && window.switchConditionView) {
+    const sel = document.getElementById("condition-period-select");
+    window.switchConditionView(sel ? sel.value : "weekly");
+  }
 }
 document.querySelectorAll(".nav-btn").forEach(button => {
   button.addEventListener("click", () => showView(button.dataset.view));
@@ -1615,6 +2251,1098 @@ function downloadReport() {
   link.download = "Orbitalis-Mission-Report.txt";
   link.click();
   URL.revokeObjectURL(url);
+}
+
+/* ================= SPACEMED CONDITION CHECKER CONTROLLER ================= */
+window.switchConditionView = function (view) {
+  const weeklyEl = document.getElementById("spacemed-weekly");
+  const monthlyEl = document.getElementById("spacemed-monthly");
+  const yearlyEl = document.getElementById("spacemed-yearly");
+  const overviewEl = document.getElementById("overview-dashboard-content");
+  const selector = document.getElementById("condition-period-select");
+
+  if (selector && selector.value !== view) {
+    selector.value = view;
+  }
+
+  // Hide all sections first
+  if (weeklyEl) weeklyEl.style.display = "none";
+  if (monthlyEl) monthlyEl.style.display = "none";
+  if (yearlyEl) yearlyEl.style.display = "none";
+  if (overviewEl) overviewEl.style.display = "none";
+
+  if (view === "monthly") {
+    if (monthlyEl) monthlyEl.style.display = "block";
+    if (window.reloadMonthlyView) window.reloadMonthlyView();
+  } else if (view === "yearly") {
+    if (yearlyEl) yearlyEl.style.display = "block";
+    if (window.reloadYearlyView) window.reloadYearlyView();
+  } else if (view === "overview") {
+    if (overviewEl) overviewEl.style.display = "block";
+  } else {
+    // Default: weekly
+    if (weeklyEl) weeklyEl.style.display = "block";
+    if (window.reloadWeeklyView) window.reloadWeeklyView();
+  }
+};
+
+/* ================= WEEKLY SCRIPT ================= */
+(function () {
+  const root = document.getElementById("spacemed-weekly");
+  if (!root || root.dataset.initialized) return;
+  root.dataset.initialized = "true";
+
+  const fields = [
+    ["hr", "HR"],
+    ["hrv", "HRV"],
+    ["sleep", "Sleep"],
+    ["water", "Water"],
+    ["fatigue", "Fatigue"],
+    ["activity", "Activity"]
+  ];
+
+  const dates = [];
+  function dateKey(date) {
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
+  }
+
+  const today = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    dates.push(d);
+  }
+
+  const storageKey = "spacemed_weekly_records";
+  const monthlyStorageKey = "spacemed_monthly_records";
+  let records = {};
+
+  function loadRecords() {
+    try {
+      const weeklySaved = JSON.parse(localStorage.getItem(storageKey) || "{}") || {};
+      const monthlySaved = JSON.parse(localStorage.getItem(monthlyStorageKey) || "{}") || {};
+      records = {};
+      dates.forEach(date => {
+        const k = dateKey(date);
+        records[k] = { ...(monthlySaved[k] || {}), ...(weeklySaved[k] || {}) };
+      });
+    } catch (e) {
+      records = {};
+    }
+  }
+
+  const tbody = root.querySelector("#weekly-records");
+
+  function createTable() {
+    tbody.innerHTML = "";
+    dates.forEach(date => {
+      const key = dateKey(date);
+      const saved = records[key] || {};
+      const tr = document.createElement("tr");
+
+      const day = document.createElement("td");
+      day.textContent = date.toLocaleDateString(undefined, {
+        weekday: "short",
+        month: "short",
+        day: "numeric"
+      });
+      tr.appendChild(day);
+
+      fields.forEach(([field, label]) => {
+        const td = document.createElement("td");
+        const input = document.createElement("input");
+
+        input.type = "number";
+        input.step = field === "water" || field === "sleep" ? "0.1" : "1";
+        input.min = "0";
+        if (field === "fatigue") input.max = "10";
+
+        input.placeholder = "--";
+        input.value = saved[field] ?? "";
+        input.dataset.date = key;
+        input.dataset.field = field;
+        input.setAttribute("aria-label", label + " " + key);
+
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function getValues(field) {
+    return dates
+      .map(date => {
+        const value = records[dateKey(date)]?.[field];
+        if (value === undefined || value === "") return null;
+        const n = Number(value);
+        return Number.isFinite(n) ? n : null;
+      })
+      .filter(v => v !== null);
+  }
+
+  function average(field) {
+    const values = getValues(field);
+    if (!values.length) return null;
+    return values.reduce((a, b) => a + b, 0) / values.length;
+  }
+
+  function display(id, value, suffix, digits = 1) {
+    const el = root.querySelector("#" + id);
+    if (el) {
+      el.textContent = value === null ? "-- " + suffix : value.toFixed(digits) + " " + suffix;
+    }
+  }
+
+  function setBar(id, value, target) {
+    const percent = value === null ? 0 : Math.min(100, Math.max(0, (value / target) * 100));
+    const el = root.querySelector("#" + id);
+    if (el) el.style.width = percent + "%";
+  }
+
+  window.saveWeeklyData = function () {
+    const inputs = tbody.querySelectorAll("input");
+    const updated = JSON.parse(JSON.stringify(records));
+
+    for (const input of inputs) {
+      const value = input.value.trim();
+      const field = input.dataset.field;
+      const key = input.dataset.date;
+
+      if (value === "") {
+        if (updated[key]) delete updated[key][field];
+        continue;
+      }
+
+      const number = Number(value);
+      const limits = {
+        hr: [20, 250],
+        hrv: [1, 300],
+        sleep: [0, 24],
+        water: [0, 20],
+        fatigue: [1, 10],
+        activity: [0, 1440]
+      };
+
+      const [min, max] = limits[field];
+      if (!Number.isFinite(number) || number < min || number > max) {
+        alert("Please check the " + field + " entry for " + key);
+        input.focus();
+        return;
+      }
+
+      if (!updated[key]) updated[key] = {};
+      updated[key][field] = number;
+    }
+
+    records = updated;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+      const monthlySaved = JSON.parse(localStorage.getItem(monthlyStorageKey) || "{}") || {};
+      Object.keys(records).forEach(k => {
+        monthlySaved[k] = { ...(monthlySaved[k] || {}), ...records[k] };
+      });
+      localStorage.setItem(monthlyStorageKey, JSON.stringify(monthlySaved));
+    } catch (e) {
+      alert("Unable to save records in this browser.");
+      return;
+    }
+
+    root.querySelector("#weekly-status").textContent =
+      "Weekly records saved successfully.";
+    calculateWeekly();
+  };
+
+  window.calculateWeekly = function () {
+    const hr = average("hr");
+    const hrv = average("hrv");
+    const sleep = average("sleep");
+    const water = average("water");
+    const fatigue = average("fatigue");
+    const activity = average("activity");
+
+    display("w-hr", hr, "bpm");
+    display("w-hrv", hrv, "ms");
+    display("w-sleep", sleep, "hrs");
+    display("w-water", water, "L");
+    display("w-fatigue", fatigue, "/10");
+    display("w-activity", activity, "min");
+
+    setBar("sleep-bar", sleep, 8);
+    setBar("water-bar", water, 2.5);
+    setBar("activity-bar", activity, 30);
+
+    const recordedDays = dates.filter(date => {
+      const r = records[dateKey(date)] || {};
+      return Object.keys(r).length > 0;
+    }).length;
+
+    const summary = [
+      "<strong>Recorded days:</strong> " + recordedDays + " of 7",
+      "<strong>Average sleep:</strong> " +
+        (sleep === null ? "Insufficient data" : sleep.toFixed(1) + " hours"),
+      "<strong>Average fatigue:</strong> " +
+        (fatigue === null ? "Insufficient data" : fatigue.toFixed(1) + "/10"),
+      "<strong>Average heart rate:</strong> " +
+        (hr === null ? "Insufficient data" : hr.toFixed(1) + " bpm"),
+      "<strong>Average hydration:</strong> " +
+        (water === null ? "Insufficient data" : water.toFixed(1) + " L"),
+      "<strong>Physical activity:</strong> " +
+        (activity === null ? "Insufficient data" : activity.toFixed(1) + " min/day")
+    ];
+
+    root.querySelector("#weekly-summary").innerHTML = summary.join("<br>");
+    root.querySelector("#weekly-status").textContent =
+      "Analysis updated. " + recordedDays + " of 7 days contain recorded telemetry.";
+  };
+
+  window.loadWeeklyDemoData = function () {
+    const demoProfiles = [
+      { hr: 68, hrv: 62, sleep: 7.8, water: 2.6, fatigue: 3, activity: 35 },
+      { hr: 71, hrv: 58, sleep: 7.5, water: 2.4, fatigue: 4, activity: 40 },
+      { hr: 69, hrv: 65, sleep: 8.0, water: 2.7, fatigue: 2, activity: 30 },
+      { hr: 73, hrv: 55, sleep: 7.2, water: 2.5, fatigue: 4, activity: 45 },
+      { hr: 70, hrv: 60, sleep: 7.9, water: 2.8, fatigue: 3, activity: 35 },
+      { hr: 67, hrv: 66, sleep: 8.2, water: 2.6, fatigue: 2, activity: 30 },
+      { hr: 72, hrv: 59, sleep: 7.6, water: 2.5, fatigue: 3, activity: 40 }
+    ];
+
+    dates.forEach((date, i) => {
+      const k = dateKey(date);
+      records[k] = { ...demoProfiles[i % demoProfiles.length] };
+    });
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+      const monthlySaved = JSON.parse(localStorage.getItem(monthlyStorageKey) || "{}") || {};
+      Object.keys(records).forEach(k => {
+        monthlySaved[k] = { ...(monthlySaved[k] || {}), ...records[k] };
+      });
+      localStorage.setItem(monthlyStorageKey, JSON.stringify(monthlySaved));
+    } catch (e) {}
+
+    createTable();
+    calculateWeekly();
+    root.querySelector("#weekly-status").textContent =
+      "Sample weekly demonstration telemetry loaded successfully.";
+  };
+
+  window.clearWeeklyData = function () {
+    records = {};
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (e) {}
+    createTable();
+    calculateWeekly();
+    root.querySelector("#weekly-status").textContent =
+      "Weekly records cleared. Enter new measurements to begin.";
+  };
+
+  window.reloadWeeklyView = function () {
+    loadRecords();
+    createTable();
+    calculateWeekly();
+  };
+
+  window.reloadWeeklyView();
+})();
+
+/* ================= MONTHLY SCRIPT ================= */
+(function () {
+  const root = document.getElementById("spacemed-monthly");
+  if (!root || root.dataset.initialized) return;
+  root.dataset.initialized = "true";
+
+  const fields = [
+    ["hr", "HR"],
+    ["hrv", "HRV"],
+    ["sleep", "Sleep"],
+    ["fatigue", "Fatigue"],
+    ["cognitive", "Cognitive"],
+    ["mass", "Mass"],
+    ["water", "Water"]
+  ];
+
+  const limits = {
+    hr: [20, 250],
+    hrv: [1, 300],
+    sleep: [0, 24],
+    fatigue: [1, 10],
+    cognitive: [0, 100],
+    mass: [1, 500],
+    water: [0, 20]
+  };
+
+  const storageKey = "spacemed_monthly_records";
+  const weeklyStorageKey = "spacemed_weekly_records";
+  let records = {};
+
+  function loadRecords() {
+    try {
+      const monthlySaved = JSON.parse(localStorage.getItem(storageKey) || "{}") || {};
+      const weeklySaved = JSON.parse(localStorage.getItem(weeklyStorageKey) || "{}") || {};
+      records = { ...monthlySaved };
+      Object.keys(weeklySaved).forEach(k => {
+        records[k] = { ...(records[k] || {}), ...weeklySaved[k] };
+      });
+    } catch (e) {
+      records = {};
+    }
+  }
+
+  const dates = [];
+  const today = new Date();
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    dates.push(d);
+  }
+
+  function keyOf(date) {
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0"),
+      String(date.getDate()).padStart(2, "0")
+    ].join("-");
+  }
+
+  const tbody = root.querySelector("#monthly-records");
+
+  function buildTable() {
+    tbody.innerHTML = "";
+    dates.forEach(date => {
+      const key = keyOf(date);
+      const saved = records[key] || {};
+      const tr = document.createElement("tr");
+
+      const dateCell = document.createElement("td");
+      dateCell.textContent = date.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short"
+      });
+      tr.appendChild(dateCell);
+
+      fields.forEach(([field, label]) => {
+        const td = document.createElement("td");
+        const input = document.createElement("input");
+
+        input.type = "number";
+        input.min = limits[field][0];
+        input.max = limits[field][1];
+        input.step = ["sleep", "mass", "water"].includes(field) ? "0.1" : "1";
+        input.placeholder = "--";
+        input.value = saved[field] ?? "";
+
+        input.dataset.date = key;
+        input.dataset.field = field;
+        input.setAttribute("aria-label", label + " " + key);
+
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function values(field) {
+    return dates.map(date => {
+      const value = records[keyOf(date)]?.[field];
+      if (value === undefined || value === "") return null;
+      const n = Number(value);
+      return Number.isFinite(n) ? n : null;
+    });
+  }
+
+  function average(field) {
+    const v = values(field).filter(x => x !== null);
+    if (!v.length) return null;
+    return v.reduce((a, b) => a + b, 0) / v.length;
+  }
+
+  function format(value, suffix, digits = 1) {
+    return value === null ? "-- " + suffix : value.toFixed(digits) + " " + suffix;
+  }
+
+  function show(id, value, suffix, digits = 1) {
+    const el = root.querySelector("#" + id);
+    if (el) el.textContent = format(value, suffix, digits);
+  }
+
+  window.saveMonthlyData = function () {
+    const updated = JSON.parse(JSON.stringify(records));
+    const inputs = tbody.querySelectorAll("input");
+
+    for (const input of inputs) {
+      const field = input.dataset.field;
+      const date = input.dataset.date;
+      const raw = input.value.trim();
+
+      if (raw === "") {
+        if (updated[date]) delete updated[date][field];
+        continue;
+      }
+
+      const number = Number(raw);
+      const [min, max] = limits[field];
+
+      if (!Number.isFinite(number) || number < min || number > max) {
+        alert("Invalid " + field + " measurement for " + date);
+        input.focus();
+        return;
+      }
+
+      if (!updated[date]) updated[date] = {};
+      updated[date][field] = number;
+    }
+
+    records = updated;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+      const weeklySaved = JSON.parse(localStorage.getItem(weeklyStorageKey) || "{}") || {};
+      Object.keys(weeklySaved).forEach(k => {
+        if (records[k]) {
+          weeklySaved[k] = { ...weeklySaved[k], ...records[k] };
+        }
+      });
+      localStorage.setItem(weeklyStorageKey, JSON.stringify(weeklySaved));
+    } catch (e) {
+      alert("Could not save monthly data.");
+      return;
+    }
+
+    root.querySelector("#monthly-status").textContent =
+      "Monthly measurements saved successfully.";
+    calculateMonthly();
+  };
+
+  function makeChart(id, field, max) {
+    const chart = root.querySelector("#" + id);
+    if (!chart) return;
+    chart.innerHTML = "";
+
+    values(field).forEach(value => {
+      const bar = document.createElement("div");
+      bar.className = "chart-bar";
+      bar.style.height =
+        value === null ? "2px" : Math.max(4, (value / max) * 100) + "%";
+      bar.title = value === null ? "No data" : value.toFixed(1);
+      chart.appendChild(bar);
+    });
+  }
+
+  function trend(field) {
+    const v = values(field);
+    const first = v.slice(0, 7).filter(x => x !== null);
+    const last = v.slice(23, 30).filter(x => x !== null);
+
+    if (!first.length || !last.length) return null;
+
+    const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+    return {
+      first: avg(first),
+      last: avg(last),
+      difference: avg(last) - avg(first)
+    };
+  }
+
+  function trendText(field, unit) {
+    const t = trend(field);
+    if (!t) return "Insufficient data (needs week 1 and week 4 entries)";
+    const sign = t.difference > 0 ? "+" : "";
+    return (
+      sign +
+      t.difference.toFixed(1) +
+      " " +
+      unit +
+      " (last 7 days vs first 7 days)"
+    );
+  }
+
+  window.calculateMonthly = function () {
+    const hr = average("hr");
+    const hrv = average("hrv");
+    const sleep = average("sleep");
+    const fatigue = average("fatigue");
+    const cognitive = average("cognitive");
+    const mass = average("mass");
+
+    show("m-hr", hr, "bpm");
+    show("m-hrv", hrv, "ms");
+    show("m-sleep", sleep, "hrs");
+    show("m-fatigue", fatigue, "/10");
+    show("m-cognitive", cognitive, "/100");
+    show("m-mass", mass, "kg");
+
+    makeChart("monthly-hr-chart", "hr", 120);
+    makeChart("monthly-sleep-chart", "sleep", 12);
+
+    const metrics = [
+      ["Heart rate", "hr", "bpm"],
+      ["Heart rate variability (HRV)", "hrv", "ms"],
+      ["Sleep duration", "sleep", "hrs"],
+      ["Fatigue score", "fatigue", "points"],
+      ["Cognitive performance", "cognitive", "points"],
+      ["Body mass", "mass", "kg"]
+    ];
+
+    const trendContainer = root.querySelector("#monthly-trends");
+    trendContainer.innerHTML = "";
+
+    metrics.forEach(([name, field, unit]) => {
+      const row = document.createElement("div");
+      row.className = "trend";
+
+      const label = document.createElement("span");
+      label.textContent = name;
+
+      const result = document.createElement("strong");
+      result.textContent = trendText(field, unit);
+
+      row.appendChild(label);
+      row.appendChild(result);
+      trendContainer.appendChild(row);
+    });
+
+    const days = dates.filter(date => {
+      const r = records[keyOf(date)] || {};
+      return Object.keys(r).length > 0;
+    }).length;
+
+    const report = root.querySelector("#monthly-report");
+    report.innerHTML = "";
+
+    const reportLines = [
+      ["Recording coverage", days + " of 30 days"],
+      ["Average resting heart rate", format(hr, "bpm")],
+      ["Average HRV", format(hrv, "ms")],
+      ["Average sleep duration", format(sleep, "hours")],
+      ["Average self-reported fatigue", format(fatigue, "/10")],
+      ["Average cognitive assessment score", format(cognitive, "/100")],
+      ["Average astronaut body mass", format(mass, "kg")],
+      ["Heart-rate 30-day shift", trendText("hr", "bpm")],
+      ["Sleep-duration 30-day shift", trendText("sleep", "hrs")],
+      ["Cognitive score 30-day shift", trendText("cognitive", "points")]
+    ];
+
+    reportLines.forEach(([label, value]) => {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+      p.appendChild(strong);
+      p.appendChild(document.createTextNode(value));
+      report.appendChild(p);
+    });
+
+    const status = root.querySelector("#monthly-status");
+    status.textContent =
+      "Monthly analysis generated using " + days + " recorded telemetry days.";
+  };
+
+  window.printMonthlyReport = function () {
+    const report = root.querySelector("#monthly-report").innerHTML;
+    const printWindow = window.open("", "_blank");
+
+    if (!printWindow) {
+      alert("Please allow pop-ups to print the report.");
+      return;
+    }
+
+    printWindow.document.write(`
+      <html>
+      <head>
+        <title>SpaceMed Monthly Health Report</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            color: #172b43;
+          }
+          h1 { color: #087eae; margin-bottom: 4px; }
+          h2 { color: #234b6e; margin-top: 0; }
+          .badge { display:inline-block; padding:4px 9px; background:#e0f2fe; color:#0369a1; border-radius:4px; font-weight:bold; font-size:12px; margin-bottom:15px; }
+          p { margin: 8px 0; line-height: 1.6; font-size: 14px; }
+          strong { color: #0b1f38; }
+          hr { border: none; border-top: 1px solid #cbd5e1; margin: 20px 0; }
+        </style>
+      </head>
+      <body>
+        <h1>SpaceMed / Orbitalis</h1>
+        <h2>Monthly Astronaut Health Monitoring Report</h2>
+        <div class="badge">30-DAY MISSION PHYSIOLOGICAL LOG</div>
+        <p><strong>Assessment Window:</strong> 30-Day Consecutive In-Flight Telemetry</p>
+        <hr>
+        ${report}
+        <hr>
+        <p style="font-size: 11px; color: #64748b;">Generated via SpaceMed Astronaut Health Monitoring Console. Official Aerospace Medical Archive.</p>
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  };
+
+  window.loadMonthlyDemoData = function () {
+    dates.forEach((date, i) => {
+      const k = keyOf(date);
+      // Realistic 30-day spaceflight adaptation progression
+      const baseHr = 69 + Math.sin(i / 4) * 3;
+      const baseHrv = 62 + Math.cos(i / 5) * 6;
+      const baseSleep = 7.6 + Math.sin(i / 3) * 0.5;
+      const baseFatigue = Math.max(2, Math.min(6, Math.round(3.5 + Math.sin(i / 5) * 1.5)));
+      const baseCognitive = Math.round(92 + Math.cos(i / 6) * 4);
+      const baseMass = 74.5 - (i * 0.02);
+      const baseWater = 2.5 + Math.sin(i / 2) * 0.2;
+
+      records[k] = {
+        hr: Math.round(baseHr),
+        hrv: Math.round(baseHrv),
+        sleep: Number(baseSleep.toFixed(1)),
+        fatigue: baseFatigue,
+        cognitive: baseCognitive,
+        mass: Number(baseMass.toFixed(1)),
+        water: Number(baseWater.toFixed(1))
+      };
+    });
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+      const weeklySaved = JSON.parse(localStorage.getItem(weeklyStorageKey) || "{}") || {};
+      Object.keys(weeklySaved).forEach(k => {
+        if (records[k]) {
+          weeklySaved[k] = { ...weeklySaved[k], ...records[k] };
+        }
+      });
+      localStorage.setItem(weeklyStorageKey, JSON.stringify(weeklySaved));
+    } catch (e) {}
+
+    buildTable();
+    calculateMonthly();
+    root.querySelector("#monthly-status").textContent =
+      "Sample 30-day telemetry data loaded successfully.";
+  };
+
+  window.clearMonthlyData = function () {
+    records = {};
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (e) {}
+    buildTable();
+    calculateMonthly();
+    root.querySelector("#monthly-status").textContent =
+      "Monthly records cleared. Enter new measurements to begin.";
+  };
+
+  window.reloadMonthlyView = function () {
+    loadRecords();
+    buildTable();
+    calculateMonthly();
+  };
+
+  window.reloadMonthlyView();
+})();
+
+/* ================= YEARLY SCRIPT ================= */
+(function () {
+  const root = document.getElementById("spacemed-yearly");
+  if (!root || root.dataset.initialized) return;
+  root.dataset.initialized = "true";
+
+  const fields = [
+    ["hr", "HR"],
+    ["hrv", "HRV"],
+    ["sleep", "Sleep"],
+    ["fatigue", "Fatigue"],
+    ["cognitive", "Cognitive"],
+    ["mass", "Mass"],
+    ["activity", "Activity"],
+    ["radiation", "Radiation"]
+  ];
+
+  const limits = {
+    hr: [20, 250],
+    hrv: [1, 300],
+    sleep: [0, 24],
+    fatigue: [1, 10],
+    cognitive: [0, 100],
+    mass: [1, 500],
+    activity: [0, 100],
+    radiation: [0, 1000]
+  };
+
+  const storageKey = "spacemed_yearly_records";
+  let records = {};
+
+  const months = [];
+  const today = new Date();
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    months.push(d);
+  }
+
+  function keyOf(date) {
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, "0")
+    ].join("-");
+  }
+
+  function loadRecords() {
+    try {
+      records = JSON.parse(localStorage.getItem(storageKey) || "{}") || {};
+    } catch (e) {
+      records = {};
+    }
+  }
+
+  const tbody = root.querySelector("#yearly-records");
+
+  function buildTable() {
+    tbody.innerHTML = "";
+    months.forEach(date => {
+      const key = keyOf(date);
+      const saved = records[key] || {};
+      const tr = document.createElement("tr");
+
+      const monthCell = document.createElement("td");
+      monthCell.textContent = date.toLocaleDateString(undefined, {
+        month: "short",
+        year: "numeric"
+      });
+      tr.appendChild(monthCell);
+
+      fields.forEach(([field, label]) => {
+        const td = document.createElement("td");
+        const input = document.createElement("input");
+
+        input.type = "number";
+        input.min = limits[field][0];
+        input.max = limits[field][1];
+        input.step = ["sleep", "mass", "activity", "radiation"].includes(field) ? "0.1" : "1";
+        input.placeholder = "--";
+        input.value = saved[field] ?? "";
+
+        input.dataset.month = key;
+        input.dataset.field = field;
+        input.setAttribute("aria-label", label + " " + key);
+
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function values(field) {
+    return months.map(date => {
+      const value = records[keyOf(date)]?.[field];
+      if (value === undefined || value === "") return null;
+      const n = Number(value);
+      return Number.isFinite(n) ? n : null;
+    });
+  }
+
+  function average(field) {
+    const v = values(field).filter(x => x !== null);
+    if (!v.length) return null;
+    return v.reduce((a, b) => a + b, 0) / v.length;
+  }
+
+  function format(value, suffix, digits = 1) {
+    return value === null ? "-- " + suffix : value.toFixed(digits) + " " + suffix;
+  }
+
+  function show(id, value, suffix, digits = 1) {
+    const el = root.querySelector("#" + id);
+    if (el) el.textContent = format(value, suffix, digits);
+  }
+
+  window.saveYearlyData = function () {
+    const updated = JSON.parse(JSON.stringify(records));
+    const inputs = tbody.querySelectorAll("input");
+
+    for (const input of inputs) {
+      const field = input.dataset.field;
+      const month = input.dataset.month;
+      const raw = input.value.trim();
+
+      if (raw === "") {
+        if (updated[month]) delete updated[month][field];
+        continue;
+      }
+
+      const number = Number(raw);
+      const [min, max] = limits[field];
+
+      if (!Number.isFinite(number) || number < min || number > max) {
+        alert("Invalid " + field + " measurement for " + month);
+        input.focus();
+        return;
+      }
+
+      if (!updated[month]) updated[month] = {};
+      updated[month][field] = number;
+    }
+
+    records = updated;
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+    } catch (e) {
+      alert("Could not save yearly data.");
+      return;
+    }
+
+    root.querySelector("#yearly-status").textContent =
+      "Yearly measurements saved successfully.";
+    calculateYearly();
+  };
+
+  function makeChart(id, field, max) {
+    const chart = root.querySelector("#" + id);
+    if (!chart) return;
+    chart.innerHTML = "";
+
+    values(field).forEach((value, idx) => {
+      const barWrapper = document.createElement("div");
+      barWrapper.style.cssText = "flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end;";
+
+      const bar = document.createElement("div");
+      bar.className = "chart-bar";
+      bar.style.width = "100%";
+      bar.style.height = value === null ? "2px" : Math.max(4, (value / max) * 100) + "%";
+      const monthLabel = months[idx].toLocaleDateString(undefined, { month: "short" });
+      bar.title = monthLabel + ": " + (value === null ? "No data" : value.toFixed(1));
+
+      const label = document.createElement("small");
+      label.style.cssText = "font-size:9px; color:#67829d; margin-top:4px; white-space:nowrap;";
+      label.textContent = monthLabel;
+
+      barWrapper.appendChild(bar);
+      barWrapper.appendChild(label);
+      chart.appendChild(barWrapper);
+    });
+  }
+
+  function trend(field) {
+    const v = values(field);
+    const firstQuarter = v.slice(0, 3).filter(x => x !== null);
+    const lastQuarter = v.slice(9, 12).filter(x => x !== null);
+
+    if (!firstQuarter.length || !lastQuarter.length) return null;
+
+    const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+    return {
+      first: avg(firstQuarter),
+      last: avg(lastQuarter),
+      difference: avg(lastQuarter) - avg(firstQuarter)
+    };
+  }
+
+  function trendText(field, unit) {
+    const t = trend(field);
+    if (!t) return "Insufficient data (requires Q1 and Q4 milestone entries)";
+    const sign = t.difference > 0 ? "+" : "";
+    return (
+      sign +
+      t.difference.toFixed(1) +
+      " " +
+      unit +
+      " (Q4 average vs Q1 baseline)"
+    );
+  }
+
+  window.calculateYearly = function () {
+    const hr = average("hr");
+    const hrv = average("hrv");
+    const sleep = average("sleep");
+    const fatigue = average("fatigue");
+    const cognitive = average("cognitive");
+    const mass = average("mass");
+
+    show("y-hr", hr, "bpm");
+    show("y-hrv", hrv, "ms");
+    show("y-sleep", sleep, "hrs");
+    show("y-fatigue", fatigue, "/10");
+    show("y-cognitive", cognitive, "/100");
+    show("y-mass", mass, "kg");
+
+    makeChart("yearly-hr-chart", "hr", 120);
+    makeChart("yearly-sleep-chart", "sleep", 12);
+    makeChart("yearly-cognitive-chart", "cognitive", 100);
+
+    const metrics = [
+      ["Resting heart rate", "hr", "bpm"],
+      ["Heart rate variability (HRV)", "hrv", "ms"],
+      ["Sleep duration", "sleep", "hrs"],
+      ["Fatigue score", "fatigue", "points"],
+      ["Cognitive performance", "cognitive", "points"],
+      ["Body mass", "mass", "kg"],
+      ["Physical activity", "activity", "hrs/wk"],
+      ["Cumulative radiation", "radiation", "mSv"]
+    ];
+
+    const trendContainer = root.querySelector("#yearly-trends");
+    trendContainer.innerHTML = "";
+
+    metrics.forEach(([name, field, unit]) => {
+      const row = document.createElement("div");
+      row.className = "trend";
+
+      const label = document.createElement("span");
+      label.textContent = name;
+
+      const result = document.createElement("strong");
+      result.textContent = trendText(field, unit);
+
+      row.appendChild(label);
+      row.appendChild(result);
+      trendContainer.appendChild(row);
+    });
+
+    const recordedMonths = months.filter(date => {
+      const r = records[keyOf(date)] || {};
+      return Object.keys(r).length > 0;
+    }).length;
+
+    const report = root.querySelector("#yearly-report");
+    report.innerHTML = "";
+
+    const reportLines = [
+      ["Annual recording coverage", recordedMonths + " of 12 months"],
+      ["Annual average resting HR", format(hr, "bpm")],
+      ["Annual average HRV", format(hrv, "ms")],
+      ["Annual average sleep duration", format(sleep, "hours")],
+      ["Annual average fatigue score", format(fatigue, "/10")],
+      ["Annual average cognitive performance", format(cognitive, "/100")],
+      ["Annual average astronaut body mass", format(mass, "kg")],
+      ["Resting HR net adaptation (Q4 vs Q1)", trendText("hr", "bpm")],
+      ["Sleep duration net trend (Q4 vs Q1)", trendText("sleep", "hrs")],
+      ["Cognitive performance stability", trendText("cognitive", "points")],
+      ["Microgravity body mass retention", trendText("mass", "kg")]
+    ];
+
+    reportLines.forEach(([label, value]) => {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = label + ": ";
+      p.appendChild(strong);
+      p.appendChild(document.createTextNode(value));
+      report.appendChild(p);
+    });
+
+    const status = root.querySelector("#yearly-status");
+    status.textContent =
+      "Annual assessment generated using " + recordedMonths + " recorded monthly milestones.";
+  };
+
+  window.printYearlyReport = function () {
+    const report = root.querySelector("#yearly-report").innerHTML;
+    const printWindow = window.open("", "_blank");
+
+    if (!printWindow) {
+      alert("Please allow pop-ups to print the report.");
+      return;
+    }
+
+    printWindow.document.write(`
+      <html>
+      <head>
+        <title>SpaceMed Annual Health Assessment Report</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 35px;
+            color: #172b43;
+          }
+          h1 { color: #087eae; margin-bottom: 4px; }
+          h2 { color: #234b6e; margin-top: 0; }
+          .badge { display:inline-block; padding:4px 9px; background:#e0f2fe; color:#0369a1; border-radius:4px; font-weight:bold; font-size:12px; margin-bottom:15px; }
+          p { margin: 8px 0; line-height: 1.7; font-size: 14px; }
+          strong { color: #0b1f38; }
+          hr { border: none; border-top: 1px solid #cbd5e1; margin: 20px 0; }
+        </style>
+      </head>
+      <body>
+        <h1>SpaceMed / Orbitalis</h1>
+        <h2>Annual Astronaut Health Monitoring Report</h2>
+        <div class="badge">12-MONTH MISSION HEALTH ARCHIVE</div>
+        <p><strong>Evaluation Period:</strong> 12-Month Longitudinal Physiological & Neurobehavioral Review</p>
+        <hr>
+        ${report}
+        <hr>
+        <p style="font-size: 11px; color: #64748b;">Generated via SpaceMed Astronaut Health Monitoring Console. Official Aerospace Medical Archive.</p>
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  };
+
+  window.loadYearlyDemoData = function () {
+    months.forEach((date, i) => {
+      const k = keyOf(date);
+      // Realistic 12-month spaceflight long-duration adaptation metrics
+      const hr = Math.round(71 + Math.sin(i / 2) * 2);
+      const hrv = Math.round(60 + Math.cos(i / 3) * 5);
+      const sleep = Number((7.7 + Math.sin(i / 3) * 0.4).toFixed(1));
+      const fatigue = Math.max(2, Math.min(5, Math.round(3 + (i / 4))));
+      const cognitive = Math.round(94 - Math.sin(i / 4) * 3);
+      const mass = Number((75.0 - (i * 0.12)).toFixed(1));
+      const activity = Number((4.8 + Math.cos(i / 2) * 0.6).toFixed(1));
+      const radiation = Number((14.2 * (i + 1)).toFixed(1));
+
+      records[k] = {
+        hr, hrv, sleep, fatigue, cognitive, mass, activity, radiation
+      };
+    });
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(records));
+    } catch (e) {}
+
+    buildTable();
+    calculateYearly();
+    root.querySelector("#yearly-status").textContent =
+      "Sample 12-month mission milestone data loaded successfully.";
+  };
+
+  window.clearYearlyData = function () {
+    records = {};
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (e) {}
+    buildTable();
+    calculateYearly();
+    root.querySelector("#yearly-status").textContent =
+      "Yearly records cleared. Enter new monthly milestones to begin.";
+  };
+
+  window.reloadYearlyView = function () {
+    loadRecords();
+    buildTable();
+    calculateYearly();
+  };
+
+  window.reloadYearlyView();
+})();
+
+// Initialize default condition monitoring view
+if (window.switchConditionView) {
+  const initialSelector = document.getElementById("condition-period-select");
+  window.switchConditionView(initialSelector ? initialSelector.value : "weekly");
 }
 </script>
 
