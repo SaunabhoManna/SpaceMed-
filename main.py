@@ -280,9 +280,17 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
             if not astro:
                 self._send_error(404, "Astronaut not found")
                 return
-            astro["stats"] = db.get_stats_summary(astro_id)
-            astro["alerts"] = db.get_alerts_for_astronaut(astro_id)
-            self._send_json(200, astro)
+            stats = db.get_stats_summary(astro_id)
+            alerts = db.get_alerts_for_astronaut(astro_id)
+            astro["stats"] = stats
+            astro["alerts"] = alerts
+            res_payload = {
+                **astro,
+                "astronaut": dict(astro),
+                "stats": stats,
+                "alerts": alerts
+            }
+            self._send_json(200, res_payload)
             return
 
         elif path == "/api/records":
@@ -444,6 +452,10 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
         # --- ROUTE 9: Health Variation Simulator ---
         elif path == "/api/simulate-variation":
             self._handle_simulate_variation(incoming)
+
+        # --- ROUTE 10: Cognitive Battery Result Ingestion ---
+        elif path == "/api/cognitive/save":
+            self._handle_cognitive_save(incoming)
 
         else:
             self.send_response(404)
@@ -891,14 +903,50 @@ class SpaceMedHandler(BaseHTTPRequestHandler):
             
             rec_id = db.insert_record(incoming)
             created = db.get_record_by_id(rec_id)
+            astro = db.get_astronaut_by_id(incoming["astronaut_id"])
             self._send_json(201, {
                 "success": True,
                 "id": rec_id,
                 "record": created,
+                "astronaut": astro,
                 "message": f"Successfully created health record #{rec_id} for {incoming['astronaut_id']} in mission database."
             })
         except Exception as err:
             self._send_error(400, "Failed to create health record", str(err))
+
+    def _handle_cognitive_save(self, incoming):
+        """Saves evaluation results from the interactive neurocognitive testing suite."""
+        try:
+            astro_id = incoming.get("astronaut_id", "ASTRO-001")
+            test_type = incoming.get("test_type", "Comprehensive Cognitive Battery")
+            score = float(incoming.get("score", 90))
+            reaction_ms = float(incoming.get("reaction_time_ms", 240))
+            accuracy = float(incoming.get("accuracy", 100))
+            attention = float(incoming.get("attention_score", 90))
+            memory = float(incoming.get("memory_score", 85))
+            notes = incoming.get("notes", "")
+
+            rec_id = db.save_cognitive_result(
+                astro_id=astro_id,
+                test_type=test_type,
+                score=score,
+                reaction_ms=reaction_ms,
+                accuracy=accuracy,
+                attention_score=attention,
+                memory_score=memory,
+                notes=notes
+            )
+            created = db.get_record_by_id(rec_id)
+            astro = db.get_astronaut_by_id(astro_id)
+            self._send_json(201, {
+                "success": True,
+                "id": rec_id,
+                "astronaut": astro,
+                "record": created,
+                "message": f"Successfully recorded {test_type} score {score}/100 into mission database."
+            })
+        except Exception as e:
+            self._send_error(400, "Failed to save cognitive result", str(e))
 
     def _handle_simulate_variation(self, incoming):
         """

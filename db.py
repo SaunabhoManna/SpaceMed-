@@ -350,7 +350,7 @@ def get_records(astro_id, limit=30, start_date=None, end_date=None, include_simu
         query += " AND date <= ?"
         params.append(end_date)
 
-    query += " ORDER BY timestamp ASC"
+    query += " ORDER BY timestamp DESC"
 
     if limit and not (start_date or end_date):
         query += f" LIMIT {int(limit)}"
@@ -370,6 +370,60 @@ def get_record_by_id(record_id):
     return _normalize_record(row) if row else None
 
 
+def sync_astronaut_state(cur, astro_id):
+    """Dynamically recalculates and synchronizes astronaut readiness score, status, and alerts."""
+    cur.execute("SELECT * FROM health_records WHERE astronaut_id = ? ORDER BY timestamp DESC LIMIT 1;", (astro_id,))
+    latest = cur.fetchone()
+    if not latest:
+        return
+    latest = dict(latest)
+    hr = float(latest.get("heart_rate") or 72.0)
+    spo2 = float(latest.get("spo2") or 98.0)
+    sleep = float(latest.get("sleep_hours") or 7.5)
+    fatigue = float(latest.get("fatigue_score") or 3.0)
+    cognitive = float(latest.get("cognitive_score") or 90.0)
+    recovery = float(latest.get("recovery_score") or 85.0)
+
+    # NASA Aerospace Medicine Readiness Score
+    readiness = round(max(10.0, min(100.0, (recovery * 0.40) + (cognitive * 0.35) + ((10.0 - fatigue) * 1.5) + ((spo2 - 95.0) * 1.0))), 1)
+
+    status = "NOMINAL"
+    if spo2 < 92.0 or hr > 115.0 or sleep < 4.5 or readiness < 60.0:
+        status = "CRITICAL ALERT"
+    elif spo2 < 95.0 or hr > 95.0 or sleep < 5.5 or fatigue >= 6.0 or readiness < 80.0:
+        status = "ELEVATED RISK"
+
+    cur.execute("""
+        UPDATE astronauts SET
+            status = ?,
+            readiness_score = ?,
+            baseline_heart_rate = ?,
+            baseline_spo2 = ?,
+            baseline_sleep = ?,
+            baseline_fatigue = ?
+        WHERE id = ?;
+    """, (status, readiness, hr, spo2, sleep, fatigue, astro_id))
+
+    # Evaluate intelligent alerts
+    now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    if status == "CRITICAL ALERT":
+        alert_id = f"ALT-{int(datetime.now(timezone.utc).timestamp()) % 10000}"
+        rationale = f"Critical telemetry detected: SpO2 {spo2}%, HR {hr} bpm, Sleep {sleep}h, Readiness {readiness}%"
+        protocol = "Immediate flight surgeon consultation required. Deploy auxiliary ECLSS cabin oxygen if SpO2 < 92%."
+        cur.execute("""
+            INSERT OR REPLACE INTO health_alerts (id, astronaut_id, alert_type, severity, status, timestamp, rationale, protocol)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        """, (alert_id, astro_id, "Acute Cardiovascular / Hypoxia Risk", "CRITICAL", "NEW", now_str, rationale, protocol))
+    elif status == "ELEVATED RISK":
+        alert_id = f"ALT-{int(datetime.now(timezone.utc).timestamp()) % 10000}"
+        rationale = f"Elevated fatigue / vital divergence: HR {hr} bpm, SpO2 {spo2}%, Fatigue {fatigue}/10"
+        protocol = "Implement mandatory crew rest schedule extension. Shift lighting to 460nm blue-depleted."
+        cur.execute("""
+            INSERT OR REPLACE INTO health_alerts (id, astronaut_id, alert_type, severity, status, timestamp, rationale, protocol)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+        """, (alert_id, astro_id, "Circadian & Fatigue Warning", "ELEVATED", "NEW", now_str, rationale, protocol))
+
+
 def insert_record(data):
     conn = get_db_connection()
     cur = conn.cursor()
@@ -377,6 +431,14 @@ def insert_record(data):
     # Determine date & timestamp if not provided
     ts = data.get("timestamp") or data.get("recorded_at") or datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     date_str = data.get("date") or ts[:10]
+    astro_id = data.get("astronaut_id", "ASTRO-001")
+
+    # Dynamic calculation of recovery if not provided
+    sleep_h = float(data.get("sleep_hours") or data.get("sleep_total_hours") or 7.5)
+    fatigue_val = float(data.get("fatigue_score", 3.0))
+    stress_val = float(data.get("stress_level", 3.0))
+    calc_recovery = round(min(100.0, max(20.0, 100.0 - (fatigue_val * 7.5) + (sleep_h * 3.5) - (stress_val * 2.0))), 1)
+    recovery_val = float(data.get("recovery_score") or calc_recovery)
 
     cur.execute("""
     INSERT INTO health_records (
@@ -397,7 +459,7 @@ def insert_record(data):
         ?, ?
     );
     """, (
-        data.get("astronaut_id", "ASTRO-001"),
+        astro_id,
         ts,
         date_str,
         float(data.get("heart_rate") or data.get("heart_rate_bpm") or 72),
@@ -407,7 +469,7 @@ def insert_record(data):
         int(data.get("systolic") or data.get("blood_pressure_sys") or 118),
         int(data.get("diastolic") or data.get("blood_pressure_dia") or 76),
         float(data.get("respiration") or data.get("respiration_rate") or 15),
-        float(data.get("sleep_hours") or data.get("sleep_total_hours") or 7.5),
+        sleep_h,
         float(data.get("deep_sleep_hours", 1.8)),
         float(data.get("rem_sleep_hours", 1.6)),
         float(data.get("light_sleep_hours", 4.1)),
@@ -418,16 +480,16 @@ def insert_record(data):
         float(data.get("reaction_time_ms", 245)),
         float(data.get("attention_score", 88)),
         float(data.get("memory_score", 86)),
-        float(data.get("stress_level", 3.0)),
+        stress_val,
         float(data.get("mood_score") or data.get("mood_assessment") or 8.0),
         float(data.get("mental_fatigue", 3.0)),
         float(data.get("bone_mineral_density_t") or data.get("bone_density_tscore") or -0.35),
         float(data.get("muscle_strength_kg") or data.get("muscle_strength_index") or 75),
         float(data.get("exercise_duration_min", 45)),
         float(data.get("mobility_score", 88)),
-        float(data.get("fatigue_score", 3.0)),
+        fatigue_val,
         float(data.get("energy_level", 7.5)),
-        float(data.get("recovery_score", 82)),
+        recovery_val,
         float(data.get("physical_workload_kcal", 550)),
         float(data.get("water_liters") or data.get("water_intake_liters") or 2.6),
         float(data.get("active_minutes", 55)),
@@ -435,6 +497,7 @@ def insert_record(data):
         data.get("notes", "User entered record")
     ))
     record_id = cur.lastrowid
+    sync_astronaut_state(cur, astro_id)
     conn.commit()
     conn.close()
     return record_id
@@ -443,6 +506,10 @@ def insert_record(data):
 def update_record(record_id, data):
     conn = get_db_connection()
     cur = conn.cursor()
+
+    cur.execute("SELECT astronaut_id FROM health_records WHERE id = ?;", (int(record_id),))
+    existing = cur.fetchone()
+    astro_id = existing["astronaut_id"] if existing else data.get("astronaut_id", "ASTRO-001")
 
     cur.execute("""
     UPDATE health_records SET
@@ -484,6 +551,7 @@ def update_record(record_id, data):
         int(record_id)
     ))
     affected = cur.rowcount
+    sync_astronaut_state(cur, astro_id)
     conn.commit()
     conn.close()
     return affected > 0
@@ -492,8 +560,13 @@ def update_record(record_id, data):
 def delete_record(record_id):
     conn = get_db_connection()
     cur = conn.cursor()
+    cur.execute("SELECT astronaut_id FROM health_records WHERE id = ?;", (int(record_id),))
+    existing = cur.fetchone()
+    astro_id = existing["astronaut_id"] if existing else "ASTRO-001"
+
     cur.execute("DELETE FROM health_records WHERE id = ?;", (int(record_id),))
     affected = cur.rowcount
+    sync_astronaut_state(cur, astro_id)
     conn.commit()
     conn.close()
     return affected > 0
@@ -509,7 +582,7 @@ def get_stats_summary(astro_id, limit=30):
         vals = [r[key] for r in records if r.get(key) is not None]
         return round(sum(vals) / len(vals), 1) if vals else 0
 
-    latest = records[-1]
+    latest = records[0]
 
     base_avg = {
         "heart_rate": avg("heart_rate"),
@@ -569,6 +642,60 @@ def get_alerts_for_astronaut(astro_id):
     rows = [dict(r) for r in cur.fetchall()]
     conn.close()
     return rows
+
+
+def save_cognitive_result(astro_id, test_type, score, reaction_ms=240, accuracy=100.0, attention_score=90.0, memory_score=85.0, notes=""):
+    """Inserts a dedicated health record reflecting an evaluated neurocognitive battery session."""
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM health_records WHERE astronaut_id = ? ORDER BY timestamp DESC LIMIT 1;", (astro_id,))
+    latest = cur.fetchone()
+    base = dict(latest) if latest else {}
+    conn.close()
+
+    now_dt = datetime.now(timezone.utc)
+    now_str = now_dt.strftime("%Y-%m-%d %H:%M:%S UTC")
+    date_str = now_dt.strftime("%Y-%m-%d")
+
+    rec_data = {
+        "astronaut_id": astro_id,
+        "timestamp": now_str,
+        "date": date_str,
+        "heart_rate": base.get("heart_rate", 72),
+        "hrv": base.get("hrv", 65),
+        "spo2": base.get("spo2", 98),
+        "temperature": base.get("temperature", 36.8),
+        "systolic": base.get("systolic", 118),
+        "diastolic": base.get("diastolic", 76),
+        "respiration": base.get("respiration", 15),
+        "sleep_hours": base.get("sleep_hours", 7.5),
+        "deep_sleep_hours": base.get("deep_sleep_hours", 1.8),
+        "rem_sleep_hours": base.get("rem_sleep_hours", 1.6),
+        "light_sleep_hours": base.get("light_sleep_hours", 4.1),
+        "sleep_quality": base.get("sleep_quality", 85),
+        "sleep_efficiency": base.get("sleep_efficiency", 90),
+        "sleep_consistency": base.get("sleep_consistency", 88),
+        "cognitive_score": float(score),
+        "reaction_time_ms": float(reaction_ms),
+        "attention_score": float(attention_score),
+        "memory_score": float(memory_score),
+        "stress_level": base.get("stress_level", 3.0),
+        "mood_score": base.get("mood_score", 8.0),
+        "mental_fatigue": round(max(1.0, min(10.0, 10.0 - (float(score) / 10.0))), 1),
+        "bone_mineral_density_t": base.get("bone_mineral_density_t", -0.32),
+        "muscle_strength_kg": base.get("muscle_strength_kg", 75),
+        "exercise_duration_min": base.get("exercise_duration_min", 45),
+        "mobility_score": base.get("mobility_score", 88),
+        "fatigue_score": base.get("fatigue_score", 3.0),
+        "energy_level": base.get("energy_level", 7.5),
+        "recovery_score": base.get("recovery_score", 85),
+        "physical_workload_kcal": base.get("physical_workload_kcal", 550),
+        "water_liters": base.get("water_liters", 2.6),
+        "active_minutes": base.get("active_minutes", 55),
+        "is_simulated": 0,
+        "notes": f"Cognitive Battery ({test_type}): score {score}/100, latency {reaction_ms}ms, accuracy {accuracy}%. {notes}"
+    }
+    return insert_record(rec_data)
 
 
 if __name__ == "__main__":

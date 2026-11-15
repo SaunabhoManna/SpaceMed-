@@ -1631,6 +1631,324 @@ html, body, .view, .main {
 .crud-btn-edit:hover { background: #1f6797; }
 .crud-btn-del { background: #5c1e28; color: #ffbcc3; }
 .crud-btn-del:hover { background: #792534; }
+
+/* ================= ADVANCED VISUAL REPORT & COGNITIVE SUITE STYLES ================= */
+.report-header-card {
+  background: linear-gradient(135deg, rgba(16,31,50,0.95), rgba(8,22,39,0.98));
+  border: 1px solid rgba(85,230,242,0.3);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.report-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+.report-tab-btn {
+  background: rgba(16,35,55,0.7);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.report-tab-btn:hover {
+  background: rgba(85,230,242,0.15);
+  color: var(--cyan);
+}
+.report-tab-btn.active {
+  background: var(--cyan);
+  color: #04121e;
+  border-color: var(--cyan);
+}
+.report-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.report-kpi-card {
+  background: #101f32;
+  border: 1px solid rgba(85,230,242,0.2);
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+}
+.report-kpi-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--cyan);
+}
+.report-kpi-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.report-kpi-val {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  margin: 8px 0 4px;
+}
+.report-kpi-sub {
+  font-size: 12px;
+  color: var(--muted);
+}
+.report-clearance-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background: rgba(101,230,174,0.12);
+  border: 1px solid rgba(101,230,174,0.4);
+  color: var(--green);
+}
+.report-chart-box {
+  background: #101f32;
+  border: 1px solid rgba(85,230,242,0.2);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+}
+.report-chart-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+
+/* COGNITIVE TEST SUITE */
+.cog-suite-card {
+  background: #101f32;
+  border: 1px solid rgba(85,230,242,0.25);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.cog-tab-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.cog-tab-btn {
+  background: #0d1b2d;
+  border: 1px solid #1e3a56;
+  color: #a2bdd3;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cog-tab-btn:hover {
+  background: #152d47;
+  color: #fff;
+}
+.cog-tab-btn.active {
+  background: var(--cyan);
+  color: #04121e;
+  border-color: var(--cyan);
+}
+.cog-pane {
+  display: none;
+}
+.cog-pane.active {
+  display: block;
+}
+
+/* Memory Matrix */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 90px);
+  gap: 12px;
+  justify-content: center;
+  margin: 20px 0;
+}
+.memory-tile {
+  width: 90px;
+  height: 90px;
+  background: #0b1a2c;
+  border: 2px solid #1c3c5a;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #6a8ba8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.memory-tile:hover {
+  border-color: var(--cyan);
+  transform: translateY(-2px);
+}
+.memory-tile.active-flash {
+  background: var(--cyan) !important;
+  color: #04121e !important;
+  box-shadow: 0 0 20px var(--cyan) !important;
+  border-color: #fff !important;
+  transform: scale(1.05);
+}
+.memory-tile.user-clicked {
+  background: var(--green);
+  color: #04121e;
+  box-shadow: 0 0 15px var(--green);
+}
+
+/* Stroop Conflict Test */
+.stroop-stimulus-box {
+  background: #091728;
+  border: 2px solid #1d3b5b;
+  border-radius: 14px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 440px;
+}
+.stroop-word {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  transition: transform 0.1s;
+}
+.stroop-btn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+.stroop-color-btn {
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s, filter 0.15s;
+}
+.stroop-color-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+}
+
+/* Spatial Orientation Test */
+.spatial-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+.spatial-port-box {
+  background: #091728;
+  border: 2px solid #1d3b5b;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  width: 180px;
+}
+.spatial-svg {
+  width: 120px;
+  height: 120px;
+  transition: transform 0.3s ease;
+}
+
+/* Math Telemetry Challenge */
+.math-challenge-box {
+  background: #091728;
+  border: 2px solid #1d3b5b;
+  border-radius: 14px;
+  padding: 24px;
+  text-align: center;
+  max-width: 440px;
+  margin: 20px auto;
+}
+.math-equation {
+  font-size: 32px;
+  font-family: monospace;
+  font-weight: bold;
+  color: var(--cyan);
+  margin-bottom: 16px;
+}
+
+/* Preset Pill Styles */
+.preset-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 10px;
+  background: rgba(8,22,39,0.7);
+  border: 1px solid rgba(85,230,242,0.2);
+  border-radius: 8px;
+}
+.preset-pill-btn {
+  background: #142a42;
+  border: 1px solid #204060;
+  color: #cfe5f7;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.preset-pill-btn:hover {
+  background: var(--cyan);
+  color: #04121e;
+  border-color: var(--cyan);
+}
+
+/* Toast Alert Notification */
+.hud-toast-banner {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(8, 22, 39, 0.96);
+  border: 1px solid var(--cyan);
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  animation: hudToastIn 0.3s ease-out;
+}
+@keyframes hudToastIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 </style>
 </head>
 
@@ -1704,6 +2022,7 @@ html, body, .view, .main {
     </div>
 
     <div class="top-right">
+      <button class="btn accent small-btn" onclick="openRecordModal(null)" style="background:var(--cyan); color:#04121e; font-weight:bold; padding:6px 14px; font-size:12px; border-radius:6px; margin-right:10px; border:none; cursor:pointer;" title="Enter astronaut health data manually">✍️ Manual Data Entry</button>
       <span><span class="status-dot"></span>MISSION DAY 45</span>
       <button class="small-btn" onclick="logout()">Logout</button>
     </div>
@@ -1732,6 +2051,8 @@ html, body, .view, .main {
       <div class="nav-label" style="margin-top:10px;">MISSION ARCHIVE</div>
       <button class="nav-btn" data-view="science">🔬 Scientific Foundation</button>
       <button class="nav-btn" data-view="report">▤ Mission Report</button>
+      <div class="nav-label" style="margin-top:10px;">MANUAL INPUT</div>
+      <button class="nav-btn" onclick="openRecordModal(null)" style="border:1px dashed var(--cyan); color:var(--cyan); background:rgba(85,230,242,0.06); font-weight:bold; margin-top:4px;">✍️ Manual Data Entry</button>
     </aside>
 
     <main class="main">
@@ -2932,19 +3253,315 @@ Content-Type: application/json</div>
       </section>
 
       <!-- COGNITIVE TEST -->
+            <!-- COGNITIVE TEST SUITE -->
       <section class="view" id="view-cognitive">
         <div class="page-heading">
-          <div><h1>Cognitive Reaction Test</h1><p class="muted">An educational reaction-time activity, not a diagnostic test.</p></div>
-        </div>
-        <div class="card">
-          <h2>Reaction-time activity</h2>
-          <p class="muted">Press Start. Wait for the panel to turn green, then tap it as quickly as you can. Complete five rounds.</p>
-          <div class="test-box">
-            <div id="reactionTarget">Ready when you are.</div>
+          <div>
+            <h1>NASA Bioastronautics Cognitive Battery</h1>
+            <p class="muted">Operational sensorimotor throughput, working memory, executive inhibitory control, and spatial orientation tests.</p>
           </div>
-          <button class="btn accent" id="reactionStart" onclick="startReactionTest()">Start test</button>
-          <button class="btn" onclick="resetReactionTest()">Reset</button>
-          <div id="reactionResult" class="result">No test completed.</div>
+          <span class="telemetry-badge">● WINSCAT / NASA COG-EVAL v4.1</span>
+        </div>
+
+        <!-- 1. ASTRONAUT SELECTION & COMPOSITE READINESS HEADER -->
+        <div class="report-header-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div style="width:50px; height:50px; border-radius:50%; background:#102c49; border:2px solid var(--cyan); display:flex; align-items:center; justify-content:center; font-size:22px;">
+                🧠
+              </div>
+              <div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <label for="cogAstronautSelect" style="margin:0; font-weight:bold; color:var(--cyan); font-size:12px;">ACTIVE ASTRONAUT:</label>
+                  <select id="cogAstronautSelect" onchange="switchCognitiveAstronaut(this.value)" style="width:auto; padding:5px 10px; background:#0a1829; border:1px solid #204060; color:#fff; border-radius:6px; font-size:13px; font-weight:bold;">
+                    <option value="ASTRO-001" selected>ASTRO-001 | Mark Vance (Cmdr)</option>
+                    <option value="ASTRO-002">ASTRO-002 | Sarah Chen (Eng)</option>
+                    <option value="ASTRO-003">ASTRO-003 | Elena Rostova (Sci)</option>
+                    <option value="ASTRO-004">ASTRO-004 | James Wilson (Pilot)</option>
+                  </select>
+                </div>
+                <div class="muted" style="font-size:12px; margin-top:4px;">
+                  Baseline Sensorimotor Threshold: <span id="cogBaselineVal" style="color:var(--cyan); font-weight:bold;">240 ms</span> • Working Memory Norm: <span style="color:var(--green); font-weight:bold;">92%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Composite Readiness Score Gauge -->
+            <div style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+              <div style="text-align:right;">
+                <small class="muted">COMPOSITE COGNITIVE READINESS</small>
+                <div id="cogReadinessVal" style="font-size:26px; font-weight:bold; color:var(--green);">94 <small style="font-size:14px; color:var(--muted);">/ 100</small></div>
+              </div>
+              <div id="cogClearanceBadge" class="badge-pill" style="background:rgba(101,230,174,0.18); color:var(--green); border:1px solid rgba(101,230,174,0.5); padding:8px 14px; font-size:12px; font-weight:bold; letter-spacing:0.8px;">
+                ● VIGILANT — UNRESTRICTED EVA CLEARANCE
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. COGNITIVE TEST NAVIGATION TABS -->
+        <div class="cog-tab-bar">
+          <button class="cog-tab-btn active" id="tabBtnPvt" onclick="switchCogTab('pvt')">⚡ 1. Psychomotor Vigilance (PVT)</button>
+          <button class="cog-tab-btn" id="tabBtnMemory" onclick="switchCogTab('memory')">🧠 2. Working Memory Span</button>
+          <button class="cog-tab-btn" id="tabBtnStroop" onclick="switchCogTab('stroop')">🎯 3. Executive Control (Stroop)</button>
+          <button class="cog-tab-btn" id="tabBtnSpatial" onclick="switchCogTab('spatial')">🛰️ 4. Spatial Orientation & Docking</button>
+          <button class="cog-tab-btn" id="tabBtnMath" onclick="switchCogTab('math')">🔢 5. Mental Telemetry Arithmetic</button>
+        </div>
+
+        <!-- 3. TEST PANES -->
+        
+        <!-- PANE 1: PVT REACTION TEST (ENHANCED) -->
+        <div class="cog-pane active" id="cogPanePvt">
+          <div class="cog-suite-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+              <div>
+                <h2 style="margin:0; font-size:18px; color:var(--cyan);">⚡ Psychomotor Vigilance Test (PVT)</h2>
+                <p class="muted" style="margin:4px 0 0; font-size:13px;">NASA gold-standard for detecting circadian neurobehavioral impairment and sensorimotor latency lapses (&gt;500ms).</p>
+              </div>
+              <div style="text-align:right;">
+                <span class="muted" style="font-size:11px;">ROUNDS:</span> <strong id="pvtRoundCount" style="color:#fff;">0 / 5</strong>
+              </div>
+            </div>
+
+            <div class="test-box" style="margin:20px 0;">
+              <div id="reactionTarget" style="cursor:pointer;">Ready when you are. Press Start.</div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px;">
+              <button class="btn accent" id="reactionStart" onclick="startReactionTest()">Start PVT Test</button>
+              <button class="btn" onclick="resetReactionTest()">Reset Test</button>
+              <div id="pvtLapseBadge" class="badge-pill" style="display:none; background:rgba(255,114,125,0.2); color:var(--red); border:1px solid rgba(255,114,125,0.4);">
+                ⚠️ Attention Lapse Detected (&gt;500ms)
+              </div>
+            </div>
+
+            <div id="reactionResult" class="result" style="margin-bottom:14px;">No test completed. Press Start to initiate sensorimotor baseline calibration.</div>
+
+            <!-- Round Telemetry Chips -->
+            <div id="pvtRoundsContainer" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+          </div>
+        </div>
+
+        <!-- PANE 2: WORKING MEMORY SPAN (CONSOLE RECALL) -->
+        <div class="cog-pane" id="cogPaneMemory">
+          <div class="cog-suite-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+              <div>
+                <h2 style="margin:0; font-size:18px; color:var(--cyan);">🧠 Astronaut Flight Console Working Memory Span</h2>
+                <p class="muted" style="margin:4px 0 0; font-size:13px;">Replicate illuminated orbital subsystem telemetry sequences under cognitive load. Evaluates short-term working memory retention.</p>
+              </div>
+              <div style="text-align:right;">
+                <span class="muted" style="font-size:11px;">SEQUENCE LEVEL:</span> <strong id="memoryLevelDisplay" style="color:var(--cyan); font-size:16px;">Level 1 (3 Steps)</strong>
+              </div>
+            </div>
+
+            <p class="muted" style="font-size:13px;">Press Start. Memorize the illuminated console sequence, then tap the modules in the exact sequence.</p>
+
+            <div class="memory-grid" id="memoryGrid">
+              <div class="memory-tile" data-idx="0" onclick="handleMemoryTileClick(0)"><span style="font-size:18px;">🧭</span>NAV-1</div>
+              <div class="memory-tile" data-idx="1" onclick="handleMemoryTileClick(1)"><span style="font-size:18px;">💨</span>O2-SYS</div>
+              <div class="memory-tile" data-idx="2" onclick="handleMemoryTileClick(2)"><span style="font-size:18px;">⚡</span>PWR-BUS</div>
+              <div class="memory-tile" data-idx="3" onclick="handleMemoryTileClick(3)"><span style="font-size:18px;">🚀</span>THRUST</div>
+              <div class="memory-tile" data-idx="4" onclick="handleMemoryTileClick(4)"><span style="font-size:18px;">🛡️</span>RAD-SHLD</div>
+              <div class="memory-tile" data-idx="5" onclick="handleMemoryTileClick(5)"><span style="font-size:18px;">📡</span>COMM-RF</div>
+              <div class="memory-tile" data-idx="6" onclick="handleMemoryTileClick(6)"><span style="font-size:18px;">🎯</span>GUID-AV</div>
+              <div class="memory-tile" data-idx="7" onclick="handleMemoryTileClick(7)"><span style="font-size:18px;">🗲</span>DOCK-LOK</div>
+              <div class="memory-tile" data-idx="8" onclick="handleMemoryTileClick(8)"><span style="font-size:18px;">🌡️</span>ECLSS</div>
+            </div>
+
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px; justify-content:center;">
+              <button class="btn accent" id="btnStartMemory" onclick="startMemoryTest()">Start Memory Test</button>
+              <button class="btn" onclick="resetMemoryTest()">Reset</button>
+            </div>
+
+            <div id="memoryStatus" class="result" style="text-align:center;">Press Start to begin memory span evaluation.</div>
+          </div>
+        </div>
+
+        <!-- PANE 3: EXECUTIVE CONTROL & STROOP CONFLICT TEST -->
+        <div class="cog-pane" id="cogPaneStroop">
+          <div class="cog-suite-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+              <div>
+                <h2 style="margin:0; font-size:18px; color:var(--cyan);">🎯 Executive Inhibitory Control (Stroop Conflict)</h2>
+                <p class="muted" style="margin:4px 0 0; font-size:13px;">Identifies cognitive interference under sleep debt. <strong>Tap the button matching the INK COLOR</strong> of the word, overriding the automatic urge to read the word text.</p>
+              </div>
+              <div style="text-align:right;">
+                <span class="muted" style="font-size:11px;">PROGRESS:</span> <strong id="stroopRoundDisplay" style="color:#fff;">Round 0 / 8</strong>
+              </div>
+            </div>
+
+            <div class="stroop-stimulus-box">
+              <small class="muted" style="letter-spacing:1px; font-weight:bold;">TARGET COLOR STIMULUS</small>
+              <div class="stroop-word" id="stroopWordText" style="color:#55e6f2;">READY</div>
+              <small class="muted" id="stroopHint">Tap "Start Stroop Test" to begin.</small>
+            </div>
+
+            <div class="stroop-btn-grid" id="stroopBtnGrid">
+              <button class="stroop-color-btn" style="background:#ff5252; color:#fff;" onclick="handleStroopAnswer('red')">RED</button>
+              <button class="stroop-color-btn" style="background:#448aff; color:#fff;" onclick="handleStroopAnswer('blue')">BLUE</button>
+              <button class="stroop-color-btn" style="background:#00e676; color:#04121e;" onclick="handleStroopAnswer('green')">GREEN</button>
+              <button class="stroop-color-btn" style="background:#ffd600; color:#04121e;" onclick="handleStroopAnswer('amber')">AMBER</button>
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+              <button class="btn accent" id="btnStartStroop" onclick="startStroopTest()">Start Stroop Test</button>
+              <button class="btn" onclick="resetStroopTest()">Reset</button>
+            </div>
+
+            <div id="stroopStatus" class="result" style="text-align:center; margin-top:14px;">Awaiting test start. Complete 8 rounds to measure cognitive interference resistance.</div>
+          </div>
+        </div>
+
+        <!-- PANE 4: SPATIAL ORIENTATION & ORBITAL DOCKING TEST -->
+        <div class="cog-pane" id="cogPaneSpatial">
+          <div class="cog-suite-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+              <div>
+                <h2 style="margin:0; font-size:18px; color:var(--cyan);">🛰️ 3D Spatial Orientation & Orbital Docking Test</h2>
+                <p class="muted" style="margin:4px 0 0; font-size:13px;">Microgravity disrupts vestibular otolith cues. Rapidly identify whether the target spacecraft docking adapter on the right is an identical rotated MATCH or an inverted MISMATCH.</p>
+              </div>
+              <div style="text-align:right;">
+                <span class="muted" style="font-size:11px;">TRIALS:</span> <strong id="spatialRoundDisplay" style="color:#fff;">0 / 6</strong>
+              </div>
+            </div>
+
+            <div class="spatial-container">
+              <div class="spatial-port-box">
+                <small class="muted">REFERENCE DOCKING PORT</small>
+                <div style="margin:14px 0;">
+                  <!-- Vector Spacecraft Docking Adapter A -->
+                  <svg class="spatial-svg" viewBox="0 0 100 100" id="spatialSvgA">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#2a527a" stroke-width="4"/>
+                    <circle cx="50" cy="50" r="28" fill="#10253d" stroke="#55e6f2" stroke-width="3"/>
+                    <rect x="47" y="10" width="6" height="16" fill="#65e6ae"/>
+                    <circle cx="50" cy="18" r="4" fill="#65e6ae"/>
+                    <rect x="74" y="47" width="16" height="6" fill="#55e6f2"/>
+                    <polygon points="50,42 62,50 50,58" fill="#55e6f2"/>
+                  </svg>
+                </div>
+                <strong style="color:var(--cyan); font-size:12px;">ORIENTATION: 0° (LOCK)</strong>
+              </div>
+
+              <div style="font-size:24px; color:var(--muted); font-weight:bold;">VS</div>
+
+              <div class="spatial-port-box">
+                <small class="muted">APPROACHING CRAFT PORT</small>
+                <div style="margin:14px 0;">
+                  <!-- Vector Spacecraft Docking Adapter B (Rotated & Mirrored) -->
+                  <svg class="spatial-svg" viewBox="0 0 100 100" id="spatialSvgB">
+                    <circle cx="50" cy="50" r="42" fill="none" stroke="#2a527a" stroke-width="4"/>
+                    <circle cx="50" cy="50" r="28" fill="#10253d" stroke="#55e6f2" stroke-width="3"/>
+                    <rect x="47" y="10" width="6" height="16" fill="#65e6ae"/>
+                    <circle cx="50" cy="18" r="4" fill="#65e6ae"/>
+                    <rect x="74" y="47" width="16" height="6" fill="#55e6f2"/>
+                    <polygon points="50,42 62,50 50,58" fill="#55e6f2"/>
+                  </svg>
+                </div>
+                <strong id="spatialAngleLabel" style="color:var(--cyan); font-size:12px;">ROTATED: 90°</strong>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:16px; margin:20px 0;">
+              <button class="btn accent" style="padding:14px 30px; font-size:14px; background:var(--green); color:#04121e;" onclick="handleSpatialAnswer(true)">✓ IDENTICAL MATCH (ROTATED)</button>
+              <button class="btn" style="padding:14px 30px; font-size:14px; background:rgba(255,114,125,0.2); color:var(--red); border-color:var(--red);" onclick="handleSpatialAnswer(false)">✕ MISMATCH (INVERTED/MIRRORED)</button>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:10px;">
+              <button class="btn" id="btnStartSpatial" onclick="startSpatialTest()">Start Spatial Test</button>
+              <button class="btn" onclick="resetSpatialTest()">Reset</button>
+            </div>
+
+            <div id="spatialStatus" class="result" style="text-align:center; margin-top:14px;">Press Start to begin 6-round spatial rotation evaluation.</div>
+          </div>
+        </div>
+
+        <!-- PANE 5: MENTAL TELEMETRY ARITHMETIC -->
+        <div class="cog-pane" id="cogPaneMath">
+          <div class="cog-suite-card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+              <div>
+                <h2 style="margin:0; font-size:18px; color:var(--cyan);">🔢 Mental Telemetry Processing & Arithmetic Stress Test</h2>
+                <p class="muted" style="margin:4px 0 0; font-size:13px;">High-tempo mental calculation simulating in-flight emergency delta-V and life-support burn rate adjustments under time pressure.</p>
+              </div>
+              <div style="text-align:right;">
+                <span class="muted" style="font-size:11px;">TIMER:</span> <strong id="mathTimerDisplay" style="color:var(--red); font-size:18px;">30s</strong>
+              </div>
+            </div>
+
+            <div class="math-challenge-box">
+              <small class="muted" style="letter-spacing:1px; font-weight:bold;">SOLVE RAPID TELEMETRY EQUATION</small>
+              <div class="math-equation" id="mathProblemText">Press Start</div>
+              <div style="display:flex; gap:10px; max-width:280px; margin:0 auto;">
+                <input id="mathInput" type="number" placeholder="Enter answer" style="font-size:18px; text-align:center; padding:10px;" onkeydown="if(event.key==='Enter') submitMathAnswer()">
+                <button class="btn accent" onclick="submitMathAnswer()" style="padding:10px 18px;">Enter</button>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:16px;">
+              <button class="btn accent" id="btnStartMath" onclick="startMathTest()">Start 30s Speed Challenge</button>
+              <button class="btn" onclick="resetMathTest()">Reset</button>
+            </div>
+
+            <div id="mathStatus" class="result" style="text-align:center; margin-top:14px;">Awaiting start. Rapid challenge tests cognitive throughput rate under simulated operational pressure.</div>
+          </div>
+        </div>
+
+        <!-- 4. LIVE COGNITIVE PERFORMANCE VISUALIZATION & DATABASE SYNC -->
+        <div class="card" style="margin-top:20px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+            <div>
+              <h2 style="margin:0; font-size:16px; color:var(--cyan);">📈 Interactive Neurocognitive Performance & Latency Analytics</h2>
+              <p class="muted" style="margin:3px 0 0; font-size:12px;">Real-time latency distribution across trials, accuracy metrics, and comparison against personal astronaut baseline.</p>
+            </div>
+            <button class="btn accent" onclick="saveCognitiveResultsToDatabase()" style="background:var(--cyan); color:#04121e; font-weight:bold; padding:9px 18px; font-size:13px; border:none; border-radius:8px;">
+              💾 Save & Sync Results to Mission Health Record
+            </button>
+          </div>
+
+          <div style="height:260px; position:relative;">
+            <canvas id="canvasCognitiveBattery"></canvas>
+          </div>
+        </div>
+
+        <!-- 5. COGNITIVE SESSION AUDIT TRAIL -->
+        <div class="card" style="margin-top:20px;">
+          <h2 style="font-size:16px; color:#fff; margin-bottom:12px;">Completed Neurocognitive Evaluations</h2>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--line); color:var(--muted); text-align:left;">
+                  <th style="padding:8px;">TIMESTAMP</th>
+                  <th style="padding:8px;">TEST MODULE</th>
+                  <th style="padding:8px;">ASTRONAUT</th>
+                  <th style="padding:8px;">SCORE</th>
+                  <th style="padding:8px;">LATENCY / SPEED</th>
+                  <th style="padding:8px;">ACCURACY</th>
+                  <th style="padding:8px;">FLIGHT CLEARANCE</th>
+                </tr>
+              </thead>
+              <tbody id="cogHistoryTableBody">
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                  <td style="padding:10px;">Day 45 08:30 UTC</td>
+                  <td>Psychomotor Vigilance (PVT)</td>
+                  <td>Mark Vance (ASTRO-001)</td>
+                  <td><strong style="color:var(--green);">94 / 100</strong></td>
+                  <td>238 ms mean</td>
+                  <td>100% (0 lapses)</td>
+                  <td><span class="badge-pill" style="color:var(--green);">EVA QUALIFIED</span></td>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                  <td style="padding:10px;">Day 44 20:15 UTC</td>
+                  <td>Working Memory Span</td>
+                  <td>Mark Vance (ASTRO-001)</td>
+                  <td><strong style="color:var(--green);">92 / 100</strong></td>
+                  <td>Span 6 (Optimal)</td>
+                  <td>96% correct</td>
+                  <td><span class="badge-pill" style="color:var(--green);">EVA QUALIFIED</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -3184,17 +3801,229 @@ Content-Type: application/json</div>
 
 </section>
       <!-- REPORT -->
+            <!-- VISUAL GRAPHICAL MISSION REPORT SUITE -->
       <section class="view" id="view-report">
         <div class="page-heading">
-          <div><h1>Mission Report</h1><p class="muted">A summary of entries recorded during this browser session.</p></div>
+          <div>
+            <h1>Mission Health & Bioastronautics Report</h1>
+            <p class="muted">Interactive longitudinal health analytics, five-domain radar profiling, and clinical flight surgeon clearance.</p>
+          </div>
+          <span class="telemetry-badge">● NASA HRP CLINICAL MISSION ARCHIVE</span>
         </div>
-        <div class="card">
-          <h2>Session Summary</h2>
-          <div id="reportContent" class="empty">Your session report will appear here after you record entries.</div>
-          <button class="btn accent" onclick="generateReport()">Refresh report</button>
-          <button class="btn" onclick="downloadReport()">Download report</button>
+
+        <!-- 1. ASTRONAUT SELECTION & HORIZON CONTROLS -->
+        <div class="report-header-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+            <div style="display:flex; align-items:center; gap:14px;">
+              <label for="reportAstronautSelect" style="margin:0; font-weight:bold; color:var(--cyan); font-size:12px;">ASTRONAUT PROFILE:</label>
+              <select id="reportAstronautSelect" onchange="switchReportAstronaut(this.value)" style="width:auto; padding:6px 12px; background:#0a1829; border:1px solid #204060; color:#fff; border-radius:6px; font-size:13px; font-weight:bold;">
+                <option value="ASTRO-001" selected>ASTRO-001 | Mark Vance (Cmdr)</option>
+                <option value="ASTRO-002">ASTRO-002 | Sarah Chen (Eng)</option>
+                <option value="ASTRO-003">ASTRO-003 | Elena Rostova (Sci)</option>
+                <option value="ASTRO-004">ASTRO-004 | James Wilson (Pilot)</option>
+              </select>
+
+              <div style="display:flex; gap:6px; align-items:center; margin-left:10px;">
+                <span class="muted" style="font-size:11px; font-weight:bold;">HORIZON:</span>
+                <button class="filter-btn" id="rRange24h" onclick="setReportRange('24h')">24h</button>
+                <button class="filter-btn" id="rRange7d" onclick="setReportRange('7d')">7d</button>
+                <button class="filter-btn active" id="rRange30d" onclick="setReportRange('30d')">30d</button>
+                <button class="filter-btn" id="rRangeAll" onclick="setReportRange('all')">All</button>
+              </div>
+            </div>
+
+            <!-- Action Export Buttons -->
+            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <button class="btn accent" onclick="generateVisualReport()">🔄 Refresh Report</button>
+              <button class="btn-cyan" onclick="downloadVisualPdfReport()" style="background:#185279; color:#bdf0ff; border:1px solid #3ca0e0; font-weight:bold; padding:8px 14px; border-radius:8px; cursor:pointer;">📥 Download PDF Report</button>
+              <button class="btn" onclick="exportReportCsv()">📊 Export CSV</button>
+              <button class="btn" onclick="downloadReport()">📄 Text Log</button>
+            </div>
+          </div>
         </div>
-        <div class="notice">Session entries are not saved to a database. Refreshing or closing the page may clear them.</div>
+
+        <!-- 2. REPORT VIEW MODE TABS -->
+        <div class="report-tabs">
+          <button class="report-tab-btn active" id="btnReportTabVisual" onclick="switchReportTab('visual')">📊 Visual Graphical Dashboard</button>
+          <button class="report-tab-btn" id="btnReportTabTable" onclick="switchReportTab('table')">📋 Longitudinal Telemetry Table</button>
+          <button class="report-tab-btn" id="btnReportTabRaw" onclick="switchReportTab('raw')">📄 Official NASA Telemetry Log</button>
+        </div>
+
+        <!-- ================= TAB 1: VISUAL GRAPHICAL DASHBOARD ================= -->
+        <div id="reportTabVisual" style="display:block;">
+          <!-- Flight Clearance Banner -->
+          <div class="report-clearance-banner" id="reportClearanceBanner">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:24px;">🛡️</span>
+              <div>
+                <strong style="font-size:14px; letter-spacing:0.8px;" id="reportClearanceTitle">FLIGHT SURGEON MEDICAL CLEARANCE: NOMINAL</strong>
+                <div style="font-size:12px; opacity:0.85; margin-top:2px;" id="reportClearanceDesc">All monitored physiological, circadian, and neurocognitive markers comply with NASA Spaceflight Flight Rules. Unrestricted EVA duty cleared.</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <span id="reportClearanceBadge" class="badge-pill" style="background:var(--green); color:#04121e; font-weight:bold; padding:6px 14px; font-size:11px;">
+                CLEAR FOR EVA
+              </span>
+            </div>
+          </div>
+
+          <!-- 5-Domain Health KPI Cards -->
+          <div class="report-kpi-grid">
+            <!-- 1. Physiological -->
+            <div class="report-kpi-card">
+              <div class="report-kpi-title">
+                <span>♡ 1. Physiological Vitality</span>
+                <span id="repBadgePhysio" style="color:var(--green); font-size:10px;">OPTIMAL</span>
+              </div>
+              <div class="report-kpi-val" id="repValSpo2">98.5% <small style="font-size:14px; color:var(--muted);">SpO₂</small></div>
+              <div class="report-kpi-sub" id="repSubPhysio">HR: 72 bpm • BP: 118/76 mmHg • 36.8°C</div>
+            </div>
+
+            <!-- 2. Circadian Sleep -->
+            <div class="report-kpi-card">
+              <div class="report-kpi-title">
+                <span>◷ 2. Sleep Architecture</span>
+                <span id="repBadgeSleep" style="color:var(--green); font-size:10px;">RESTED</span>
+              </div>
+              <div class="report-kpi-val" id="repValSleep">7.6 <small style="font-size:14px; color:var(--muted);">hrs/day</small></div>
+              <div class="report-kpi-sub" id="repSubSleep">Quality: 88/100 • Deep: 24% • Buffer: +1.4h</div>
+            </div>
+
+            <!-- 3. Neurocognitive -->
+            <div class="report-kpi-card">
+              <div class="report-kpi-title">
+                <span>◈ 3. Cognitive Readiness</span>
+                <span id="repBadgeCog" style="color:var(--green); font-size:10px;">VIGILANT</span>
+              </div>
+              <div class="report-kpi-val" id="repValCognitive">92 <small style="font-size:14px; color:var(--muted);">/ 100</small></div>
+              <div class="report-kpi-sub" id="repSubCog">PVT Latency: 240 ms • Stress: 3.0/10</div>
+            </div>
+
+            <!-- 4. Musculoskeletal -->
+            <div class="report-kpi-card">
+              <div class="report-kpi-title">
+                <span>🦴 4. Musculoskeletal Load</span>
+                <span id="repBadgeMusculo" style="color:var(--green); font-size:10px;">STABLE</span>
+              </div>
+              <div class="report-kpi-val" id="repValBmd">-0.32 <small style="font-size:14px; color:var(--muted);">T-Score</small></div>
+              <div class="report-kpi-sub" id="repSubMusculo">Strength: 78 kg • Exercise: 45 min/day</div>
+            </div>
+
+            <!-- 5. Fatigue & Recovery -->
+            <div class="report-kpi-card">
+              <div class="report-kpi-title">
+                <span>⚡ 5. Operational Recovery</span>
+                <span id="repBadgeRecovery" style="color:var(--green); font-size:10px;">HIGH READINESS</span>
+              </div>
+              <div class="report-kpi-val" id="repValRecovery">86% <small style="font-size:14px; color:var(--muted);">Score</small></div>
+              <div class="report-kpi-sub" id="repSubRecovery">Fatigue: 2.8/10 • Active Workload: 580 kcal</div>
+            </div>
+          </div>
+
+          <!-- 4 Interactive Graphical Charts Grid -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(440px, 1fr)); gap:16px; margin-bottom:20px;">
+            <!-- Chart 1: Longitudinal Trajectory Line -->
+            <div class="report-chart-box">
+              <div class="report-chart-title">📈 1. Longitudinal Mission Health Trajectory</div>
+              <small class="muted">Longitudinal trends in Blood Oxygen (SpO₂ %), Heart Rate (BPM), and Sleep Duration</small>
+              <div style="height:240px; margin-top:10px; position:relative;">
+                <canvas id="canvasReportTrajectory"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 2: 5-Domain Health Radar -->
+            <div class="report-chart-box">
+              <div class="report-chart-title">🕸️ 2. Five-Domain Astronaut Health Radar Profile</div>
+              <small class="muted">Astronaut Current Status vs 30-Day Average vs NASA Flight Rule Threshold</small>
+              <div style="height:240px; margin-top:10px; position:relative;">
+                <canvas id="canvasReportRadar"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 3: Sleep Architecture Stacked Bar -->
+            <div class="report-chart-box">
+              <div class="report-chart-title">◷ 3. Sleep Stage Architecture vs Fatigue Curve</div>
+              <small class="muted">Proportion of Deep, REM, and Light Sleep Stages compared with Daily Fatigue Score</small>
+              <div style="height:240px; margin-top:10px; position:relative;">
+                <canvas id="canvasReportSleepFatigue"></canvas>
+              </div>
+            </div>
+
+            <!-- Chart 4: Risk Contribution Doughnut -->
+            <div class="report-chart-box">
+              <div class="report-chart-title">🍩 4. Multivariable Risk Allocation Matrix</div>
+              <small class="muted">Distribution of physiological, circadian, and operational strain vectors</small>
+              <div style="height:240px; margin-top:10px; position:relative;">
+                <canvas id="canvasReportRisk"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flight Surgeon Assessment Card -->
+          <div class="card" style="margin-bottom:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:14px;">
+              <div>
+                <h2 style="margin:0; font-size:16px; color:var(--cyan);">🩺 Flight Surgeon Clinical Assessment & Prescriptions</h2>
+                <small class="muted">Standardized according to NASA Human Research Program (HRP) Bioastronautics Protocols</small>
+              </div>
+              <span class="telemetry-badge">CONFIDENTIAL MEDICAL SUMMARY</span>
+            </div>
+
+            <div style="font-size:13px; line-height:1.6; color:#cfe2f3;" id="reportSurgeonNarrative">
+              Astronaut displays stable cardiovascular hemodynamics and exemplary sensorimotor vigilance. Circadian sleep efficiency is sustained at 91%, with cumulative 72-hour sleep buffer nominal. Daily ARED heavy resistance countermeasure adherence is confirmed at 100% compliance. Unrestricted flight duty and extravehicular activity (EVA) clearance recommended.
+            </div>
+
+            <h3 style="font-size:13px; color:var(--cyan); margin:16px 0 8px;">Active Countermeasure Regimen:</h3>
+            <ul style="margin:0; padding-left:20px; font-size:13px; color:#b0cce3; line-height:1.6;" id="reportProtocolsList">
+              <li><strong>Musculoskeletal & Bone Loss:</strong> Maintain ARED resistance loading at 75 kg. Complete daily 45-min CEVIS interval cycle ergometry.</li>
+              <li><strong>Circadian Entrainment:</strong> 460nm blue-enriched cabin lighting during active duty; transition to 2700K warm spectrum 2h prior to bunk entry.</li>
+              <li><strong>Life Support & ECLSS:</strong> Cabin atmospheric ppCO₂ maintained strictly below 3.0 mmHg; arterial O₂ saturation target &gt; 96.0%.</li>
+              <li><strong>Sensorimotor Vigilance:</strong> Pre-EVA psychomotor reaction testing validated with latency below 250 ms and zero lapses.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ================= TAB 2: LONGITUDINAL TELEMETRY TABLE ================= -->
+        <div id="reportTabTable" style="display:none;">
+          <div class="card">
+            <h2 style="font-size:16px; color:#fff; margin-bottom:12px;">Longitudinal Mission Health Records Table</h2>
+            <div style="overflow-x:auto;">
+              <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--line); color:var(--muted); text-align:left;">
+                    <th style="padding:8px;">DATE / TIME</th>
+                    <th style="padding:8px;">HEART RATE</th>
+                    <th style="padding:8px;">SPO₂</th>
+                    <th style="padding:8px;">BLOOD PRESS.</th>
+                    <th style="padding:8px;">SLEEP</th>
+                    <th style="padding:8px;">COGNITIVE</th>
+                    <th style="padding:8px;">FATIGUE</th>
+                    <th style="padding:8px;">RECOVERY</th>
+                    <th style="padding:8px;">STATUS</th>
+                  </tr>
+                </thead>
+                <tbody id="reportRecordsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= TAB 3: OFFICIAL NASA TELEMETRY LOG ================= -->
+        <div id="reportTabRaw" style="display:none;">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h2>Session Summary & Flight Telemetry Log</h2>
+              <button class="btn" onclick="downloadReport()">Download .txt Log</button>
+            </div>
+            <div id="reportContent" class="empty" style="font-family:monospace; background:#071322; padding:16px; border-radius:8px; border:1px solid #1a334d; max-height:450px; overflow-y:auto;">
+              Your session report will appear here after you record entries.
+            </div>
+            <div style="display:flex; gap:10px; margin-top:14px;">
+              <button class="btn accent" onclick="generateReport()">Refresh report</button>
+              <button class="btn" onclick="downloadReport()">Download report</button>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- AI MISSION HEALTH INTELLIGENCE -->
@@ -3667,6 +4496,15 @@ Content-Type: application/json</div>
           </div>
 
           <form id="recordModalForm" onsubmit="handleRecordFormSubmit(event)">
+            <!-- QUICK PRESET LOADER -->
+            <div class="preset-bar">
+              <span style="font-size:11px; font-weight:bold; color:var(--cyan);">QUICK PRESETS:</span>
+              <button type="button" class="preset-pill-btn" onclick="applyRecordPreset('nominal')">🟢 Nominal Orbit</button>
+              <button type="button" class="preset-pill-btn" onclick="applyRecordPreset('fatigue')">🟡 Sleep Debt & Fatigue</button>
+              <button type="button" class="preset-pill-btn" onclick="applyRecordPreset('alert')">🔴 Hypoxia / Tachycardia</button>
+              <button type="button" class="preset-pill-btn" onclick="applyRecordPreset('posteva')">🏋️ Post-EVA Workout</button>
+              <span id="presetNotice" style="font-size:11px; color:var(--green); margin-left:auto;"></span>
+            </div>
             <input type="hidden" id="editRecordId">
 
             <div class="form-grid" style="margin-bottom:16px;">
@@ -8062,6 +8900,1589 @@ if (window.switchConditionView) {
   const initialSelector = document.getElementById("condition-period-select");
   window.switchConditionView(initialSelector ? initialSelector.value : "weekly");
 }
+
+
+/* ============================================================================
+   SPACE MED ENHANCED MISSION CONTROL & REPORTING SUITE JAVASCRIPT
+   1. Universal Manual Data Entry & Synchronization Engine
+   2. Comprehensive Visual Graphical Reports Suite
+   3. Advanced Spaceflight Neurocognitive Battery
+   ============================================================================ */
+
+// -------------------------------------------------------------
+// 0. HUD FLOATING TOAST NOTIFICATION
+// -------------------------------------------------------------
+window.showHudToast = function(msg, isAlert = false) {
+  let toast = document.getElementById("hudToastBanner");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "hudToastBanner";
+    toast.className = "hud-toast-banner";
+    document.body.appendChild(toast);
+  }
+  toast.innerHTML = `<span style="font-size:18px;">${isAlert ? '⚠️' : '🚀'}</span> <div>${msg}</div>`;
+  toast.style.borderColor = isAlert ? "var(--red)" : "var(--cyan)";
+  toast.style.display = "flex";
+  
+  if (window._toastTimeout) clearTimeout(window._toastTimeout);
+  window._toastTimeout = setTimeout(() => {
+    toast.style.display = "none";
+  }, 4200);
+};
+
+// -------------------------------------------------------------
+// 1. UNIVERSAL MANUAL DATA ENTRY & PRESET LOADER
+// -------------------------------------------------------------
+window.openUniversalManualModal = function(preset = null) {
+  openRecordModal(null);
+  if (preset) {
+    applyRecordPreset(preset);
+  }
+};
+
+window.applyRecordPreset = function(preset) {
+  const p = {
+    nominal: {
+      hr: 72, hrv: 68, spo2: 98.5, temp: 36.8, sys: 118, dia: 76, resp: 15,
+      sleep: 7.6, deep: 1.8, rem: 1.6, qual: 88, eff: 91,
+      cog: 92, react: 240, stress: 3.0, mood: 8.0,
+      bmd: -0.32, strength: 78, exercise: 45, fatigue: 2.8, energy: 7.8, water: 2.6,
+      notes: "Nominal baseline orbital duty readings"
+    },
+    fatigue: {
+      hr: 88, hrv: 50, spo2: 96.2, temp: 36.9, sys: 126, dia: 82, resp: 17,
+      sleep: 4.8, deep: 1.1, rem: 1.2, qual: 60, eff: 78,
+      cog: 76, react: 295, stress: 6.5, mood: 5.5,
+      bmd: -0.42, strength: 66, exercise: 30, fatigue: 7.2, energy: 5.0, water: 2.2,
+      notes: "Cumulative circadian sleep debt & high workload fatigue"
+    },
+    alert: {
+      hr: 118, hrv: 35, spo2: 89.0, temp: 37.9, sys: 148, dia: 94, resp: 22,
+      sleep: 4.0, deep: 0.8, rem: 0.9, qual: 45, eff: 68,
+      cog: 62, react: 340, stress: 8.5, mood: 4.0,
+      bmd: -0.45, strength: 62, exercise: 20, fatigue: 8.5, energy: 3.5, water: 2.0,
+      notes: "Acute cardiovascular strain and arterial hypoxia warning"
+    },
+    posteva: {
+      hr: 82, hrv: 62, spo2: 98.0, temp: 36.7, sys: 122, dia: 78, resp: 16,
+      sleep: 8.0, deep: 2.0, rem: 1.8, qual: 92, eff: 93,
+      cog: 94, react: 235, stress: 3.5, mood: 8.5,
+      bmd: -0.30, strength: 84, exercise: 75, fatigue: 4.0, energy: 7.5, water: 3.2,
+      notes: "Post-EVA recovery & high-intensity ARED resistance cycle"
+    }
+  }[preset];
+
+  if (!p) return;
+
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  };
+
+  setVal("mHr", p.hr);
+  setVal("mHrv", p.hrv);
+  setVal("mSpo2", p.spo2);
+  setVal("mTemp", p.temp);
+  setVal("mSystolic", p.sys);
+  setVal("mDiastolic", p.dia);
+  setVal("mResp", p.resp);
+  setVal("mSleep", p.sleep);
+  setVal("mDeepSleep", p.deep);
+  setVal("mRemSleep", p.rem);
+  setVal("mSleepQuality", p.qual);
+  setVal("mSleepEfficiency", p.eff);
+  setVal("mCognitive", p.cog);
+  setVal("mReaction", p.react);
+  setVal("mStress", p.stress);
+  setVal("mMood", p.mood);
+  setVal("mBmd", p.bmd);
+  setVal("mStrength", p.strength);
+  setVal("mExercise", p.exercise);
+  setVal("mFatigue", p.fatigue);
+  setVal("mEnergy", p.energy);
+  setVal("mWater", p.water);
+  setVal("mNotes", p.notes);
+
+  const notice = document.getElementById("presetNotice");
+  if (notice) {
+    notice.textContent = `✓ Loaded ${preset.toUpperCase()} values`;
+    setTimeout(() => { if (notice) notice.textContent = ""; }, 3000);
+  }
+};
+
+// -------------------------------------------------------------
+// 2. CENTRAL DATA SYNCHRONIZATION ENGINE (ACROSS ALL 14 VIEWS)
+// -------------------------------------------------------------
+window.syncAllApplicationData = async function(astroId = null) {
+  const targetId = astroId || window.activeAnalyticsAstronautId || "ASTRO-001";
+  window.activeAnalyticsAstronautId = targetId;
+
+  try {
+    // 1. Fetch updated astronaut profile
+    const astroRes = await fetch(`/api/astronauts/${targetId}`);
+    let astro = null;
+    if (astroRes.ok) {
+      const data = await astroRes.json();
+      astro = data.astronaut || data;
+      window.currentAnalyticsAstronaut = astro;
+      if (window.updateAstronautBanner) window.updateAstronautBanner(astro);
+    }
+
+    // 2. Fetch updated records
+    const range = window.activeAnalyticsRange || "30d";
+    let recordsUrl = `/api/records?astronaut_id=${targetId}&range=${range}`;
+    const recRes = await fetch(recordsUrl);
+    if (recRes.ok) {
+      const recData = await recRes.json();
+      window.currentAnalyticsRecords = recData.records || [];
+      window.currentAnalyticsAverages = recData.averages || (recData.summary && recData.summary.averages) || {};
+
+      // Update Health Analytics & Reporting View
+      if (window.updateSummaryCards) {
+        window.updateSummaryCards(window.currentAnalyticsRecords, window.currentAnalyticsAverages);
+      }
+      if (window.renderAllAnalyticsCharts) {
+        window.renderAllAnalyticsCharts(window.currentAnalyticsRecords, window.currentAnalyticsAverages);
+      }
+      if (window.renderHistoricalRecordsTable) {
+        window.renderHistoricalRecordsTable(window.currentAnalyticsRecords);
+      }
+      if (window.initSimulatorWithRecord && window.currentAnalyticsRecords.length > 0) {
+        window.initSimulatorWithRecord(window.currentAnalyticsRecords[0]);
+      }
+
+      // Update Overview Dashboard Metrics & Condition Checker
+      if (window.currentAnalyticsRecords.length > 0) {
+        const latest = window.currentAnalyticsRecords[0];
+        const avg = window.currentAnalyticsAverages;
+
+        // Topbar & Overview Indicators
+        const ovHr = document.getElementById("overviewHeart");
+        const ovSpo2 = document.getElementById("overviewSpo2");
+        const ovSleep = document.getElementById("overviewSleep");
+        const ovStatus = document.getElementById("overviewStatus");
+        const welName = document.getElementById("welcomeName");
+
+        if (ovHr) ovHr.innerHTML = `${latest.heart_rate_bpm} <small>bpm</small>`;
+        if (ovSpo2) ovSpo2.innerHTML = `${latest.spo2_percent} <small>%</small>`;
+        if (ovSleep) ovSleep.innerHTML = `${latest.sleep_total_hours} <small>hours</small>`;
+        if (ovStatus && astro) ovStatus.textContent = astro.status || "NOMINAL";
+        if (welName && astro) welName.textContent = astro.name || "Astronaut";
+
+        // Condition Checker - Weekly View Elements
+        const wHr = document.getElementById("w-hr");
+        const wHrv = document.getElementById("w-hrv");
+        const wSleep = document.getElementById("w-sleep");
+        const wFatigue = document.getElementById("w-fatigue");
+        const wWater = document.getElementById("w-water");
+        const wAct = document.getElementById("w-activity");
+
+        if (wHr) wHr.textContent = `${latest.heart_rate_bpm} bpm`;
+        if (wHrv) wHrv.textContent = `${latest.hrv_rmssd} ms`;
+        if (wSleep) wSleep.textContent = `${latest.sleep_total_hours} h`;
+        if (wFatigue) wFatigue.textContent = `${latest.fatigue_score}/10`;
+        if (wWater) wWater.textContent = `${latest.water_intake_liters || 2.6} L`;
+        if (wAct) wAct.textContent = `${latest.exercise_duration_min} min`;
+
+        // Condition Checker - Monthly View Elements
+        const mHr = document.getElementById("m-hr");
+        const mHrv = document.getElementById("m-hrv");
+        const mSleep = document.getElementById("m-sleep");
+        const mFatigue = document.getElementById("m-fatigue");
+        const mCog = document.getElementById("m-cognitive");
+        const mMass = document.getElementById("m-mass");
+
+        if (mHr) mHr.textContent = `${avg.heart_rate_bpm || latest.heart_rate_bpm} bpm`;
+        if (mHrv) mHrv.textContent = `${avg.hrv_rmssd || latest.hrv_rmssd} ms`;
+        if (mSleep) mSleep.textContent = `${avg.sleep_total_hours || latest.sleep_total_hours} h`;
+        if (mFatigue) mFatigue.textContent = `${avg.fatigue_score || latest.fatigue_score}/10`;
+        if (mCog) mCog.textContent = `${avg.cognitive_performance_score || latest.cognitive_performance_score}/100`;
+        if (mMass) mMass.textContent = `78.2 kg (Baseline)`;
+
+        // Condition Checker - Yearly View Elements
+        const yHr = document.getElementById("y-hr");
+        const yHrv = document.getElementById("y-hrv");
+        const ySleep = document.getElementById("y-sleep");
+        const yFatigue = document.getElementById("y-fatigue");
+        const yCog = document.getElementById("y-cognitive");
+
+        if (yHr) yHr.textContent = `${avg.heart_rate_bpm || 72} bpm`;
+        if (yHrv) yHrv.textContent = `${avg.hrv_rmssd || 65} ms`;
+        if (ySleep) ySleep.textContent = `${avg.sleep_total_hours || 7.5} h`;
+        if (yFatigue) yFatigue.textContent = `${avg.fatigue_score || 3.0}/10`;
+        if (yCog) yCog.textContent = `${avg.cognitive_performance_score || 92}/100`;
+
+        // AI Health Intelligence View inputs update
+        const aiHr = document.getElementById("aiHeartRate");
+        const aiSpo2 = document.getElementById("aiSpo2");
+        const aiSleep = document.getElementById("aiSleep");
+        const aiFatigue = document.getElementById("aiFatigue");
+        const aiStress = document.getElementById("aiStress");
+        if (aiHr) aiHr.value = latest.heart_rate_bpm;
+        if (aiSpo2) aiSpo2.value = latest.spo2_percent;
+        if (aiSleep) aiSleep.value = latest.sleep_total_hours;
+        if (aiFatigue) aiFatigue.value = latest.fatigue_score;
+        if (aiStress) aiStress.value = latest.stress_level;
+
+        if (window.runAiPrediction) window.runAiPrediction();
+
+        // Cognitive Readiness Gauge in Cognitive view
+        const cogVal = document.getElementById("cogReadinessVal");
+        const cogClear = document.getElementById("cogClearanceBadge");
+        if (cogVal) cogVal.innerHTML = `${Math.round(latest.cognitive_performance_score)} <small style="font-size:14px; color:var(--muted);">/ 100</small>`;
+        if (cogClear) {
+          if (latest.cognitive_performance_score >= 85) {
+            cogClear.textContent = "● VIGILANT — UNRESTRICTED EVA CLEARANCE";
+            cogClear.style.color = "var(--green)";
+            cogClear.style.borderColor = "rgba(101,230,174,0.5)";
+          } else if (latest.cognitive_performance_score >= 70) {
+            cogClear.textContent = "● ELEVATED COGNITIVE FATIGUE — MONITORING";
+            cogClear.style.color = "var(--yellow)";
+            cogClear.style.borderColor = "rgba(255,200,80,0.5)";
+          } else {
+            cogClear.textContent = "● SEVERE LAPSE RISK — DUTY RESTRICTED";
+            cogClear.style.color = "var(--red)";
+            cogClear.style.borderColor = "rgba(255,114,125,0.5)";
+          }
+        }
+      }
+
+      // Refresh Graphical Reports Suite
+      if (window.generateVisualReport) {
+        window.generateVisualReport();
+      }
+      if (window.generateReport) {
+        window.generateReport();
+      }
+
+      // Refresh Alerts and Digital Twin
+      if (window.fetchAlerts) window.fetchAlerts();
+    }
+  } catch (err) {
+    console.error("Central synchronization error:", err);
+  }
+};
+
+// Wire submit for recordModalForm with automatic recalculation
+window.handleRecordFormSubmit = async function(event) {
+  event.preventDefault();
+  const editId = document.getElementById("editRecordId") ? document.getElementById("editRecordId").value : null;
+  const astroId = document.getElementById("mAstronautId").value || "ASTRO-001";
+  const dateVal = document.getElementById("mDate").value || new Date().toISOString().slice(0, 10);
+  const timeVal = document.getElementById("mTime").value || "08:00";
+
+  const payload = {
+    astronaut_id: astroId,
+    recorded_at: `${dateVal} ${timeVal}:00`,
+    source_type: "manual",
+    source_name: "Astronaut Manual Self-Entry",
+    heart_rate_bpm: parseFloat(document.getElementById("mHr").value || 72),
+    hrv_rmssd: parseFloat(document.getElementById("mHrv").value || 65),
+    spo2_percent: parseFloat(document.getElementById("mSpo2").value || 98),
+    body_temperature_c: parseFloat(document.getElementById("mTemp").value || 36.8),
+    blood_pressure_sys: parseInt(document.getElementById("mSystolic").value || 118),
+    blood_pressure_dia: parseInt(document.getElementById("mDiastolic").value || 76),
+    respiration_rate: parseFloat(document.getElementById("mResp").value || 15),
+    sleep_total_hours: parseFloat(document.getElementById("mSleep").value || 7.5),
+    sleep_deep_hours: parseFloat(document.getElementById("mDeepSleep").value || 1.8),
+    sleep_rem_hours: parseFloat(document.getElementById("mRemSleep").value || 1.6),
+    sleep_quality_score: parseFloat(document.getElementById("mSleepQuality").value || 85),
+    sleep_efficiency_percent: parseFloat(document.getElementById("mSleepEfficiency").value || 90),
+    cognitive_performance_score: parseFloat(document.getElementById("mCognitive").value || 90),
+    reaction_time_ms: parseFloat(document.getElementById("mReaction").value || 240),
+    stress_level: parseFloat(document.getElementById("mStress").value || 3.0),
+    mood_assessment: parseFloat(document.getElementById("mMood").value || 8.0),
+    bone_density_tscore: parseFloat(document.getElementById("mBmd").value || -0.32),
+    muscle_strength_index: parseFloat(document.getElementById("mStrength").value || 75),
+    exercise_duration_min: parseFloat(document.getElementById("mExercise").value || 45),
+    fatigue_score: parseFloat(document.getElementById("mFatigue").value || 3.0),
+    energy_level: parseFloat(document.getElementById("mEnergy").value || 7.5),
+    water_intake_liters: parseFloat(document.getElementById("mWater").value || 2.6),
+    notes: document.getElementById("mNotes").value || "Manual entry via Mission Control"
+  };
+
+  try {
+    let res;
+    if (editId) {
+      res = await fetch(`/api/records/${editId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      res = await fetch("/api/records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    if (res.ok) {
+      closeRecordModal();
+      await window.syncAllApplicationData(astroId);
+      window.showHudToast(`✅ Health telemetry saved for ${astroId}. Mission reports, charts, and condition analytics updated.`);
+    } else {
+      alert("Failed to save health reading. Please check input values.");
+    }
+  } catch (err) {
+    console.error("Submission error:", err);
+    alert("Connection error while saving record to database.");
+  }
+};
+
+// -------------------------------------------------------------
+// 3. SYNCHRONIZING IN-VIEW MANUAL FORMS (PHYSIOLOGY, SLEEP, ETC.)
+// -------------------------------------------------------------
+const vitalsFormEl = document.getElementById("vitalsForm");
+if (vitalsFormEl) {
+  // Replace submit listener with database persistence & sync
+  vitalsFormEl.onsubmit = async function(e) {
+    e.preventDefault();
+    const hr = parseFloat(document.getElementById("heart_rate").value || 72);
+    const spo2 = parseFloat(document.getElementById("spo2").value || 98);
+    const temp = parseFloat(document.getElementById("temperature").value || 36.8);
+    const sys = parseInt(document.getElementById("systolic").value || 118);
+    const dia = parseInt(document.getElementById("diastolic").value || 76);
+    const resp = parseFloat(document.getElementById("respiration") ? document.getElementById("respiration").value : 15);
+    const hrv = parseFloat(document.getElementById("hrv") ? document.getElementById("hrv").value : 65);
+
+    const astroId = window.activeAnalyticsAstronautId || "ASTRO-001";
+    const payload = {
+      astronaut_id: astroId,
+      heart_rate_bpm: hr,
+      spo2_percent: spo2,
+      body_temperature_c: temp,
+      blood_pressure_sys: sys,
+      blood_pressure_dia: dia,
+      respiration_rate: resp,
+      hrv_rmssd: hrv,
+      notes: "Manual physiological entry from Vitals tab"
+    };
+
+    try {
+      const res = await fetch("/api/records", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        await window.syncAllApplicationData(astroId);
+        const resultBox = document.getElementById("result");
+        if (resultBox) {
+          resultBox.textContent = `✓ Vitals successfully ingested for ${astroId} (HR: ${hr} bpm, SpO2: ${spo2}%). All mission reports and analytics recalculated.`;
+        }
+        window.showHudToast(`✓ Physiological vitals recorded for ${astroId}.`);
+      }
+    } catch (err) {
+      console.error("Vitals submission error:", err);
+    }
+  };
+}
+
+// Override saveSleep() to persist to SQLite
+const origSaveSleep = window.saveSleep;
+window.saveSleep = async function() {
+  const hours = Number(document.getElementById("sleepHours").value);
+  const qualityStr = document.getElementById("sleepQuality").value;
+  if (!Number.isFinite(hours) || hours <= 0 || hours > 24) {
+    if (origSaveSleep) origSaveSleep();
+    return;
+  }
+
+  const qualMap = { "Poor": 55, "Fair": 72, "Good": 88, "Excellent": 96 };
+  const qualScore = qualMap[qualityStr] || 80;
+  const astroId = window.activeAnalyticsAstronautId || "ASTRO-001";
+
+  try {
+    const res = await fetch("/api/records", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        astronaut_id: astroId,
+        sleep_total_hours: hours,
+        sleep_quality_score: qualScore,
+        notes: `Sleep log: ${hours}h, quality: ${qualityStr}`
+      })
+    });
+    if (res.ok) {
+      await window.syncAllApplicationData(astroId);
+      const resEl = document.getElementById("sleepResult");
+      if (resEl) resEl.textContent = `✓ Sleep log saved: ${hours} hours (${qualityStr}). Mission circadian buffer and reports updated.`;
+      window.showHudToast(`✓ Sleep data (${hours}h) synchronized with mission database.`);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// Override saveEnergy() to persist to SQLite
+const origSaveEnergy = window.saveEnergy;
+window.saveEnergy = async function() {
+  const energy = Number(document.getElementById("energyRange").value);
+  const fatigue = Number(document.getElementById("fatigueRange").value);
+  const workload = document.getElementById("workload").value;
+  const astroId = window.activeAnalyticsAstronautId || "ASTRO-001";
+
+  try {
+    const res = await fetch("/api/records", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        astronaut_id: astroId,
+        energy_level: energy,
+        fatigue_score: fatigue,
+        notes: `Energy check-in: Energy ${energy}/10, Fatigue ${fatigue}/10, Workload ${workload}`
+      })
+    });
+    if (res.ok) {
+      await window.syncAllApplicationData(astroId);
+      const resEl = document.getElementById("energyResult");
+      if (resEl) resEl.textContent = `✓ Check-in saved: Energy ${energy}/10, Fatigue ${fatigue}/10. Readiness scores recomputed.`;
+      window.showHudToast(`✓ Fatigue & energy state synchronized.`);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// Override saveWellbeing() to persist to SQLite
+const origSaveWellbeing = window.saveWellbeing;
+window.saveWellbeing = async function() {
+  const stress = Number(document.getElementById("stressRange").value);
+  const mood = Number(document.getElementById("moodRange").value);
+  const astroId = window.activeAnalyticsAstronautId || "ASTRO-001";
+
+  try {
+    const res = await fetch("/api/records", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        astronaut_id: astroId,
+        stress_level: stress,
+        mood_assessment: mood,
+        notes: `Wellbeing check-in: Stress ${stress}/10, Mood ${mood}/10`
+      })
+    });
+    if (res.ok) {
+      await window.syncAllApplicationData(astroId);
+      const resEl = document.getElementById("wellbeingResult");
+      if (resEl) resEl.textContent = `✓ Wellbeing saved: Stress ${stress}/10, Mood ${mood}/10. Reports synchronized.`;
+      window.showHudToast(`✓ Psychological markers saved to mission records.`);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// Override saveActivity() to persist to SQLite
+const origSaveActivity = window.saveActivity;
+window.saveActivity = async function() {
+  const duration = Number(document.getElementById("activityDuration").value);
+  const type = document.getElementById("activityType").value;
+  const effort = document.getElementById("activityEffort").value;
+  if (!Number.isFinite(duration) || duration <= 0) {
+    if (origSaveActivity) origSaveActivity();
+    return;
+  }
+
+  const astroId = window.activeAnalyticsAstronautId || "ASTRO-001";
+  try {
+    const res = await fetch("/api/records", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        astronaut_id: astroId,
+        exercise_duration_min: duration,
+        notes: `Physical Activity: ${type}, ${duration} min, Effort: ${effort}`
+      })
+    });
+    if (res.ok) {
+      await window.syncAllApplicationData(astroId);
+      const resEl = document.getElementById("activityResult");
+      if (resEl) resEl.textContent = `✓ Physical countermeasure saved: ${type}, ${duration} min. Daily compliance updated.`;
+      window.showHudToast(`✓ Exercise countermeasure (${duration} min) logged.`);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+
+// -------------------------------------------------------------
+// 4. VISUAL GRAPHICAL MISSION REPORT SUITE
+// -------------------------------------------------------------
+let activeReportAstronautId = "ASTRO-001";
+let activeReportRange = "30d";
+let reportCharts = {};
+
+window.switchReportAstronaut = function(astroId) {
+  activeReportAstronautId = astroId;
+  const sel = document.getElementById("reportAstronautSelect");
+  if (sel && sel.value !== astroId) sel.value = astroId;
+  generateVisualReport();
+};
+
+window.setReportRange = function(range) {
+  activeReportRange = range;
+  ["rRange24h", "rRange7d", "rRange30d", "rRangeAll"].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.classList.remove("active");
+  });
+  const activeBtn = document.getElementById(`rRange${range.charAt(0).toUpperCase() + range.slice(1)}`);
+  if (activeBtn) activeBtn.classList.add("active");
+  generateVisualReport();
+};
+
+window.switchReportTab = function(tab) {
+  const tabs = {
+    visual: { btn: "btnReportTabVisual", pane: "reportTabVisual" },
+    table: { btn: "btnReportTabTable", pane: "reportTabTable" },
+    raw: { btn: "btnReportTabRaw", pane: "reportTabRaw" }
+  };
+
+  Object.values(tabs).forEach(t => {
+    const btn = document.getElementById(t.btn);
+    const pane = document.getElementById(t.pane);
+    if (btn) btn.classList.remove("active");
+    if (pane) pane.style.display = "none";
+  });
+
+  if (tabs[tab]) {
+    const activeBtn = document.getElementById(tabs[tab].btn);
+    const activePane = document.getElementById(tabs[tab].pane);
+    if (activeBtn) activeBtn.classList.add("active");
+    if (activePane) activePane.style.display = "block";
+  }
+
+  if (tab === "visual") {
+    setTimeout(renderReportCharts, 100);
+  }
+};
+
+window.generateVisualReport = async function() {
+  try {
+    const res = await fetch(`/api/records?astronaut_id=${activeReportAstronautId}&range=${activeReportRange}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const records = data.records || [];
+    const avg = data.averages || {};
+
+    if (records.length === 0) return;
+    const latest = records[0];
+
+    // 1. Update KPI Card Values
+    const setVal = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = val;
+    };
+
+    setVal("repValSpo2", `${latest.spo2_percent}% <small style="font-size:14px; color:var(--muted);">SpO₂</small>`);
+    setVal("repSubPhysio", `HR: ${latest.heart_rate_bpm} bpm • BP: ${latest.blood_pressure_sys}/${latest.blood_pressure_dia} • Temp: ${latest.body_temperature_c}°C`);
+
+    setVal("repValSleep", `${latest.sleep_total_hours} <small style="font-size:14px; color:var(--muted);">hrs/day</small>`);
+    const deepPct = Math.round((latest.sleep_deep_hours / latest.sleep_total_hours) * 100) || 24;
+    setVal("repSubSleep", `Quality: ${Math.round(latest.sleep_quality_score)}/100 • Deep: ${deepPct}% • Eff: ${Math.round(latest.sleep_efficiency_percent)}%`);
+
+    setVal("repValCognitive", `${Math.round(latest.cognitive_performance_score)} <small style="font-size:14px; color:var(--muted);">/ 100</small>`);
+    setVal("repSubCog", `Reaction: ${Math.round(latest.reaction_time_ms)} ms • Stress: ${latest.stress_level}/10 • Mood: ${latest.mood_assessment}/10`);
+
+    setVal("repValBmd", `${latest.bone_density_tscore} <small style="font-size:14px; color:var(--muted);">T-Score</small>`);
+    setVal("repSubMusculo", `Strength: ${latest.muscle_strength_index} kg • Exercise: ${latest.exercise_duration_min} min/day`);
+
+    setVal("repValRecovery", `${Math.round(latest.recovery_score)}% <small style="font-size:14px; color:var(--muted);">Score</small>`);
+    setVal("repSubRecovery", `Fatigue: ${latest.fatigue_score}/10 • Workload: ${latest.physical_workload_kcal} kcal/day`);
+
+    // 2. Flight Clearance Status
+    const clearBanner = document.getElementById("reportClearanceBanner");
+    const clearTitle = document.getElementById("reportClearanceTitle");
+    const clearDesc = document.getElementById("reportClearanceDesc");
+    const clearBadge = document.getElementById("reportClearanceBadge");
+
+    if (latest.spo2_percent < 92 || latest.heart_rate_bpm > 115 || latest.recovery_score < 60) {
+      if (clearTitle) clearTitle.textContent = "FLIGHT SURGEON MEDICAL CLEARANCE: CRITICAL MEDICAL HOLD";
+      if (clearDesc) clearDesc.textContent = "Acute arterial desaturation or severe cardiorespiratory strain detected. Mandatory cabin oxygen and immediate flight surgeon consult required.";
+      if (clearBadge) {
+        clearBadge.textContent = "CRITICAL MEDICAL HOLD";
+        clearBadge.style.background = "var(--red)";
+      }
+      if (clearBanner) {
+        clearBanner.style.background = "rgba(255,114,125,0.15)";
+        clearBanner.style.borderColor = "rgba(255,114,125,0.5)";
+        clearBanner.style.color = "var(--red)";
+      }
+    } else if (latest.spo2_percent < 95 || latest.heart_rate_bpm > 95 || latest.fatigue_score >= 6 || latest.recovery_score < 80) {
+      if (clearTitle) clearTitle.textContent = "FLIGHT SURGEON MEDICAL CLEARANCE: ELEVATED WORKLOAD RESTRICTION";
+      if (clearDesc) clearDesc.textContent = "Cumulative circadian sleep debt or elevated fatigue index detected. Mandatory 2-hour sleep buffer extension enforced prior to critical duty.";
+      if (clearBadge) {
+        clearBadge.textContent = "REST BUFFER ENFORCED";
+        clearBadge.style.background = "var(--yellow)";
+      }
+      if (clearBanner) {
+        clearBanner.style.background = "rgba(255,200,80,0.15)";
+        clearBanner.style.borderColor = "rgba(255,200,80,0.5)";
+        clearBanner.style.color = "var(--yellow)";
+      }
+    } else {
+      if (clearTitle) clearTitle.textContent = "FLIGHT SURGEON MEDICAL CLEARANCE: NOMINAL";
+      if (clearDesc) clearDesc.textContent = "All monitored physiological, circadian, and neurocognitive markers comply with NASA Spaceflight Flight Rules. Unrestricted EVA duty cleared.";
+      if (clearBadge) {
+        clearBadge.textContent = "CLEAR FOR EVA";
+        clearBadge.style.background = "var(--green)";
+      }
+      if (clearBanner) {
+        clearBanner.style.background = "rgba(101,230,174,0.12)";
+        clearBanner.style.borderColor = "rgba(101,230,174,0.4)";
+        clearBanner.style.color = "var(--green)";
+      }
+    }
+
+    // 3. Clinical Narrative
+    const narrativeEl = document.getElementById("reportSurgeonNarrative");
+    if (narrativeEl) {
+      narrativeEl.textContent = `Astronaut ${activeReportAstronautId} displays resting heart rate of ${latest.heart_rate_bpm} bpm with arterial oxygen saturation stable at ${latest.spo2_percent}%. Circadian sleep architecture averages ${avg.sleep_total_hours || latest.sleep_total_hours} hrs/day with efficiency of ${Math.round(latest.sleep_efficiency_percent)}%. Neurocognitive reaction speed is verified at ${Math.round(latest.reaction_time_ms)} ms with attention index ${Math.round(latest.cognitive_performance_score)}/100. Bone mineral density T-score is ${latest.bone_density_tscore} with daily physical countermeasure adherence of ${latest.exercise_duration_min} minutes. ${latest.spo2_percent >= 95 ? 'Overall spaceflight physiological readiness is nominal.' : 'Close telemetry monitoring advised for arterial oxygen stabilization.'}`;
+    }
+
+    // 4. Populate Longitudinal Table Tab
+    const tableBody = document.getElementById("reportRecordsTableBody");
+    if (tableBody) {
+      tableBody.innerHTML = records.map(r => `
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+          <td style="padding:8px; font-weight:bold; color:#fff;">${r.date || r.timestamp.slice(0, 10)}</td>
+          <td style="padding:8px;">${r.heart_rate_bpm} bpm</td>
+          <td style="padding:8px; color:${r.spo2_percent < 95 ? 'var(--red)' : 'var(--green)'};">${r.spo2_percent}%</td>
+          <td style="padding:8px;">${r.blood_pressure_sys}/${r.blood_pressure_dia}</td>
+          <td style="padding:8px;">${r.sleep_total_hours}h</td>
+          <td style="padding:8px; color:var(--cyan);">${Math.round(r.cognitive_performance_score)}/100</td>
+          <td style="padding:8px;">${r.fatigue_score}/10</td>
+          <td style="padding:8px; color:var(--green);">${Math.round(r.recovery_score)}%</td>
+          <td style="padding:8px;"><span class="badge-pill" style="font-size:10px; color:${r.spo2_percent < 93 ? 'var(--red)' : (r.fatigue_score >= 6 ? 'var(--yellow)' : 'var(--green)')};">${r.spo2_percent < 93 ? 'CRITICAL' : (r.fatigue_score >= 6 ? 'ELEVATED' : 'NOMINAL')}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    // 5. Render Charts
+    window.lastReportRecords = records;
+    window.lastReportAverages = avg;
+    renderReportCharts();
+
+  } catch (err) {
+    console.error("Error generating visual report:", err);
+  }
+};
+
+function renderReportCharts() {
+  if (!window.Chart || !window.lastReportRecords) return;
+  const records = window.lastReportRecords;
+  const avg = window.lastReportAverages || {};
+  const chronological = [...records].reverse();
+
+  const labels = chronological.map(r => (r.date || r.timestamp || "").slice(5, 10));
+
+  const chartTheme = {
+    color: "#8aa2bf",
+    grid: { color: "rgba(255, 255, 255, 0.06)", borderColor: "#1a334d" },
+    ticks: { color: "#8aa2bf", font: { size: 10 } }
+  };
+
+  const destroyChart = id => {
+    if (reportCharts[id]) {
+      try { reportCharts[id].destroy(); } catch (e) {}
+      delete reportCharts[id];
+    }
+  };
+
+  // 1. Trajectory Chart
+  destroyChart("trajectory");
+  const ctxTraj = document.getElementById("canvasReportTrajectory");
+  if (ctxTraj) {
+    reportCharts["trajectory"] = new Chart(ctxTraj, {
+      type: "line",
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: "SpO2 (%)",
+            data: chronological.map(r => r.spo2_percent),
+            borderColor: "#65e6ae",
+            backgroundColor: "rgba(101,230,174,0.1)",
+            borderWidth: 2,
+            yAxisID: "y1",
+            tension: 0.3
+          },
+          {
+            label: "Heart Rate (BPM)",
+            data: chronological.map(r => r.heart_rate_bpm),
+            borderColor: "#ff727d",
+            backgroundColor: "rgba(255,114,125,0.1)",
+            borderWidth: 2,
+            yAxisID: "y2",
+            tension: 0.3
+          },
+          {
+            label: "Cognitive Score (/100)",
+            data: chronological.map(r => r.cognitive_performance_score),
+            borderColor: "#55e6f2",
+            borderDash: [4, 4],
+            borderWidth: 2,
+            yAxisID: "y1",
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: chartTheme,
+          y1: {
+            position: "left",
+            min: 60,
+            max: 100,
+            ticks: chartTheme.ticks,
+            grid: chartTheme.grid
+          },
+          y2: {
+            position: "right",
+            min: 40,
+            max: 140,
+            ticks: chartTheme.ticks,
+            grid: { drawOnChartArea: false }
+          }
+        },
+        plugins: { legend: { labels: { color: "#b9d0e2", font: { size: 11 } } } }
+      }
+    });
+  }
+
+  // 2. Five-Domain Radar Chart
+  destroyChart("radar");
+  const ctxRadar = document.getElementById("canvasReportRadar");
+  if (ctxRadar) {
+    const latest = records[0];
+    reportCharts["radar"] = new Chart(ctxRadar, {
+      type: "radar",
+      data: {
+        labels: ["Physiological", "Circadian Sleep", "Neurocognitive", "Musculoskeletal", "Recovery & Tone"],
+        datasets: [
+          {
+            label: "Astronaut Current",
+            data: [
+              Math.min(100, Math.round(latest.spo2_percent)),
+              Math.min(100, Math.round(latest.sleep_quality_score)),
+              Math.min(100, Math.round(latest.cognitive_performance_score)),
+              Math.min(100, Math.round(Math.max(40, 100 + latest.bone_density_tscore * 40))),
+              Math.min(100, Math.round(latest.recovery_score))
+            ],
+            borderColor: "#55e6f2",
+            backgroundColor: "rgba(85,230,242,0.25)",
+            borderWidth: 2
+          },
+          {
+            label: "Mission Average",
+            data: [
+              Math.min(100, Math.round(avg.spo2_percent || 98)),
+              Math.min(100, Math.round(avg.sleep_quality_score || 85)),
+              Math.min(100, Math.round(avg.cognitive_performance_score || 90)),
+              Math.min(100, Math.round(Math.max(40, 100 + (avg.bone_density_tscore || -0.32) * 40))),
+              Math.min(100, Math.round(avg.recovery_score || 84))
+            ],
+            borderColor: "#65e6ae",
+            backgroundColor: "rgba(101,230,174,0.15)",
+            borderWidth: 1.5
+          },
+          {
+            label: "NASA Flight Minimum",
+            data: [95, 70, 75, 60, 65],
+            borderColor: "#ff727d",
+            borderDash: [3, 3],
+            backgroundColor: "transparent",
+            borderWidth: 1.5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            ticks: { display: false },
+            grid: { color: "rgba(255,255,255,0.08)" },
+            pointLabels: { color: "#cfe2f3", font: { size: 11 } }
+          }
+        },
+        plugins: { legend: { labels: { color: "#b9d0e2", font: { size: 11 } } } }
+      }
+    });
+  }
+
+  // 3. Sleep Stage & Fatigue Chart
+  destroyChart("sleepFatigue");
+  const ctxSleep = document.getElementById("canvasReportSleepFatigue");
+  if (ctxSleep) {
+    const recent = chronological.slice(-14);
+    reportCharts["sleepFatigue"] = new Chart(ctxSleep, {
+      type: "bar",
+      data: {
+        labels: recent.map(r => (r.date || r.timestamp || "").slice(5, 10)),
+        datasets: [
+          {
+            label: "Deep Sleep (h)",
+            data: recent.map(r => r.sleep_deep_hours),
+            backgroundColor: "#559bff",
+            stack: "sleep"
+          },
+          {
+            label: "REM Sleep (h)",
+            data: recent.map(r => r.sleep_rem_hours),
+            backgroundColor: "#55e6f2",
+            stack: "sleep"
+          },
+          {
+            label: "Light Sleep (h)",
+            data: recent.map(r => Math.max(0, (r.sleep_total_hours - r.sleep_deep_hours - r.sleep_rem_hours).toFixed(1))),
+            backgroundColor: "#1f4a75",
+            stack: "sleep"
+          },
+          {
+            type: "line",
+            label: "Fatigue Score (/10)",
+            data: recent.map(r => r.fatigue_score),
+            borderColor: "#ff727d",
+            borderWidth: 2,
+            yAxisID: "yFatigue",
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: chartTheme,
+          y: {
+            stacked: true,
+            ticks: chartTheme.ticks,
+            grid: chartTheme.grid,
+            title: { display: true, text: "Hours", color: "#8aa2bf" }
+          },
+          yFatigue: {
+            position: "right",
+            min: 0,
+            max: 10,
+            ticks: chartTheme.ticks,
+            grid: { drawOnChartArea: false },
+            title: { display: true, text: "Fatigue (1-10)", color: "#ff727d" }
+          }
+        },
+        plugins: { legend: { labels: { color: "#b9d0e2", font: { size: 10 } } } }
+      }
+    });
+  }
+
+  // 4. Multivariable Risk Allocation Matrix
+  destroyChart("risk");
+  const ctxRisk = document.getElementById("canvasReportRisk");
+  if (ctxRisk) {
+    const latest = records[0];
+    const cardRisk = Math.max(5, (latest.heart_rate_bpm > 95 ? 30 : 10));
+    const hypoxRisk = Math.max(5, (latest.spo2_percent < 95 ? 40 : 8));
+    const sleepRisk = Math.max(5, (latest.sleep_total_hours < 6 ? 28 : 12));
+    const stressRisk = Math.max(5, latest.stress_level * 3.5);
+    const decondRisk = Math.max(5, (latest.exercise_duration_min < 35 ? 25 : 10));
+
+    reportCharts["risk"] = new Chart(ctxRisk, {
+      type: "doughnut",
+      data: {
+        labels: ["Cardiovascular Strain", "Arterial Hypoxia", "Circadian Debt", "Operational Stress", "Deconditioning"],
+        datasets: [{
+          data: [cardRisk, hypoxRisk, sleepRisk, stressRisk, decondRisk],
+          backgroundColor: ["#ff727d", "#ff9800", "#559bff", "#ab47bc", "#65e6ae"],
+          borderWidth: 1,
+          borderColor: "#07111f"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: "right", labels: { color: "#cfe2f3", font: { size: 10 } } }
+        }
+      }
+    });
+  }
+}
+
+// Visual PDF Export
+window.downloadVisualPdfReport = function() {
+  if (window.generateComprehensivePdfReport) {
+    window.generateComprehensivePdfReport();
+  }
+};
+
+// CSV Export
+window.exportReportCsv = function() {
+  if (!window.lastReportRecords || window.lastReportRecords.length === 0) {
+    alert("No records to export.");
+    return;
+  }
+  const recs = window.lastReportRecords;
+  const keys = ["date", "timestamp", "heart_rate_bpm", "spo2_percent", "blood_pressure_sys", "blood_pressure_dia", "body_temperature_c", "sleep_total_hours", "sleep_quality_score", "cognitive_performance_score", "reaction_time_ms", "fatigue_score", "recovery_score", "exercise_duration_min"];
+  const csv = [
+    keys.join(","),
+    ...recs.map(r => keys.map(k => JSON.stringify(r[k] !== undefined ? r[k] : "")).join(","))
+  ].join("\n");
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `ORBITALIS_Report_${activeReportAstronautId}_${Date.now()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+
+// -------------------------------------------------------------
+// 5. ADVANCED SPACEFLIGHT NEUROCOGNITIVE BATTERY SUITE
+// -------------------------------------------------------------
+let activeCogAstronautId = "ASTRO-001";
+let activeCogTab = "pvt";
+let cogBatteryChart = null;
+let cogEvaluationScores = {
+  pvt: { latency: 238, score: 94, lapses: 0 },
+  memory: { span: 6, score: 92, accuracy: 96 },
+  stroop: { latency: 480, score: 90, accuracy: 100 },
+  spatial: { latency: 680, score: 92, accuracy: 100 },
+  math: { throughput: 14, score: 90, streak: 8 }
+};
+
+window.switchCognitiveAstronaut = function(astroId) {
+  activeCogAstronautId = astroId;
+  const sel = document.getElementById("cogAstronautSelect");
+  if (sel && sel.value !== astroId) sel.value = astroId;
+  updateCompositeCognitiveReadiness();
+};
+
+window.switchCogTab = function(tabId) {
+  activeCogTab = tabId;
+  const tabs = {
+    pvt: { btn: "tabBtnPvt", pane: "cogPanePvt" },
+    memory: { btn: "tabBtnMemory", pane: "cogPaneMemory" },
+    stroop: { btn: "tabBtnStroop", pane: "cogPaneStroop" },
+    spatial: { btn: "tabBtnSpatial", pane: "cogPaneSpatial" },
+    math: { btn: "tabBtnMath", pane: "cogPaneMath" }
+  };
+
+  Object.values(tabs).forEach(t => {
+    const btn = document.getElementById(t.btn);
+    const pane = document.getElementById(t.pane);
+    if (btn) btn.classList.remove("active");
+    if (pane) pane.classList.remove("active");
+  });
+
+  if (tabs[tabId]) {
+    const activeBtn = document.getElementById(tabs[tabId].btn);
+    const activePane = document.getElementById(tabs[tabId].pane);
+    if (activeBtn) activeBtn.classList.add("active");
+    if (activePane) activePane.classList.add("active");
+  }
+
+  renderCognitivePerformanceChart();
+};
+
+function updateCompositeCognitiveReadiness() {
+  const p = cogEvaluationScores.pvt.score;
+  const m = cogEvaluationScores.memory.score;
+  const s = cogEvaluationScores.stroop.score;
+  const sp = cogEvaluationScores.spatial.score;
+  const mt = cogEvaluationScores.math.score;
+
+  const composite = Math.round(p * 0.30 + m * 0.25 + s * 0.15 + sp * 0.15 + mt * 0.15);
+  const valEl = document.getElementById("cogReadinessVal");
+  const badgeEl = document.getElementById("cogClearanceBadge");
+
+  if (valEl) valEl.innerHTML = `${composite} <small style="font-size:14px; color:var(--muted);">/ 100</small>`;
+  if (badgeEl) {
+    if (composite >= 85) {
+      badgeEl.textContent = "● VIGILANT — UNRESTRICTED EVA CLEARANCE";
+      badgeEl.style.color = "var(--green)";
+      badgeEl.style.borderColor = "rgba(101,230,174,0.5)";
+    } else if (composite >= 70) {
+      badgeEl.textContent = "● MILD FATIGUE — REST BUFFER RECOMMENDED";
+      badgeEl.style.color = "var(--yellow)";
+      badgeEl.style.borderColor = "rgba(255,200,80,0.5)";
+    } else {
+      badgeEl.textContent = "● SEVERE COGNITIVE LAPSE RISK — DUTY RESTRICTED";
+      badgeEl.style.color = "var(--red)";
+      badgeEl.style.borderColor = "rgba(255,114,125,0.5)";
+    }
+  }
+}
+
+// --- TEST 1: PVT ENHANCEMENT ---
+let pvtRoundsList = [];
+let pvtLapseCount = 0;
+
+// Override reactionTarget click for false-start detection & lapse tracking
+const origTarget = document.getElementById("reactionTarget");
+if (origTarget) {
+  // Replace event listener logic
+  origTarget.onclick = function() {
+    if (window.reactionState === "waiting") {
+      clearTimeout(window.reactionTimer);
+      window.reactionState = "idle";
+      origTarget.className = "wait";
+      origTarget.textContent = "⚠️ FALSE START! Early tap recorded. Wait for green.";
+      const startBtn = document.getElementById("reactionStart");
+      if (startBtn) startBtn.disabled = false;
+      const res = document.getElementById("reactionResult");
+      if (res) res.textContent = "Premature tap logged. Press Start to retry round.";
+      return;
+    }
+
+    if (window.reactionState !== "go") return;
+
+    const elapsed = Math.round(performance.now() - window.reactionStartTime);
+    pvtRoundsList.push(elapsed);
+    window.reactionState = "idle";
+    origTarget.className = "ready";
+    origTarget.textContent = `${elapsed} ms`;
+
+    if (elapsed > 500) {
+      pvtLapseCount++;
+      const lapseBadge = document.getElementById("pvtLapseBadge");
+      if (lapseBadge) lapseBadge.style.display = "inline-block";
+    }
+
+    const roundCountEl = document.getElementById("pvtRoundCount");
+    if (roundCountEl) roundCountEl.textContent = `${pvtRoundsList.length} / 5`;
+
+    const chipsEl = document.getElementById("pvtRoundsContainer");
+    if (chipsEl) {
+      chipsEl.innerHTML = pvtRoundsList.map((t, idx) => `
+        <span style="background:${t > 500 ? 'rgba(255,114,125,0.2)' : 'rgba(85,230,242,0.15)'}; border:1px solid ${t > 500 ? 'var(--red)' : 'var(--cyan)'}; color:${t > 500 ? 'var(--red)' : '#fff'}; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:bold;">
+          R${idx+1}: ${t}ms ${t > 500 ? '⚠️' : ''}
+        </span>
+      `).join("");
+    }
+
+    const startBtn = document.getElementById("reactionStart");
+
+    if (pvtRoundsList.length >= 5) {
+      const avg = Math.round(pvtRoundsList.reduce((a, b) => a + b, 0) / pvtRoundsList.length);
+      const score = Math.max(40, Math.min(100, Math.round(100 - (avg - 200) * 0.35 - pvtLapseCount * 12)));
+      cogEvaluationScores.pvt = { latency: avg, score, lapses: pvtLapseCount };
+
+      window.reactionState = "done";
+      if (startBtn) startBtn.disabled = false;
+      const res = document.getElementById("reactionResult");
+      if (res) {
+        res.innerHTML = `<strong>PVT Evaluation Complete:</strong> Mean Latency: <span style="color:var(--cyan);">${avg} ms</span> | Score: <span style="color:var(--green);">${score}/100</span> | Lapses (&gt;500ms): ${pvtLapseCount}`;
+      }
+      updateCompositeCognitiveReadiness();
+      renderCognitivePerformanceChart();
+    } else {
+      if (startBtn) startBtn.disabled = false;
+      const res = document.getElementById("reactionResult");
+      if (res) res.textContent = `Round ${pvtRoundsList.length} logged: ${elapsed} ms. Press Start for Round ${pvtRoundsList.length + 1}.`;
+    }
+  };
+}
+
+const origResetPvt = window.resetReactionTest;
+window.resetReactionTest = function() {
+  if (origResetPvt) origResetPvt();
+  pvtRoundsList = [];
+  pvtLapseCount = 0;
+  const chips = document.getElementById("pvtRoundsContainer");
+  if (chips) chips.innerHTML = "";
+  const lapseBadge = document.getElementById("pvtLapseBadge");
+  if (lapseBadge) lapseBadge.style.display = "none";
+  const roundCount = document.getElementById("pvtRoundCount");
+  if (roundCount) roundCount.textContent = "0 / 5";
+};
+
+// --- TEST 2: WORKING MEMORY SPAN (CONSOLE RECALL) ---
+let memorySequence = [];
+let memoryUserStep = 0;
+let memoryLevel = 1;
+let memoryActive = false;
+
+window.startMemoryTest = function() {
+  memoryLevel = 1;
+  memoryUserStep = 0;
+  memoryActive = true;
+  nextMemorySequence();
+};
+
+function nextMemorySequence() {
+  memoryUserStep = 0;
+  const length = 2 + memoryLevel; // starts with 3 steps
+  memorySequence = [];
+  for (let i = 0; i < length; i++) {
+    memorySequence.push(Math.floor(Math.random() * 9));
+  }
+
+  const statusEl = document.getElementById("memoryStatus");
+  const lvlEl = document.getElementById("memoryLevelDisplay");
+  if (lvlEl) lvlEl.textContent = `Level ${memoryLevel} (${length} Steps)`;
+  if (statusEl) statusEl.textContent = `Watch sequence... (${length} modules flashing)`;
+
+  playMemorySequence();
+}
+
+function playMemorySequence() {
+  const tiles = document.querySelectorAll(".memory-tile");
+  let step = 0;
+
+  function flashNext() {
+    if (step >= memorySequence.length) {
+      const statusEl = document.getElementById("memoryStatus");
+      if (statusEl) statusEl.textContent = `Your turn! Tap the ${memorySequence.length} modules in order.`;
+      return;
+    }
+    const idx = memorySequence[step];
+    const tile = tiles[idx];
+    if (tile) {
+      tile.classList.add("active-flash");
+      setTimeout(() => {
+        tile.classList.remove("active-flash");
+        step++;
+        setTimeout(flashNext, 250);
+      }, 500);
+    }
+  }
+
+  setTimeout(flashNext, 400);
+}
+
+window.handleMemoryTileClick = function(idx) {
+  if (!memoryActive || memorySequence.length === 0) return;
+
+  const tiles = document.querySelectorAll(".memory-tile");
+  const tile = tiles[idx];
+  if (tile) {
+    tile.classList.add("user-clicked");
+    setTimeout(() => tile.classList.remove("user-clicked"), 200);
+  }
+
+  if (idx === memorySequence[memoryUserStep]) {
+    memoryUserStep++;
+    if (memoryUserStep === memorySequence.length) {
+      // Completed level!
+      const statusEl = document.getElementById("memoryStatus");
+      if (memoryLevel < 5) {
+        memoryLevel++;
+        if (statusEl) statusEl.textContent = `✓ Perfect! Advancing to Level ${memoryLevel}...`;
+        setTimeout(nextMemorySequence, 900);
+      } else {
+        // Complete test
+        memoryActive = false;
+        const score = 98;
+        cogEvaluationScores.memory = { span: 7, score, accuracy: 100 };
+        if (statusEl) statusEl.innerHTML = `<strong style="color:var(--green);">✓ Working Memory Test Passed!</strong> Max Span: 7 Steps (Superior Working Memory Retention). Score: 98/100.`;
+        updateCompositeCognitiveReadiness();
+        renderCognitivePerformanceChart();
+      }
+    }
+  } else {
+    // Mistake
+    memoryActive = false;
+    const spanReached = memorySequence.length - 1;
+    const score = Math.max(50, Math.min(95, 60 + spanReached * 7));
+    cogEvaluationScores.memory = { span: spanReached, score, accuracy: 80 };
+    const statusEl = document.getElementById("memoryStatus");
+    if (statusEl) statusEl.innerHTML = `<span style="color:var(--yellow);">Sequence ended at span ${spanReached}.</span> Working Memory Index: ${score}/100.`;
+    updateCompositeCognitiveReadiness();
+    renderCognitivePerformanceChart();
+  }
+};
+
+window.resetMemoryTest = function() {
+  memorySequence = [];
+  memoryUserStep = 0;
+  memoryLevel = 1;
+  memoryActive = false;
+  const statusEl = document.getElementById("memoryStatus");
+  if (statusEl) statusEl.textContent = "Test reset. Press Start to begin.";
+};
+
+// --- TEST 3: EXECUTIVE CONTROL & STROOP CONFLICT ---
+const STROOP_COLORS = [
+  { name: "red", hex: "#ff5252" },
+  { name: "blue", hex: "#448aff" },
+  { name: "green", hex: "#00e676" },
+  { name: "amber", hex: "#ffd600" }
+];
+let stroopRound = 0;
+let stroopCorrect = 0;
+let stroopStartTime = 0;
+let stroopLatencies = [];
+let currentStroopTarget = null;
+let stroopActive = false;
+
+window.startStroopTest = function() {
+  stroopRound = 0;
+  stroopCorrect = 0;
+  stroopLatencies = [];
+  stroopActive = true;
+  nextStroopRound();
+};
+
+function nextStroopRound() {
+  stroopRound++;
+  const roundEl = document.getElementById("stroopRoundDisplay");
+  if (roundEl) roundEl.textContent = `Round ${stroopRound} / 8`;
+
+  // Pick conflicting word and color
+  const wordIdx = Math.floor(Math.random() * STROOP_COLORS.length);
+  let colorIdx = Math.floor(Math.random() * STROOP_COLORS.length);
+  if (colorIdx === wordIdx) colorIdx = (colorIdx + 1) % STROOP_COLORS.length; // Ensure conflict
+
+  const wordObj = STROOP_COLORS[wordIdx];
+  const colorObj = STROOP_COLORS[colorIdx];
+  currentStroopTarget = colorObj.name; // Target is the INK COLOR!
+
+  const wordEl = document.getElementById("stroopWordText");
+  const hintEl = document.getElementById("stroopHint");
+  if (wordEl) {
+    wordEl.textContent = wordObj.name.toUpperCase();
+    wordEl.style.color = colorObj.hex;
+  }
+  if (hintEl) hintEl.textContent = "Tap the INK COLOR button below!";
+
+  stroopStartTime = performance.now();
+}
+
+window.handleStroopAnswer = function(chosenColor) {
+  if (!stroopActive) return;
+  const elapsed = Math.round(performance.now() - stroopStartTime);
+  stroopLatencies.push(elapsed);
+
+  if (chosenColor === currentStroopTarget) {
+    stroopCorrect++;
+  }
+
+  if (stroopRound < 8) {
+    nextStroopRound();
+  } else {
+    // Complete Stroop test
+    stroopActive = false;
+    const avgLatency = Math.round(stroopLatencies.reduce((a, b) => a + b, 0) / stroopLatencies.length);
+    const accuracy = Math.round((stroopCorrect / 8) * 100);
+    const score = Math.max(45, Math.min(100, Math.round(accuracy * 0.7 + (600 - avgLatency) * 0.08)));
+    cogEvaluationScores.stroop = { latency: avgLatency, score, accuracy };
+
+    const statusEl = document.getElementById("stroopStatus");
+    if (statusEl) {
+      statusEl.innerHTML = `<strong>Stroop Test Complete!</strong> Accuracy: <span style="color:var(--green);">${accuracy}% (${stroopCorrect}/8)</span> | Mean Conflict Latency: ${avgLatency} ms | Score: <span style="color:var(--cyan);">${score}/100</span>`;
+    }
+    updateCompositeCognitiveReadiness();
+    renderCognitivePerformanceChart();
+  }
+};
+
+window.resetStroopTest = function() {
+  stroopRound = 0;
+  stroopActive = false;
+  const wordEl = document.getElementById("stroopWordText");
+  if (wordEl) {
+    wordEl.textContent = "READY";
+    wordEl.style.color = "#55e6f2";
+  }
+  const statusEl = document.getElementById("stroopStatus");
+  if (statusEl) statusEl.textContent = "Test reset. Press Start to initiate Stroop test.";
+};
+
+// --- TEST 4: SPATIAL ORIENTATION & DOCKING TEST ---
+let spatialRound = 0;
+let spatialCorrect = 0;
+let spatialStartTime = 0;
+let spatialIsMatch = true;
+let spatialActive = false;
+
+window.startSpatialTest = function() {
+  spatialRound = 0;
+  spatialCorrect = 0;
+  spatialActive = true;
+  nextSpatialRound();
+};
+
+function nextSpatialRound() {
+  spatialRound++;
+  const roundEl = document.getElementById("spatialRoundDisplay");
+  if (roundEl) roundEl.textContent = `${spatialRound} / 6`;
+
+  const angles = [0, 90, 180, 270];
+  const rotAngle = angles[Math.floor(Math.random() * angles.length)];
+  spatialIsMatch = Math.random() > 0.45;
+
+  const svgB = document.getElementById("spatialSvgB");
+  const labelB = document.getElementById("spatialAngleLabel");
+  if (svgB) {
+    svgB.style.transform = `rotate(${rotAngle}deg) ${spatialIsMatch ? '' : 'scaleX(-1)'}`;
+  }
+  if (labelB) {
+    labelB.textContent = `ORIENTATION: ${rotAngle}° ${spatialIsMatch ? '' : '(INVERTED)'}`;
+  }
+
+  spatialStartTime = performance.now();
+}
+
+window.handleSpatialAnswer = function(userGuessMatch) {
+  if (!spatialActive) return;
+
+  if (userGuessMatch === spatialIsMatch) {
+    spatialCorrect++;
+  }
+
+  if (spatialRound < 6) {
+    nextSpatialRound();
+  } else {
+    // Complete spatial test
+    spatialActive = false;
+    const accuracy = Math.round((spatialCorrect / 6) * 100);
+    const score = Math.max(50, Math.min(100, Math.round(accuracy * 0.95 + 5)));
+    cogEvaluationScores.spatial = { latency: 640, score, accuracy };
+
+    const statusEl = document.getElementById("spatialStatus");
+    if (statusEl) {
+      statusEl.innerHTML = `<strong>Spatial Orientation Test Complete!</strong> Accuracy: <span style="color:var(--green);">${accuracy}% (${spatialCorrect}/6 Correct)</span> | Spatial Reasoning Score: <span style="color:var(--cyan);">${score}/100</span>`;
+    }
+    updateCompositeCognitiveReadiness();
+    renderCognitivePerformanceChart();
+  }
+};
+
+window.resetSpatialTest = function() {
+  spatialRound = 0;
+  spatialActive = false;
+  const statusEl = document.getElementById("spatialStatus");
+  if (statusEl) statusEl.textContent = "Test reset. Press Start to initiate 6-round spatial evaluation.";
+};
+
+// --- TEST 5: MENTAL TELEMETRY ARITHMETIC ---
+let mathTimeLeft = 30;
+let mathTimerInterval = null;
+let mathCurrentAns = 0;
+let mathCorrectCount = 0;
+let mathActive = false;
+
+window.startMathTest = function() {
+  mathTimeLeft = 30;
+  mathCorrectCount = 0;
+  mathActive = true;
+
+  const timerEl = document.getElementById("mathTimerDisplay");
+  if (timerEl) timerEl.textContent = "30s";
+
+  if (mathTimerInterval) clearInterval(mathTimerInterval);
+  mathTimerInterval = setInterval(() => {
+    mathTimeLeft--;
+    const tEl = document.getElementById("mathTimerDisplay");
+    if (tEl) tEl.textContent = `${mathTimeLeft}s`;
+
+    if (mathTimeLeft <= 0) {
+      clearInterval(mathTimerInterval);
+      finishMathTest();
+    }
+  }, 1000);
+
+  nextMathProblem();
+};
+
+function nextMathProblem() {
+  const ops = ["+", "-", "*"];
+  const op = ops[Math.floor(Math.random() * ops.length)];
+  let a, b;
+  if (op === "+") {
+    a = Math.floor(Math.random() * 60 + 15);
+    b = Math.floor(Math.random() * 50 + 10);
+    mathCurrentAns = a + b;
+  } else if (op === "-") {
+    a = Math.floor(Math.random() * 70 + 30);
+    b = Math.floor(Math.random() * (a - 10) + 5);
+    mathCurrentAns = a - b;
+  } else {
+    a = Math.floor(Math.random() * 14 + 3);
+    b = Math.floor(Math.random() * 8 + 3);
+    mathCurrentAns = a * b;
+  }
+
+  const probEl = document.getElementById("mathProblemText");
+  const inputEl = document.getElementById("mathInput");
+  if (probEl) probEl.textContent = `${a} ${op === '*' ? '×' : op} ${b} = ?`;
+  if (inputEl) {
+    inputEl.value = "";
+    inputEl.focus();
+  }
+}
+
+window.submitMathAnswer = function() {
+  if (!mathActive) return;
+  const inputEl = document.getElementById("mathInput");
+  const val = parseInt(inputEl.value);
+  if (val === mathCurrentAns) {
+    mathCorrectCount++;
+  }
+  nextMathProblem();
+};
+
+function finishMathTest() {
+  mathActive = false;
+  const throughput = mathCorrectCount;
+  const score = Math.max(50, Math.min(100, Math.round(throughput * 7.5 + 40)));
+  cogEvaluationScores.math = { throughput, score, streak: mathCorrectCount };
+
+  const probEl = document.getElementById("mathProblemText");
+  const statusEl = document.getElementById("mathStatus");
+  if (probEl) probEl.textContent = "TIME UP!";
+  if (statusEl) {
+    statusEl.innerHTML = `<strong>Challenge Complete:</strong> Solved ${mathCorrectCount} equations in 30 seconds. Throughput Rating: <span style="color:var(--green);">${score}/100</span>.`;
+  }
+  updateCompositeCognitiveReadiness();
+  renderCognitivePerformanceChart();
+}
+
+window.resetMathTest = function() {
+  if (mathTimerInterval) clearInterval(mathTimerInterval);
+  mathActive = false;
+  const timerEl = document.getElementById("mathTimerDisplay");
+  if (timerEl) timerEl.textContent = "30s";
+  const probEl = document.getElementById("mathProblemText");
+  if (probEl) probEl.textContent = "Press Start";
+  const statusEl = document.getElementById("mathStatus");
+  if (statusEl) statusEl.textContent = "Challenge reset. Press Start to initiate 30s challenge.";
+};
+
+// Render Cognitive Performance Chart (Chart.js)
+function renderCognitivePerformanceChart() {
+  if (!window.Chart) return;
+  const ctx = document.getElementById("canvasCognitiveBattery");
+  if (!ctx) return;
+
+  if (cogBatteryChart) {
+    try { cogBatteryChart.destroy(); } catch (e) {}
+    cogBatteryChart = null;
+  }
+
+  cogBatteryChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: ["PVT Reaction Latency", "Working Memory", "Stroop Executive Control", "Spatial Orientation", "Mental Arithmetic"],
+      datasets: [
+        {
+          label: "Evaluated Cognitive Score (/100)",
+          data: [
+            cogEvaluationScores.pvt.score,
+            cogEvaluationScores.memory.score,
+            cogEvaluationScores.stroop.score,
+            cogEvaluationScores.spatial.score,
+            cogEvaluationScores.math.score
+          ],
+          backgroundColor: ["#55e6f2", "#65e6ae", "#ffb74d", "#ba68c8", "#4fc3f7"],
+          borderRadius: 6
+        },
+        {
+          type: "line",
+          label: "NASA Mission Baseline (90)",
+          data: [90, 90, 90, 90, 90],
+          borderColor: "#ff727d",
+          borderDash: [4, 4],
+          borderWidth: 2,
+          pointRadius: 0
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          ticks: { color: "#a2bdd3", font: { size: 10 } },
+          grid: { color: "rgba(255,255,255,0.05)" }
+        },
+        y: {
+          min: 40,
+          max: 100,
+          ticks: { color: "#a2bdd3", font: { size: 10 } },
+          grid: { color: "rgba(255,255,255,0.05)" }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: "#cfe2f3", font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+// Save Cognitive Results to Mission Database
+window.saveCognitiveResultsToDatabase = async function() {
+  const p = cogEvaluationScores.pvt.score;
+  const m = cogEvaluationScores.memory.score;
+  const s = cogEvaluationScores.stroop.score;
+  const sp = cogEvaluationScores.spatial.score;
+  const mt = cogEvaluationScores.math.score;
+  const composite = Math.round(p * 0.30 + m * 0.25 + s * 0.15 + sp * 0.15 + mt * 0.15);
+  const latency = cogEvaluationScores.pvt.latency;
+
+  const payload = {
+    astronaut_id: activeCogAstronautId,
+    test_type: "NASA 5-Battery Neurocognitive Assessment",
+    score: composite,
+    reaction_time_ms: latency,
+    accuracy: 96.0,
+    attention_score: s,
+    memory_score: m,
+    notes: `PVT: ${latency}ms (${p}/100), Memory Span: ${cogEvaluationScores.memory.span} (${m}/100), Stroop: ${s}/100, Spatial: ${sp}/100, Math: ${mt}/100.`
+  };
+
+  try {
+    const res = await fetch("/api/cognitive/save", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      await window.syncAllApplicationData(activeCogAstronautId);
+
+      // Prepend to history table
+      const tbody = document.getElementById("cogHistoryTableBody");
+      if (tbody) {
+        const row = document.createElement("tr");
+        row.style.borderBottom = "1px solid rgba(255,255,255,0.05)";
+        row.innerHTML = `
+          <td style="padding:10px;">Just now (Day 45)</td>
+          <td>Full Neurocognitive Battery</td>
+          <td>${activeCogAstronautId}</td>
+          <td><strong style="color:var(--green);">${composite} / 100</strong></td>
+          <td>${latency} ms mean</td>
+          <td>96%</td>
+          <td><span class="badge-pill" style="color:var(--green);">EVA QUALIFIED</span></td>
+        `;
+        tbody.insertBefore(row, tbody.firstChild);
+      }
+
+      window.showHudToast(`✅ Neurocognitive score (${composite}/100) saved and synced across all mission reports.`);
+    } else {
+      alert("Failed to save cognitive result.");
+    }
+  } catch (err) {
+    console.error("Cognitive save error:", err);
+  }
+};
+
+// Initial trigger on load
+setTimeout(() => {
+  if (window.syncAllApplicationData) {
+    window.syncAllApplicationData("ASTRO-001");
+  }
+  renderCognitivePerformanceChart();
+}, 250);
+
 </script>
 
 </body>
