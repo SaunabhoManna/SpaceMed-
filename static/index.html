@@ -1401,6 +1401,69 @@ html, body, .view, .main {
   border: 1px solid #1e334d;
 }
 
+/* OVERVIEW TELEMETRY INPUT DROPDOWN SECTION */
+.overview-input-control-box {
+  background: linear-gradient(135deg, rgba(9, 23, 40, 0.95), rgba(16, 31, 50, 0.9));
+  border: 1px solid rgba(85, 230, 242, 0.35);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(85, 230, 242, 0.15);
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin: 14px 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.overview-input-control-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.overview-input-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+.overview-input-dropdown {
+  background: #06121f;
+  color: #e5f6ff;
+  border: 1px solid rgba(85, 230, 242, 0.45);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  min-width: 290px;
+  transition: all 0.2s ease;
+}
+.overview-input-dropdown:focus, .overview-input-dropdown:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 12px rgba(85, 230, 242, 0.35);
+}
+.overview-input-control-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.highlight-table-manual {
+  animation: tableGlow 1.5s ease-in-out infinite alternate;
+}
+@keyframes tableGlow {
+  0% { box-shadow: 0 0 4px rgba(85, 230, 242, 0.2); }
+  100% { box-shadow: 0 0 16px rgba(85, 230, 242, 0.6); }
+}
+
 /* ================= HEALTH ANALYTICS & REPORTING SYSTEM ================= */
 .analytics-header-bar {
   display: flex;
@@ -2022,7 +2085,6 @@ html, body, .view, .main {
     </div>
 
     <div class="top-right">
-      <button class="btn accent small-btn" onclick="openRecordModal(null)" style="background:var(--cyan); color:#04121e; font-weight:bold; padding:6px 14px; font-size:12px; border-radius:6px; margin-right:10px; border:none; cursor:pointer;" title="Enter astronaut health data manually">✍️ Manual Data Entry</button>
       <span><span class="status-dot"></span>MISSION DAY 45</span>
       <button class="small-btn" onclick="logout()">Logout</button>
     </div>
@@ -2070,14 +2132,28 @@ html, body, .view, .main {
             <p class="muted">Welcome back, <span id="welcomeName">Astronaut</span>.</p>
           </div>
           <!-- DROPDOWN BAR AT TOP RIGHT CORNER -->
-          <div class="spacemed-selector-bar">
-            <label for="condition-period-select">Condition Monitoring View:</label>
-            <select id="condition-period-select" class="spacemed-dropdown" onchange="switchConditionView(this.value)">
-              <option value="weekly" selected>Weekly Condition Check (7-Day)</option>
-              <option value="monthly">Monthly Condition Check (30-Day)</option>
-              <option value="yearly">Yearly Condition Check (12-Month)</option>
-              <option value="overview">Overview Dashboard</option>
-            </select>
+          <div class="spacemed-selector-bar" style="display:flex; gap:16px; align-items:center; flex-wrap:wrap;">
+            <div>
+              <label for="condition-period-select">Condition Monitoring View:</label>
+              <select id="condition-period-select" class="spacemed-dropdown" onchange="switchConditionView(this.value)">
+                <option value="weekly" selected>Weekly Condition Check (7-Day)</option>
+                <option value="monthly">Monthly Condition Check (30-Day)</option>
+                <option value="yearly">Yearly Condition Check (12-Month)</option>
+                <option value="overview">Overview Dashboard</option>
+              </select>
+            </div>
+            <div>
+              <label for="overview-telemetry-input-select">Input Method:</label>
+              <select id="overview-telemetry-input-select" class="spacemed-dropdown" onchange="handleOverviewDropdownSelection('global', this.value)">
+                <option value="" disabled selected>— Choose Input Method —</option>
+                <option value="ai_fill">🤖 AI Fill (Predictive Telemetry)</option>
+                <option value="manual_entry">✍️ Manual Astronaut Entry</option>
+                <option value="digital_ingest">📡 Digital Ingestion (Wearable Sync)</option>
+                <option value="sample_data">📋 Baseline Sample Telemetry</option>
+                <option value="save_analysis">💾 Save Records & Update Analysis</option>
+                <option value="clear_records">🗑️ Clear Entered Data</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -2188,22 +2264,29 @@ html, body, .view, .main {
                 <tbody id="weekly-records"></tbody>
               </table>
 
-              <button class="btn-cyan" onclick="saveWeeklyData()">Save Weekly Records</button>
-              <button onclick="calculateWeekly()">Update Analysis</button>
-              <button onclick="loadWeeklyDemoData()">Load Sample Data</button>
-              <button onclick="clearWeeklyData()">Clear</button>
-
-              <!-- DIGITAL DEVICE & AI INGESTION SYNC BAR -->
-              <div class="sync-action-bar">
-                <span style="font-size:12px; color:var(--cyan); font-weight:bold; display:flex; align-items:center; gap:6px;">
-                  📡 DIGITAL INGESTION:
-                </span>
-                <button class="btn" type="button" onclick="syncWearableToWeekly()" title="Auto-populate 7-day measurements from connected AstroSkin wearable">
-                  🛰️ Sync Wearable History (AstroSkin)
-                </button>
-                <button class="btn" type="button" onclick="syncAiToWeekly()" title="Project remaining/predicted telemetry using Bio-AI Copilot">
-                  🤖 Generate AI Predictive Fill
-                </button>
+              <!-- OVERVIEW TELEMETRY INPUT TYPE DROPDOWN SECTION -->
+              <div class="overview-input-control-box" id="weekly-input-box">
+                <div class="overview-input-control-left">
+                  <label for="weekly-input-select" class="overview-input-label">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan);"></span>
+                    TELEMETRY INPUT METHOD:
+                  </label>
+                  <select id="weekly-input-select" class="overview-input-dropdown" onchange="handleOverviewDropdownSelection('weekly', this.value)">
+                    <option value="" disabled selected>— Choose Input Method (AI Fill, Manual, Digital...) —</option>
+                    <option value="ai_fill">🤖 AI Fill (Bio-AI Predictive Trajectory)</option>
+                    <option value="manual_entry">✍️ Manual Entry (Direct Astronaut Input)</option>
+                    <option value="digital_ingest">📡 Digital Ingestion (AstroSkin Wearable Sync)</option>
+                    <option value="sample_data">📋 Baseline Sample Telemetry</option>
+                    <option value="save_analysis">💾 Save Records & Update Analysis</option>
+                    <option value="clear_records">🗑️ Clear Entered Telemetry</option>
+                  </select>
+                  <button class="btn-cyan action-btn" type="button" onclick="executeCurrentOverviewInput('weekly')" style="padding:7px 14px; font-size:12px;">Apply</button>
+                </div>
+                <div class="overview-input-control-actions" id="weekly-manual-actions" style="display:none;">
+                  <button class="btn accent" type="button" onclick="saveWeeklyData()" style="padding:6px 12px; font-size:12px;">💾 Save Records</button>
+                  <button class="btn" type="button" onclick="calculateWeekly()" style="padding:6px 12px; font-size:12px;">⚡ Recalculate</button>
+                  <button class="btn" type="button" onclick="openRecordModal(null)" style="padding:6px 12px; font-size:12px; border:1px dashed var(--cyan);">+ Full Form</button>
+                </div>
               </div>
 
               <p id="weekly-status" class="note">
@@ -2303,22 +2386,29 @@ html, body, .view, .main {
                 <tbody id="monthly-records"></tbody>
               </table>
 
-              <button class="btn-cyan" onclick="saveMonthlyData()">Save Monthly Records</button>
-              <button onclick="calculateMonthly()">Generate Analysis</button>
-              <button onclick="loadMonthlyDemoData()">Load Sample Data</button>
-              <button onclick="clearMonthlyData()">Clear</button>
-
-              <!-- DIGITAL DEVICE & AI INGESTION SYNC BAR -->
-              <div class="sync-action-bar">
-                <span style="font-size:12px; color:var(--cyan); font-weight:bold; display:flex; align-items:center; gap:6px;">
-                  📡 DIGITAL INGESTION:
-                </span>
-                <button class="btn" type="button" onclick="syncWearableToMonthly()" title="Auto-populate 30-day records from connected device logs">
-                  🛰️ Sync 30-Day Device Logs (AstroSkin & Rings)
-                </button>
-                <button class="btn" type="button" onclick="syncAiToMonthly()" title="Generate AI predictive trend projection">
-                  🤖 Generate AI Predictive Trajectory
-                </button>
+              <!-- OVERVIEW TELEMETRY INPUT TYPE DROPDOWN SECTION -->
+              <div class="overview-input-control-box" id="monthly-input-box">
+                <div class="overview-input-control-left">
+                  <label for="monthly-input-select" class="overview-input-label">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan);"></span>
+                    TELEMETRY INPUT METHOD:
+                  </label>
+                  <select id="monthly-input-select" class="overview-input-dropdown" onchange="handleOverviewDropdownSelection('monthly', this.value)">
+                    <option value="" disabled selected>— Choose Input Method (AI Fill, Manual, Digital...) —</option>
+                    <option value="ai_fill">🤖 AI Fill (Bio-AI Predictive Trajectory)</option>
+                    <option value="manual_entry">✍️ Manual Entry (Direct Astronaut Input)</option>
+                    <option value="digital_ingest">📡 Digital Ingestion (AstroSkin & Ring Logs)</option>
+                    <option value="sample_data">📋 Baseline Sample Telemetry</option>
+                    <option value="save_analysis">💾 Save Records & Update Analysis</option>
+                    <option value="clear_records">🗑️ Clear Entered Telemetry</option>
+                  </select>
+                  <button class="btn-cyan action-btn" type="button" onclick="executeCurrentOverviewInput('monthly')" style="padding:7px 14px; font-size:12px;">Apply</button>
+                </div>
+                <div class="overview-input-control-actions" id="monthly-manual-actions" style="display:none;">
+                  <button class="btn-cyan" type="button" onclick="saveMonthlyData()" style="padding:6px 12px; font-size:12px;">💾 Save Records</button>
+                  <button class="btn" type="button" onclick="calculateMonthly()" style="padding:6px 12px; font-size:12px;">⚡ Recalculate</button>
+                  <button class="btn" type="button" onclick="openRecordModal(null)" style="padding:6px 12px; font-size:12px; border:1px dashed var(--cyan);">+ Full Form</button>
+                </div>
               </div>
 
               <p id="monthly-status" class="note">
@@ -2420,22 +2510,29 @@ html, body, .view, .main {
                 <tbody id="yearly-records"></tbody>
               </table>
 
-              <button class="btn-cyan" onclick="saveYearlyData()">Save Yearly Records</button>
-              <button onclick="calculateYearly()">Generate Annual Analysis</button>
-              <button onclick="loadYearlyDemoData()">Load Sample Data</button>
-              <button onclick="clearYearlyData()">Clear</button>
-
-              <!-- DIGITAL DEVICE & AI INGESTION SYNC BAR -->
-              <div class="sync-action-bar">
-                <span style="font-size:12px; color:var(--cyan); font-weight:bold; display:flex; align-items:center; gap:6px;">
-                  📡 DIGITAL INGESTION:
-                </span>
-                <button class="btn" type="button" onclick="syncWearableToYearly()" title="Auto-populate 12-month records from mission archives and sensor logs">
-                  🛰️ Sync 12-Month Mission Sensor Archives
-                </button>
-                <button class="btn" type="button" onclick="syncAiToYearly()" title="Generate multi-year AI interplanetary trajectory model">
-                  🤖 Generate AI Interplanetary Trajectory Model
-                </button>
+              <!-- OVERVIEW TELEMETRY INPUT TYPE DROPDOWN SECTION -->
+              <div class="overview-input-control-box" id="yearly-input-box">
+                <div class="overview-input-control-left">
+                  <label for="yearly-input-select" class="overview-input-label">
+                    <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan);"></span>
+                    TELEMETRY INPUT METHOD:
+                  </label>
+                  <select id="yearly-input-select" class="overview-input-dropdown" onchange="handleOverviewDropdownSelection('yearly', this.value)">
+                    <option value="" disabled selected>— Choose Input Method (AI Fill, Manual, Digital...) —</option>
+                    <option value="ai_fill">🤖 AI Fill (Interplanetary Trajectory Model)</option>
+                    <option value="manual_entry">✍️ Manual Entry (Direct Astronaut Input)</option>
+                    <option value="digital_ingest">📡 Digital Ingestion (Mission Avionics Archives)</option>
+                    <option value="sample_data">📋 Baseline Sample Telemetry</option>
+                    <option value="save_analysis">💾 Save Records & Update Analysis</option>
+                    <option value="clear_records">🗑️ Clear Entered Telemetry</option>
+                  </select>
+                  <button class="btn-cyan action-btn" type="button" onclick="executeCurrentOverviewInput('yearly')" style="padding:7px 14px; font-size:12px;">Apply</button>
+                </div>
+                <div class="overview-input-control-actions" id="yearly-manual-actions" style="display:none;">
+                  <button class="btn-cyan" type="button" onclick="saveYearlyData()" style="padding:6px 12px; font-size:12px;">💾 Save Records</button>
+                  <button class="btn" type="button" onclick="calculateYearly()" style="padding:6px 12px; font-size:12px;">⚡ Recalculate</button>
+                  <button class="btn" type="button" onclick="openRecordModal(null)" style="padding:6px 12px; font-size:12px; border:1px dashed var(--cyan);">+ Full Form</button>
+                </div>
               </div>
 
               <p id="yearly-status" class="note">
@@ -7598,7 +7695,118 @@ window.loadHighRiskApiPayload = function() {
   document.getElementById('customApiPayload').value = JSON.stringify(criticalPayload, null, 2);
 };
 
-// 10. Digital Auto-Sync for Condition Checkers (Weekly, Monthly, Yearly)
+// 10. Digital Auto-Sync & Telemetry Input Handlers for Condition Checkers
+window.handleOverviewDropdownSelection = function(period, method) {
+  if (!method) return;
+
+  // Resolve target period if called from global selector
+  if (period === 'global') {
+    const periodSel = document.getElementById('condition-period-select');
+    period = periodSel ? periodSel.value : 'weekly';
+    if (period === 'overview') period = 'weekly';
+    const secSelect = document.getElementById(`${period}-input-select`);
+    if (secSelect) secSelect.value = method;
+  } else {
+    const globSelect = document.getElementById('overview-telemetry-input-select');
+    if (globSelect) globSelect.value = method;
+  }
+
+  const manualActions = document.getElementById(`${period}-manual-actions`);
+  const statusEl = document.getElementById(`${period}-status`);
+
+  if (method === 'ai_fill') {
+    if (manualActions) manualActions.style.display = 'none';
+    if (period === 'weekly') {
+      if (window.syncAiToWeekly) window.syncAiToWeekly();
+      if (window.saveWeeklyData) window.saveWeeklyData();
+      if (window.calculateWeekly) window.calculateWeekly();
+    } else if (period === 'monthly') {
+      if (window.syncAiToMonthly) window.syncAiToMonthly();
+      if (window.saveMonthlyData) window.saveMonthlyData();
+      if (window.calculateMonthly) window.calculateMonthly();
+    } else if (period === 'yearly') {
+      if (window.syncAiToYearly) window.syncAiToYearly();
+      if (window.saveYearlyData) window.saveYearlyData();
+      if (window.calculateYearly) window.calculateYearly();
+    }
+    if (window.syncAllApplicationData) window.syncAllApplicationData();
+    if (statusEl) statusEl.textContent = '✓ AI Fill executed: Bio-AI Copilot generated and aligned predictive physiological trajectory.';
+  } else if (method === 'digital_ingest') {
+    if (manualActions) manualActions.style.display = 'none';
+    if (period === 'weekly') {
+      if (window.syncWearableToWeekly) window.syncWearableToWeekly();
+      if (window.saveWeeklyData) window.saveWeeklyData();
+      if (window.calculateWeekly) window.calculateWeekly();
+    } else if (period === 'monthly') {
+      if (window.syncWearableToMonthly) window.syncWearableToMonthly();
+      if (window.saveMonthlyData) window.saveMonthlyData();
+      if (window.calculateMonthly) window.calculateMonthly();
+    } else if (period === 'yearly') {
+      if (window.syncWearableToYearly) window.syncWearableToYearly();
+      if (window.saveYearlyData) window.saveYearlyData();
+      if (window.calculateYearly) window.calculateYearly();
+    }
+    if (window.syncAllApplicationData) window.syncAllApplicationData();
+    if (statusEl) statusEl.textContent = '✓ Digital Ingestion: Synchronized telemetry from connected AstroSkin wearable & smart sensors.';
+  } else if (method === 'manual_entry') {
+    if (manualActions) manualActions.style.display = 'inline-flex';
+    const tbody = document.getElementById(`${period}-records`);
+    if (tbody) {
+      tbody.classList.add('highlight-table-manual');
+      setTimeout(() => tbody.classList.remove('highlight-table-manual'), 2500);
+      const firstInput = tbody.querySelector('input');
+      if (firstInput) {
+        firstInput.focus();
+        firstInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+    if (statusEl) statusEl.textContent = '✍️ Manual Entry Mode: Edit values in the table below, then click Save Records or choose "Save Records & Update Analysis".';
+  } else if (method === 'sample_data') {
+    if (manualActions) manualActions.style.display = 'none';
+    if (period === 'weekly') {
+      if (window.loadWeeklyDemoData) window.loadWeeklyDemoData();
+    } else if (period === 'monthly') {
+      if (window.loadMonthlyDemoData) window.loadMonthlyDemoData();
+    } else if (period === 'yearly') {
+      if (window.loadYearlyDemoData) window.loadYearlyDemoData();
+    }
+    if (window.syncAllApplicationData) window.syncAllApplicationData();
+    if (statusEl) statusEl.textContent = '✓ Baseline sample demonstration telemetry loaded successfully.';
+  } else if (method === 'save_analysis') {
+    if (period === 'weekly') {
+      if (window.saveWeeklyData) window.saveWeeklyData();
+      if (window.calculateWeekly) window.calculateWeekly();
+    } else if (period === 'monthly') {
+      if (window.saveMonthlyData) window.saveMonthlyData();
+      if (window.calculateMonthly) window.calculateMonthly();
+    } else if (period === 'yearly') {
+      if (window.saveYearlyData) window.saveYearlyData();
+      if (window.calculateYearly) window.calculateYearly();
+    }
+    if (window.syncAllApplicationData) window.syncAllApplicationData();
+    if (statusEl) statusEl.textContent = '✓ Telemetry records saved and multi-domain analysis updated.';
+  } else if (method === 'clear_records') {
+    if (manualActions) manualActions.style.display = 'none';
+    if (period === 'weekly') {
+      if (window.clearWeeklyData) window.clearWeeklyData();
+    } else if (period === 'monthly') {
+      if (window.clearMonthlyData) window.clearMonthlyData();
+    } else if (period === 'yearly') {
+      if (window.clearYearlyData) window.clearYearlyData();
+    }
+    if (statusEl) statusEl.textContent = '🗑️ Telemetry records cleared.';
+  }
+};
+
+window.executeCurrentOverviewInput = function(period) {
+  const sel = document.getElementById(`${period}-input-select`);
+  if (!sel || !sel.value) {
+    alert("Please select an input method first (e.g., AI Fill, Manual Entry, Digital Ingestion).");
+    return;
+  }
+  window.handleOverviewDropdownSelection(period, sel.value);
+};
+
 window.syncWearableToWeekly = function() {
   const sampleWearableWeekly = [
     { day: 1, hr: 68, hrv: 74, sleep: 7.9, water: 2.7, fatigue: 2, activity: 45 },
